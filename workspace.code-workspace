@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"name": "Portal",
+			"path": "portal"
+		},
+		{
+			"name": "WildTrack",
+			"path": "camera-trap-dashboard"
+		},
+		{
+			"name": "Fire System",
+			"path": "fire-app"
+		},
+		{
+			"name": "Trap Monitor",
+			"path": "trap-monitor/frontend"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/node_modules": true,
+			"**/.next": true
+		}
+	}
+}

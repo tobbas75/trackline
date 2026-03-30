@@ -1,0 +1,222 @@
+{
+  "years": {
+    "2000": {
+      "feature_count": 596,
+      "eds_ha": 185546.15,
+      "lds_ha": 254123,
+      "wet_ha": 0,
+      "total_ha": 439669.15
+    },
+    "2001": {
+      "feature_count": 801,
+      "eds_ha": 166558.83,
+      "lds_ha": 301409.65,
+      "wet_ha": 0,
+      "total_ha": 467968.48
+    },
+    "2002": {
+      "feature_count": 1137,
+      "eds_ha": 454098.02,
+      "lds_ha": 230480.88,
+      "wet_ha": 0,
+      "total_ha": 684578.9
+    },
+    "2003": {
+      "feature_count": 999,
+      "eds_ha": 230058.43,
+      "lds_ha": 237220.95,
+      "wet_ha": 0,
+      "total_ha": 467279.38
+    },
+    "2004": {
+      "feature_count": 1105,
+      "eds_ha": 155533.1,
+      "lds_ha": 331337.93,
+      "wet_ha": 0,
+      "total_ha": 486871.03
+    },
+    "2005": {
+      "feature_count": 1515,
+      "eds_ha": 390958.77,
+      "lds_ha": 363150.22,
+      "wet_ha": 0,
+      "total_ha": 754108.99
+    },
+    "2006": {
+      "feature_count": 1546,
+      "eds_ha": 200419.03,
+      "lds_ha": 465343.02,
+      "wet_ha": 0,
+      "total_ha": 665762.05
+    },
+    "2007": {
+      "feature_count": 1120,
+      "eds_ha": 167422.73,
+      "lds_ha": 348865.3,
+      "wet_ha": 0,
+      "total_ha": 516288.03
+    },
+    "2008": {
+      "feature_count": 1057,
+      "eds_ha": 282225.27,
+      "lds_ha": 266240.07,
+      "wet_ha": 0,
+      "total_ha": 548465.34
+    },
+    "2009": {
+      "feature_count": 824,
+      "eds_ha": 253049.08,
+      "lds_ha": 290959.02,
+      "wet_ha": 0,
+      "total_ha": 544008.1
+    },
+    "2010": {
+      "feature_count": 547,
+      "eds_ha": 130104.43,
+      "lds_ha": 217878.26,
+      "wet_ha": 0,
+      "total_ha": 347982.69
+    },
+    "2011": {
+      "feature_count": 1312,
+      "eds_ha": 336544.34,
+      "lds_ha": 276852.03,
+      "wet_ha": 0,
+      "total_ha": 613396.37
+    },
+    "2012": {
+      "feature_count": 963,
+      "eds_ha": 284998.38,
+      "lds_ha": 331868.97,
+      "wet_ha": 0,
+      "total_ha": 616867.35
+    },
+    "2013": {
+      "feature_count": 1429,
+      "eds_ha": 254695.51,
+      "lds_ha": 146674.05,
+      "wet_ha": 543.55,
+      "total_ha": 401913.11
+    },
+    "2014": {
+      "feature_count": 2534,
+      "eds_ha": 253201.46,
+      "lds_ha": 349170.63,
+      "wet_ha": 0,
+      "total_ha": 602372.09
+    },
+    "2015": {
+      "feature_count": 2137,
+      "eds_ha": 300565.38,
+      "lds_ha": 265015.33,
+      "wet_ha": 0,
+      "total_ha": 565580.71
+    },
+    "2016": {
+      "feature_count": 1176,
+      "eds_ha": 261625.5,
+      "lds_ha": 104984.53,
+      "wet_ha": 0,
+      "total_ha": 366610.03
+    },
+    "2017": {
+      "feature_count": 1955,
+      "eds_ha": 378465.37,
+      "lds_ha": 128405.48,
+      "wet_ha": 0,
+      "total_ha": 506870.85
+    },
+    "2018": {
+      "feature_count": 1800,
+      "eds_ha": 395681.12,
+      "lds_ha": 122119.35,
+      "wet_ha": 0,
+      "total_ha": 517800.47
+    },
+    "2019": {
+      "feature_count": 1734,
+      "eds_ha": 370620.79,
+      "lds_ha": 221287.85,
+      "wet_ha": 528.61,
+      "total_ha": 592437.25
+    },
+    "2020": {
+      "feature_count": 1815,
+      "eds_ha": 314001.8,
+      "lds_ha": 132910.05,
+      "wet_ha": 0,
+      "total_ha": 446911.85
+    },
+    "2021": {
+      "feature_count": 1907,
+      "eds_ha": 257648.86,
+      "lds_ha": 215691.2,
+      "wet_ha": 0,
+      "total_ha": 473340.06
+    },
+    "2022": {
+      "feature_count": 5647,
+      "eds_ha": 365104.4,
+      "lds_ha": 84293.99,
+      "wet_ha": 158.53,
+      "total_ha": 449556.92
+    },
+    "2023": {
+      "feature_count": 2981,
+      "eds_ha": 311952.18,
+      "lds_ha": 283465.58,
+      "wet_ha": 30.19,
+      "total_ha": 595447.95
+    },
+    "2024": {
+      "feature_count": 2930,
+      "eds_ha": 238021.42,
+      "lds_ha": 135990.85,
+      "wet_ha": 2341.12,
+      "total_ha": 376353.39
+    },
+    "2025": {
+      "feature_count": 3797,
+      "eds_ha": 237558.86,
+      "lds_ha": 138779.38,
+      "wet_ha": 37.73,
+      "total_ha": 376375.97
+    }
+  },
+  "available_years": [
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "generated_at": "2026-03-09T23:29:18.310Z",
+  "bbox": [
+    129,
+    -12.5,
+    132.5,
+    -10.8
+  ],
+  "simplify_tolerance": 0.001
+}

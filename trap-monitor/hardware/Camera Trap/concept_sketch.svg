@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="'Inter',system-ui,sans-serif">
+  <defs>
+    <linearGradient id="encGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8ecf0"/>
+      <stop offset="100%" stop-color="#c8cdd4"/>
+    </linearGradient>
+    <linearGradient id="bpGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d0d5db"/>
+      <stop offset="100%" stop-color="#a8aeb6"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="3" dy="3" stdDeviation="4" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="600" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#f1f5f9">Between 23 AI Camera Trap</text>
+  <text x="600" y="66" text-anchor="middle" font-size="14" fill="#94a3b8">Product Concept -- V1.2 Verified Design, March 2026</text>
+
+  <!-- ====== TREE TRUNK (background context) ====== -->
+  <rect x="80" y="120" width="90" height="580" rx="20" fill="#5c4033" opacity="0.5"/>
+  <!-- Mounting straps -->
+  <rect x="55" y="320" width="140" height="20" rx="3" fill="#5a7a3a" stroke="#4a6a2a" stroke-width="1"/>
+  <text x="125" y="334" text-anchor="middle" font-size="7" fill="#c0d8a0" font-weight="600">POLYESTER STRAP + 316 SS BUCKLE</text>
+  <rect x="55" y="490" width="140" height="20" rx="3" fill="#5a7a3a" stroke="#4a6a2a" stroke-width="1"/>
+
+  <!-- ====== MAIN ENCLOSURE ====== -->
+  <g filter="url(#shadow)" transform="translate(220, 180)">
+    <!-- Top face (3D hint) -->
+    <polygon points="30,0 460,0 490,30 60,30" fill="#e8ecf0" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="260" y="22" text-anchor="middle" font-size="8" fill="#64748b" font-weight="600">WHITE UV-STABILISED IP67 POLYCARBONATE</text>
+
+    <!-- Right face -->
+    <polygon points="460,0 490,30 490,350 460,320" fill="#c0c8d0" stroke="#94a3b8" stroke-width="1.5"/>
+
+    <!-- Front face -->
+    <rect x="30" y="0" width="430" height="320" rx="5" fill="url(#encGrad)" stroke="#94a3b8" stroke-width="2"/>
+
+    <!-- NIR Window -->
+    <rect x="55" y="25" width="290" height="170" rx="4" fill="#1a1a2e" stroke="#334155" stroke-width="2"/>
+    <text x="200" y="60" text-anchor="middle" font-size="11" fill="#475569" font-weight="600">NIR POLYCARBONATE WINDOW</text>
+    <text x="200" y="78" text-anchor="middle" font-size="9" fill="#374151">1.5mm | 85-90% @ 940nm | Appears black</text>
+
+    <!-- M12 Lens -->
+    <circle cx="130" cy="140" r="22" fill="#0a0a15" stroke="#475569" stroke-width="2"/>
+    <circle cx="130" cy="140" r="14" fill="#050510" stroke="#334155" stroke-width="1"/>
+    <circle cx="130" cy="140" r="7" fill="#1e1b4b" opacity="0.8"/>
+    <text x="130" y="176" text-anchor="middle" font-size="8" fill="#64748b">M12 LENS</text>
+
+    <!-- IR LED array behind window -->
+    <rect x="185" y="110" width="140" height="60" rx="3" fill="none" stroke="#475569" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="255" y="134" text-anchor="middle" font-size="8" fill="#64748b">8x SFH 4725AS A01</text>
+    <text x="255" y="148" text-anchor="middle" font-size="8" fill="#64748b">940nm covert IR LEDs</text>
+
+    <!-- PIR sensors -->
+    <circle cx="90" cy="225" r="14" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="90" cy="225" r="8" fill="#f0f4f8"/>
+    <text x="90" y="250" text-anchor="middle" font-size="7" fill="#64748b">PIR 1</text>
+    <circle cx="155" cy="225" r="14" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="155" cy="225" r="8" fill="#f0f4f8"/>
+    <text x="155" y="250" text-anchor="middle" font-size="7" fill="#64748b">PIR 2</text>
+
+    <!-- Status LEDs -->
+    <circle cx="385" cy="230" r="4" fill="#4ade80" opacity="0.8"/>
+    <circle cx="400" cy="230" r="4" fill="#fbbf24" opacity="0.8"/>
+    <circle cx="415" cy="230" r="4" fill="#f87171" opacity="0.8"/>
+    <text x="400" y="248" text-anchor="middle" font-size="7" fill="#64748b">STATUS</text>
+
+    <!-- Antenna stubs on top -->
+    <rect x="100" y="-28" width="8" height="32" rx="2" fill="#888" stroke="#666" stroke-width="1"/>
+    <text x="104" y="-34" text-anchor="middle" font-size="7" fill="#94a3b8">LTE</text>
+    <rect x="180" y="-28" width="8" height="32" rx="2" fill="#888" stroke="#666" stroke-width="1"/>
+    <rect x="172" y="-30" width="24" height="22" rx="2" fill="#777" stroke="#666" stroke-width="1"/>
+    <text x="184" y="-36" text-anchor="middle" font-size="7" fill="#94a3b8">GNSS</text>
+
+    <!-- USB-C port on side -->
+    <rect x="466" y="265" width="26" height="12" rx="4" fill="#334155" stroke="#475569" stroke-width="1"/>
+    <text x="479" y="292" text-anchor="middle" font-size="7" fill="#64748b">USB-C</text>
+
+    <!-- IP67 badge -->
+    <rect x="360" y="275" width="55" height="20" rx="4" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1"/>
+    <text x="387" y="289" text-anchor="middle" font-size="10" fill="#60a5fa" font-weight="700">IP67</text>
+  </g>
+
+  <!-- ====== BACKPACK (exploded right) ====== -->
+  <g transform="translate(770, 240)" filter="url(#shadow)">
+    <rect x="0" y="0" width="190" height="260" rx="6" fill="url(#bpGrad)" stroke="#94a3b8" stroke-width="2"/>
+    <text x="95" y="22" text-anchor="middle" font-size="10" fill="#475569" font-weight="700">STANDARD BACKPACK</text>
+
+    <!-- Battery cells (6S2P) -->
+    <rect x="15" y="35" width="160" height="180" rx="4" fill="#e8ecf0" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="95" y="52" text-anchor="middle" font-size="8" fill="#64748b" font-weight="600">6S2P: 12 AA NiMH</text>
+    <g fill="#4ade80" stroke="#2a9a50" stroke-width="0.8">
+      <rect x="22" y="60" width="22" height="46" rx="4"/><rect x="47" y="60" width="22" height="46" rx="4"/>
+      <rect x="72" y="60" width="22" height="46" rx="4"/><rect x="97" y="60" width="22" height="46" rx="4"/>
+      <rect x="122" y="60" width="22" height="46" rx="4"/><rect x="147" y="60" width="22" height="46" rx="4"/>
+      <rect x="22" y="115" width="22" height="46" rx="4"/><rect x="47" y="115" width="22" height="46" rx="4"/>
+      <rect x="72" y="115" width="22" height="46" rx="4"/><rect x="97" y="115" width="22" height="46" rx="4"/>
+      <rect x="122" y="115" width="22" height="46" rx="4"/><rect x="147" y="115" width="22" height="46" rx="4"/>
+    </g>
+    <text x="95" y="182" text-anchor="middle" font-size="8" fill="#64748b">7.2V nom | 4000 mAh</text>
+    <text x="95" y="196" text-anchor="middle" font-size="8" fill="#64748b">~107 days | Swap in 30s</text>
+
+    <!-- Pogo connector -->
+    <rect x="60" y="225" width="70" height="18" rx="3" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
+    <text x="95" y="238" text-anchor="middle" font-size="7" fill="#78350f" font-weight="600">8-PIN POGO (J_BP)</text>
+  </g>
+
+  <!-- Exploded arrow -->
+  <line x1="700" y1="370" x2="760" y2="370" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="730" y="362" text-anchor="middle" font-size="8" fill="#94a3b8">SNAP-ON</text>
+
+  <!-- ====== EXPLODED MODULES (bottom) ====== -->
+  <!-- LED Module -->
+  <g transform="translate(220, 580)" filter="url(#shadow)">
+    <rect x="0" y="0" width="230" height="75" rx="4" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="115" y="18" text-anchor="middle" font-size="10" fill="#fbbf24" font-weight="600">IR LED MODULE (daughter board)</text>
+    <text x="115" y="34" font-size="8" fill="#94a3b8" text-anchor="middle">8x SFH 4725AS A01 | AL8861Y SOT89-5 1.5A</text>
+    <text x="115" y="48" font-size="8" fill="#94a3b8" text-anchor="middle">940nm | 80deg beam | 760 mW/sr @ 1A</text>
+    <text x="115" y="62" font-size="8" fill="#94a3b8" text-anchor="middle">JST GH 4-pin | 6 module variants | Field-swappable</text>
+  </g>
+
+  <!-- Modem Card -->
+  <g transform="translate(490, 580)" filter="url(#shadow)">
+    <rect x="0" y="0" width="230" height="75" rx="4" fill="#1e293b" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="115" y="18" text-anchor="middle" font-size="10" fill="#4ade80" font-weight="600">MODEM DAUGHTER CARD</text>
+    <text x="115" y="34" font-size="8" fill="#94a3b8" text-anchor="middle">Quectel EG800Q-EU | LTE CAT-1bis</text>
+    <text x="115" y="48" font-size="8" fill="#94a3b8" text-anchor="middle">Band 28 (Telstra rural) | RCM certified</text>
+    <text x="115" y="62" font-size="8" fill="#94a3b8" text-anchor="middle">20-pin shared with Trap Monitor | D2C upgradeable</text>
+  </g>
+
+  <!-- ====== KEY SPECS PANEL ====== -->
+  <g transform="translate(770, 560)">
+    <rect x="0" y="0" width="370" height="260" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="185" y="22" text-anchor="middle" font-size="12" fill="#22d3ee" font-weight="700">KEY SPECIFICATIONS</text>
+    <line x1="15" y1="32" x2="355" y2="32" stroke="#334155" stroke-width="1"/>
+    <text x="15" y="52" font-size="10" fill="#f1f5f9" font-weight="600">MCU</text><text x="130" y="52" font-size="10" fill="#94a3b8">STM32N6 M55 800MHz + 600 GOPS NPU</text>
+    <text x="15" y="72" font-size="10" fill="#f1f5f9" font-weight="600">Sensor</text><text x="130" y="72" font-size="10" fill="#94a3b8">Sony IMX678 8MP 4K STARVIS 2</text>
+    <text x="15" y="92" font-size="10" fill="#f1f5f9" font-weight="600">AI</text><text x="130" y="92" font-size="10" fill="#94a3b8">Addax AWC 135 AU species, on-device</text>
+    <text x="15" y="112" font-size="10" fill="#f1f5f9" font-weight="600">Sleep</text><text x="130" y="112" font-size="10" fill="#94a3b8">~50 uA total (AP63300 Iq dominated)</text>
+    <text x="15" y="132" font-size="10" fill="#f1f5f9" font-weight="600">Battery</text><text x="130" y="132" font-size="10" fill="#94a3b8">6S2P 12 AA NiMH, ~107 days</text>
+    <text x="15" y="152" font-size="10" fill="#f1f5f9" font-weight="600">Cellular</text><text x="130" y="152" font-size="10" fill="#94a3b8">LTE CAT-1bis, SMS + JPEG thumbnail</text>
+    <text x="15" y="172" font-size="10" fill="#f1f5f9" font-weight="600">IR</text><text x="130" y="172" font-size="10" fill="#94a3b8">940nm strobed 30ms/frame, 80% saving</text>
+    <text x="15" y="192" font-size="10" fill="#f1f5f9" font-weight="600">Trigger</text><text x="130" y="192" font-size="10" fill="#94a3b8">~200ms PIR wake to first frame</text>
+    <text x="15" y="212" font-size="10" fill="#f1f5f9" font-weight="600">Enclosure</text><text x="130" y="212" font-size="10" fill="#94a3b8">IP67 white PC, 316 SS, 0-50C ambient</text>
+    <text x="15" y="232" font-size="10" fill="#f1f5f9" font-weight="600">Price</text><text x="130" y="232" font-size="10" fill="#4ade80">~$399 AUD | $0 subscription</text>
+  </g>
+
+  <!-- Backpack variants -->
+  <g transform="translate(770, 120)">
+    <rect x="0" y="0" width="370" height="105" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="185" y="20" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="700">SNAP-ON BACKPACK VARIANTS</text>
+    <line x1="15" y1="28" x2="355" y2="28" stroke="#334155" stroke-width="1"/>
+    <text x="15" y="46" font-size="9" fill="#4ade80" font-weight="600">Standard</text><text x="95" y="46" font-size="9" fill="#94a3b8">12 AA NiMH, ~107 days, no charging, any AA safe</text>
+    <text x="15" y="62" font-size="9" fill="#60a5fa" font-weight="600">Field Station</text><text x="95" y="62" font-size="9" fill="#94a3b8">12 AA + trigger jack + LoRa module slot</text>
+    <text x="15" y="78" font-size="9" fill="#fbbf24" font-weight="600">Li-ion Solar</text><text x="95" y="78" font-size="9" fill="#94a3b8">Sealed pack + BMS + MPPT solar, indefinite</text>
+    <text x="15" y="94" font-size="9" fill="#a78bfa" font-weight="600">Extender</text><text x="95" y="94" font-size="9" fill="#94a3b8">+12 AA spacer, doubles to ~214 days</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="600" y="880" text-anchor="middle" font-size="10" fill="#475569">Between 23 Pty Ltd -- Field monitoring technology for remote Australia -- V1.2 March 2026</text>
+</svg>

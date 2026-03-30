@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@import "../../../../packages/ui/tokens.css";
+
+@source "../../../../packages/ui/src";
+
+/* ── Light theme (default) ──────────────────────────────────────────────── */
+:root {
+  --tm-bg: #f4efe4;
+  --tm-bg-subtle: #ebe4d5;
+  --tm-panel: #fffdf8;
+  --tm-panel-soft: #ede7da;
+  --tm-border: #d4c8b4;
+  --tm-text: #1c2918;
+  --tm-text-secondary: #3d4a37;
+  --tm-muted: #586651;
+  --tm-accent: #2f6e47;
+  --tm-accent-strong: #1f5133;
+  --tm-accent-soft: #edf6ef;
+  --tm-danger: #b43e32;
+  --tm-danger-soft: #fef2f2;
+  --tm-danger-border: #f0b4ae;
+  --tm-warning: #b37a19;
+  --tm-warning-soft: #fffbeb;
+  --tm-warning-border: #f5d78a;
+  --tm-info-soft: #f0f9ff;
+  --tm-info-border: #93c5fd;
+  --tm-info-text: #075985;
+  --tm-offline: #64748b;
+  --tm-offline-soft: #f1f5f9;
+  --tm-offline-border: #cbd5e1;
+  --tm-ok-soft: #ecfdf5;
+  --tm-ok-border: #86efac;
+  --tm-ok-text: #166534;
+  --tm-input-bg: #fffdf8;
+  --tm-input-border: #d4c8b4;
+  --tm-input-focus: #2f6e47;
+  --tm-overlay: rgba(0, 0, 0, 0.5);
+  --tm-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --tm-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  color-scheme: light;
+}
+
+/* ── Dark theme ─────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --tm-bg: #0f1610;
+  --tm-bg-subtle: #1a221b;
+  --tm-panel: #1a221b;
+  --tm-panel-soft: #232e24;
+  --tm-border: #2e3d30;
+  --tm-text: #e8ece6;
+  --tm-text-secondary: #b8c4b5;
+  --tm-muted: #8a9685;
+  --tm-accent: #4ade80;
+  --tm-accent-strong: #22c55e;
+  --tm-accent-soft: rgba(74, 222, 128, 0.1);
+  --tm-danger: #f87171;
+  --tm-danger-soft: rgba(248, 113, 113, 0.1);
+  --tm-danger-border: rgba(248, 113, 113, 0.3);
+  --tm-warning: #fbbf24;
+  --tm-warning-soft: rgba(251, 191, 36, 0.1);
+  --tm-warning-border: rgba(251, 191, 36, 0.3);
+  --tm-info-soft: rgba(56, 189, 248, 0.1);
+  --tm-info-border: rgba(56, 189, 248, 0.3);
+  --tm-info-text: #38bdf8;
+  --tm-offline: #94a3b8;
+  --tm-offline-soft: rgba(148, 163, 184, 0.1);
+  --tm-offline-border: rgba(148, 163, 184, 0.3);
+  --tm-ok-soft: rgba(74, 222, 128, 0.1);
+  --tm-ok-border: rgba(74, 222, 128, 0.3);
+  --tm-ok-text: #4ade80;
+  --tm-input-bg: #1a221b;
+  --tm-input-border: #2e3d30;
+  --tm-input-focus: #4ade80;
+  --tm-overlay: rgba(0, 0, 0, 0.7);
+  --tm-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --tm-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+}
+
+.font-heading {
+  font-family: var(--font-heading), var(--font-body), serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, "Cascadia Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}

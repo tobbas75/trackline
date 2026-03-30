@@ -1,0 +1,19 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "files.associations": {
+    "*.ino": "cpp",
+    "*.h": "cpp"
+  },
+  "C_Cpp.default.includePath": [
+    "${workspaceFolder}/firmware/lib/**"
+  ],
+  "arduino.path": "/usr/local/bin",
+  "arduino.additionalUrls": "https://espressif.github.io/arduino-esp32/package_esp32_index.json",
+  "platformio-ide.activateOnlyOnPlatformIOProject": true,
+  "eslint.workingDirectories": ["./frontend"],
+  "typescript.tsdk": "./frontend/node_modules/typescript/lib",
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[cpp]": { "editor.defaultFormatter": "ms-vscode.cpptools" }
+}

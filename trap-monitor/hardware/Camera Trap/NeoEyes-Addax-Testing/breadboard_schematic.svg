@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Consolas, monospace" font-size="11">
+  <title>NE301 Breadboard Test Rig — Wiring Schematic</title>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#fafafa" stroke="#ccc"/>
+
+  <!-- Title block -->
+  <rect x="10" y="10" width="1180" height="50" fill="#1a1a2e" rx="4"/>
+  <text x="600" y="32" text-anchor="middle" fill="#e0e0e0" font-size="16" font-weight="bold">NE301 Breadboard Test Rig — Wiring Schematic</text>
+  <text x="600" y="48" text-anchor="middle" fill="#888" font-size="10">Between 23° Camera Trap | NeoEyes NE301 + Addax Testing | Rev A — 2026-03-29</text>
+
+  <!-- ═══ NE301 MAIN UNIT ═══ -->
+  <rect x="420" y="90" width="360" height="520" fill="#e8eaf6" stroke="#3949ab" stroke-width="2" rx="8"/>
+  <rect x="420" y="90" width="360" height="30" fill="#3949ab" rx="8"/>
+  <rect x="420" y="105" width="360" height="15" fill="#3949ab"/>
+  <text x="600" y="110" text-anchor="middle" fill="white" font-size="14" font-weight="bold">NeoEyes NE301</text>
+  <text x="600" y="135" text-anchor="middle" fill="#3949ab" font-size="9">STM32N657L0H3 + STM32U073KBU6</text>
+
+  <!-- J26 UART Debug (1.25mm 4-pin) - LEFT SIDE -->
+  <rect x="425" y="160" width="140" height="90" fill="#fff3e0" stroke="#e65100" stroke-width="1.5" rx="4"/>
+  <text x="495" y="175" text-anchor="middle" fill="#e65100" font-size="10" font-weight="bold">J26 — UART Debug</text>
+  <text x="495" y="188" text-anchor="middle" fill="#777" font-size="8">1.25mm JST GH 4-pin</text>
+  <text x="435" y="205" fill="#333" font-size="9">Pin 1: 3V3</text>
+  <text x="435" y="218" fill="#333" font-size="9">Pin 2: USART2_RX (PA2)</text>
+  <text x="435" y="231" fill="#333" font-size="9">Pin 3: USART2_TX (PF6)</text>
+  <text x="435" y="244" fill="#333" font-size="9">Pin 4: GND</text>
+
+  <!-- J10 PIR (1.25mm 4-pin) - LEFT SIDE -->
+  <rect x="425" y="265" width="140" height="90" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5" rx="4"/>
+  <text x="495" y="280" text-anchor="middle" fill="#2e7d32" font-size="10" font-weight="bold">J10 — PIR Sensor</text>
+  <text x="495" y="293" text-anchor="middle" fill="#777" font-size="8">1.25mm JST GH 4-pin</text>
+  <text x="435" y="310" fill="#333" font-size="9">Pin 1: VDD</text>
+  <text x="435" y="323" fill="#333" font-size="9">Pin 2: GND</text>
+  <text x="435" y="336" fill="#333" font-size="9">Pin 3: Serial_IN (PA3)</text>
+  <text x="435" y="349" fill="#333" font-size="9">Pin 4: INT/Dout (PA1)</text>
+
+  <!-- J12 16-pin Expansion - RIGHT SIDE -->
+  <rect x="580" y="160" width="190" height="255" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5" rx="4"/>
+  <text x="675" y="175" text-anchor="middle" fill="#1565c0" font-size="10" font-weight="bold">J12 — 16-Pin Expansion</text>
+  <text x="675" y="188" text-anchor="middle" fill="#777" font-size="8">2.0mm dual-row header</text>
+  <text x="590" y="208" fill="#333" font-size="9"> 1: RS485_B        2: GND</text>
+  <text x="590" y="221" fill="#333" font-size="9"> 3: RS485_A        4: GND</text>
+  <text x="590" y="234" fill="#c62828" font-size="9" font-weight="bold"> 5: PD8 (GPIO)     6: 5V_POE</text>
+  <text x="590" y="247" fill="#333" font-size="9"> 7: SPI2_MISO      8: VCC_3V3</text>
+  <text x="590" y="260" fill="#333" font-size="9"> 9: SPI2_SCK      10: PF4 (ADC)</text>
+  <text x="590" y="273" fill="#333" font-size="9">11: SPI2_MOSI     12: SPI2_NSS</text>
+  <text x="590" y="286" fill="#1565c0" font-size="9" font-weight="bold">13: I2C2_SCL      14: LPUART1_TX</text>
+  <text x="590" y="299" fill="#1565c0" font-size="9" font-weight="bold">15: I2C2_SDA      16: LPUART1_RX</text>
+  <text x="675" y="318" text-anchor="middle" fill="#c62828" font-size="8">3V3 out requires PF10 HIGH</text>
+  <text x="675" y="330" text-anchor="middle" fill="#c62828" font-size="8">in firmware to enable</text>
+
+  <!-- Power note -->
+  <rect x="580" y="345" width="190" height="60" fill="#fce4ec" stroke="#c62828" stroke-width="1" rx="4"/>
+  <text x="675" y="360" text-anchor="middle" fill="#c62828" font-size="9" font-weight="bold">POWER ENABLE GPIOs</text>
+  <text x="590" y="375" fill="#333" font-size="8">PF10 → J12 pin 8 (VCC_3V3)</text>
+  <text x="590" y="388" fill="#333" font-size="8">PF14 → J15 pin 2 (3V3_VDD0)</text>
+  <text x="590" y="401" fill="#333" font-size="8">PF9  → Camera + LED power</text>
+
+  <!-- USB-C -->
+  <rect x="540" y="425" width="120" height="35" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1.5" rx="4"/>
+  <text x="600" y="447" text-anchor="middle" fill="#7b1fa2" font-size="10" font-weight="bold">USB-C (5V power)</text>
+
+  <!-- SD Card -->
+  <rect x="540" y="475" width="120" height="30" fill="#e0f7fa" stroke="#00838f" stroke-width="1.5" rx="4"/>
+  <text x="600" y="495" text-anchor="middle" fill="#00838f" font-size="10" font-weight="bold">MicroSD 32GB</text>
+
+  <!-- Battery connector -->
+  <rect x="540" y="520" width="120" height="35" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5" rx="4"/>
+  <text x="600" y="537" text-anchor="middle" fill="#f9a825" font-size="9" font-weight="bold">J4 — Battery In</text>
+  <text x="600" y="550" text-anchor="middle" fill="#777" font-size="8">2.0mm 2-pin wafer</text>
+
+  <!-- J2 Alarm -->
+  <rect x="425" y="370" width="140" height="45" fill="#fce4ec" stroke="#c62828" stroke-width="1.5" rx="4"/>
+  <text x="495" y="385" text-anchor="middle" fill="#c62828" font-size="10" font-weight="bold">J2 — Alarm In</text>
+  <text x="495" y="400" text-anchor="middle" fill="#777" font-size="8">1.25mm JST GH 2-pin</text>
+  <text x="495" y="412" text-anchor="middle" fill="#777" font-size="8">(ADA261 cable)</text>
+
+  <!-- ═══ EXTERNAL COMPONENTS ═══ -->
+
+  <!-- CP2102 USB-UART -->
+  <rect x="30" y="150" width="200" height="110" fill="#fff3e0" stroke="#e65100" stroke-width="2" rx="6"/>
+  <text x="130" y="170" text-anchor="middle" fill="#e65100" font-size="12" font-weight="bold">CP2102 USB-UART</text>
+  <text x="130" y="185" text-anchor="middle" fill="#777" font-size="9">CE09216 — Core Electronics</text>
+  <text x="40" y="205" fill="#333" font-size="9">TXO  ──────→  J26 Pin 2 (RX)</text>
+  <text x="40" y="220" fill="#333" font-size="9">RXI  ←──────  J26 Pin 3 (TX)</text>
+  <text x="40" y="235" fill="#333" font-size="9">GND  ──────→  J26 Pin 4 (GND)</text>
+  <text x="40" y="250" fill="#333" font-size="9">3V3  ← (optional from J26 Pin 1)</text>
+
+  <!-- Wires: CP2102 to J26 -->
+  <line x1="230" y1="200" x2="425" y2="218" stroke="#e65100" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="230" y1="215" x2="425" y2="231" stroke="#ff8f00" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="230" y1="230" x2="425" y2="244" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- PIR Sensor -->
+  <rect x="30" y="290" width="200" height="110" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="6"/>
+  <text x="130" y="310" text-anchor="middle" fill="#2e7d32" font-size="12" font-weight="bold">Panasonic EKMB1</text>
+  <text x="130" y="325" text-anchor="middle" fill="#777" font-size="9">RS 161-2237 — PIR 12m</text>
+  <text x="40" y="345" fill="#333" font-size="9">VDD  ←──────  J10 Pin 1 (VDD)</text>
+  <text x="40" y="360" fill="#333" font-size="9">GND  ──────→  J10 Pin 2 (GND)</text>
+  <text x="40" y="375" fill="#333" font-size="9">SER  ──────→  J10 Pin 3 (Serial)</text>
+  <text x="40" y="390" fill="#333" font-size="9">DOUT ──────→  J10 Pin 4 (INT)</text>
+
+  <!-- Wires: PIR to J10 -->
+  <line x1="230" y1="345" x2="425" y2="310" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="230" y1="360" x2="425" y2="323" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="230" y1="375" x2="425" y2="336" stroke="#66bb6a" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="230" y1="390" x2="425" y2="349" stroke="#43a047" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- BME280 -->
+  <rect x="950" y="150" width="210" height="120" fill="#e3f2fd" stroke="#1565c0" stroke-width="2" rx="6"/>
+  <text x="1055" y="170" text-anchor="middle" fill="#1565c0" font-size="12" font-weight="bold">BME280 Breakout</text>
+  <text x="1055" y="185" text-anchor="middle" fill="#777" font-size="9">CE07503 — PiicoDev $23.50</text>
+  <text x="960" y="205" fill="#333" font-size="9">SCL  ←──────  J12 Pin 13 (I2C2_SCL)</text>
+  <text x="960" y="220" fill="#333" font-size="9">SDA  ←──────  J12 Pin 15 (I2C2_SDA)</text>
+  <text x="960" y="235" fill="#333" font-size="9">VCC  ←──────  J12 Pin 8  (VCC_3V3)</text>
+  <text x="960" y="250" fill="#333" font-size="9">GND  ──────→  J12 Pin 2  (GND)</text>
+  <text x="1055" y="265" text-anchor="middle" fill="#1565c0" font-size="8">4.7k pull-ups on board (PD14/PD15)</text>
+
+  <!-- Wires: BME280 to J12 -->
+  <line x1="950" y1="205" x2="770" y2="286" stroke="#1565c0" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="950" y1="220" x2="770" y2="299" stroke="#42a5f5" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="950" y1="235" x2="770" y2="247" stroke="#f44336" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="950" y1="250" x2="770" y2="208" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- LED + Resistor circuit -->
+  <rect x="950" y="300" width="210" height="100" fill="#fff8e1" stroke="#f9a825" stroke-width="2" rx="6"/>
+  <text x="1055" y="320" text-anchor="middle" fill="#f9a825" font-size="12" font-weight="bold">Status LED Circuit</text>
+  <text x="960" y="345" fill="#333" font-size="9">J12 Pin 5 (PD8 GPIO)</text>
+  <text x="960" y="360" fill="#333" font-size="9">  → 330R resistor</text>
+  <text x="960" y="375" fill="#333" font-size="9">  → Red LED (anode)</text>
+  <text x="960" y="390" fill="#333" font-size="9">  → GND (J12 Pin 4)</text>
+
+  <!-- Wire: LED to J12 -->
+  <line x1="950" y1="345" x2="770" y2="234" stroke="#f9a825" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Push Button circuit -->
+  <rect x="950" y="430" width="210" height="90" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="6"/>
+  <text x="1055" y="450" text-anchor="middle" fill="#7b1fa2" font-size="12" font-weight="bold">Manual Trigger Button</text>
+  <text x="960" y="475" fill="#333" font-size="9">J12 Pin 5 (PD8 GPIO)</text>
+  <text x="960" y="490" fill="#333" font-size="9">  → Push button → GND</text>
+  <text x="960" y="505" fill="#333" font-size="9">  + 10k pull-up to 3V3</text>
+
+  <!-- Battery holder -->
+  <rect x="950" y="550" width="210" height="70" fill="#fff9c4" stroke="#f9a825" stroke-width="2" rx="6"/>
+  <text x="1055" y="570" text-anchor="middle" fill="#f9a825" font-size="12" font-weight="bold">4×AA Battery Pack</text>
+  <text x="1055" y="585" text-anchor="middle" fill="#777" font-size="9">FIT0079 — 6V nominal</text>
+  <text x="960" y="605" fill="#333" font-size="9">+6V → J4 Pin 1  |  GND → J4 Pin 2</text>
+
+  <!-- Wire: Battery to J4 -->
+  <line x1="950" y1="590" x2="660" y2="540" stroke="#f9a825" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- ═══ BREADBOARD ═══ -->
+  <rect x="30" y="460" width="350" height="160" fill="#f5f5f5" stroke="#9e9e9e" stroke-width="2" rx="6"/>
+  <text x="205" y="480" text-anchor="middle" fill="#616161" font-size="12" font-weight="bold">BREADBOARD — 830 Tie Points</text>
+
+  <!-- Power rails -->
+  <line x1="50" y1="500" x2="360" y2="500" stroke="#f44336" stroke-width="3"/>
+  <text x="365" y="503" fill="#f44336" font-size="9">+3.3V rail</text>
+  <line x1="50" y1="515" x2="360" y2="515" stroke="#333" stroke-width="3"/>
+  <text x="365" y="518" fill="#333" font-size="9">GND rail</text>
+
+  <text x="50" y="545" fill="#555" font-size="9">Component area:</text>
+  <text x="50" y="560" fill="#555" font-size="9">• CP2102 plugs in directly (20-pin DIL) — or CE09216 with wires</text>
+  <text x="50" y="575" fill="#555" font-size="9">• 330R + LED in series from GPIO to GND rail</text>
+  <text x="50" y="590" fill="#555" font-size="9">• 10k pull-up resistors: GPIO pins → 3.3V rail</text>
+  <text x="50" y="605" fill="#555" font-size="9">• Push buttons between GPIO and GND rail</text>
+
+  <!-- ═══ WIRE COLOUR LEGEND ═══ -->
+  <rect x="30" y="640" width="350" height="130" fill="#fff" stroke="#9e9e9e" stroke-width="1" rx="4"/>
+  <text x="205" y="660" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">Wire Colour Convention</text>
+
+  <line x1="50" y1="680" x2="90" y2="680" stroke="#f44336" stroke-width="3"/>
+  <text x="100" y="684" fill="#333" font-size="9">RED — 3.3V / VCC power</text>
+
+  <line x1="50" y1="698" x2="90" y2="698" stroke="#333" stroke-width="3"/>
+  <text x="100" y="702" fill="#333" font-size="9">BLACK — GND</text>
+
+  <line x1="50" y1="716" x2="90" y2="716" stroke="#e65100" stroke-width="3"/>
+  <text x="100" y="720" fill="#333" font-size="9">ORANGE — UART TX</text>
+
+  <line x1="50" y1="734" x2="90" y2="734" stroke="#ff8f00" stroke-width="3"/>
+  <text x="100" y="738" fill="#333" font-size="9">YELLOW — UART RX</text>
+
+  <line x1="50" y1="752" x2="90" y2="752" stroke="#1565c0" stroke-width="3"/>
+  <text x="100" y="756" fill="#333" font-size="9">BLUE — I2C SCL/SDA</text>
+
+  <line x1="230" y1="680" x2="270" y2="680" stroke="#2e7d32" stroke-width="3"/>
+  <text x="280" y="684" fill="#333" font-size="9">GREEN — PIR signals</text>
+
+  <line x1="230" y1="698" x2="270" y2="698" stroke="#f9a825" stroke-width="3"/>
+  <text x="280" y="702" fill="#333" font-size="9">AMBER — GPIO / LED</text>
+
+  <line x1="230" y1="716" x2="270" y2="716" stroke="#7b1fa2" stroke-width="3"/>
+  <text x="280" y="720" fill="#333" font-size="9">PURPLE — Button / trigger</text>
+
+  <!-- ═══ NOTES ═══ -->
+  <rect x="420" y="640" width="740" height="130" fill="#fff" stroke="#9e9e9e" stroke-width="1" rx="4"/>
+  <text x="440" y="660" fill="#333" font-size="11" font-weight="bold">Critical Notes</text>
+  <text x="440" y="680" fill="#c62828" font-size="9">1. ALL logic levels are 3.3V — never connect 5V signals to NE301 GPIO pins</text>
+  <text x="440" y="695" fill="#c62828" font-size="9">2. J12 Pin 8 (VCC_3V3) only outputs power when firmware pulls PF10 HIGH — check with multimeter first</text>
+  <text x="440" y="710" fill="#333" font-size="9">3. UART wiring is CROSSED: CP2102 TXO → NE301 RX (J26 Pin 2), CP2102 RXI → NE301 TX (J26 Pin 3)</text>
+  <text x="440" y="725" fill="#333" font-size="9">4. BME280 I2C address: 0x76 (SDO→GND) or 0x77 (SDO→VCC) — PiicoDev default is 0x77</text>
+  <text x="440" y="740" fill="#333" font-size="9">5. PIR DOUT is active HIGH on trigger — connect to J10 Pin 4 (wakes STM32U0 from deep sleep)</text>
+  <text x="440" y="755" fill="#333" font-size="9">6. Bench power via USB-C is simpler than battery for initial testing — both work simultaneously</text>
+  <text x="440" y="770" fill="#333" font-size="9">7. 2.0mm pitch headers (J12/J15/J11) — verify fit with your jumper wires before forcing connectors</text>
+
+  <!-- ═══ BOM SUMMARY ═══ -->
+  <rect x="420" y="790" width="740" height="75" fill="#e8eaf6" stroke="#3949ab" stroke-width="1" rx="4"/>
+  <text x="440" y="810" fill="#3949ab" font-size="11" font-weight="bold">BOM Summary</text>
+  <text x="440" y="828" fill="#333" font-size="9">Core Electronics: CP2102 ($3.10) + BME280 ($23.50) + 100nF x11 ($4.18) + LEDs ($3.72) + Buttons ($3.90) + Battery holder ($1.95)</text>
+  <text x="440" y="843" fill="#333" font-size="9">                 + F-F Jumpers ($7.30) + JST 2-pin x2 ($2.60) + 10k x20 ($2.75) + 330R x20 ($2.25) = $55.25</text>
+  <text x="440" y="858" fill="#333" font-size="9">RS Components:   4.7k x20 ($9.14) + Panasonic EKMB1 PIR ($36.00) = ~$45.14       TOTAL: ~$100 AUD</text>
+</svg>

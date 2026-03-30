@@ -1,0 +1,14 @@
+{
+  "name": "@trackline/eslint-config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "peerDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "*"
+  }
+}

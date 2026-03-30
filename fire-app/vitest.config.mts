@@ -1,0 +1,29 @@
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
+
+export default defineConfig({
+  plugins: [tsconfigPaths(), react()],
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: ["./src/test/setup.ts"],
+    include: ["src/**/*.test.{ts,tsx}"],
+    coverage: {
+      provider: "v8",
+      include: [
+        "src/lib/**",
+        "src/stores/**",
+        "src/hooks/**",
+        "src/app/api/**",
+      ],
+      exclude: [
+        "src/lib/supabase/**",
+        "src/lib/mock-data.ts",
+        "src/lib/help-content.ts",
+        "src/components/ui/**",
+      ],
+    },
+    css: false,
+  },
+});

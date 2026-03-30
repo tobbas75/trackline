@@ -1,0 +1,10 @@
+node_modules/
+.next/
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+pnpm-lock.yaml
+dist/
+.vercel/
+.turbo/

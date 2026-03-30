@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Between 23° AI Camera Trap — Business Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #334155;
+    --border: #475569;
+    --text: #f1f5f9;
+    --text-dim: #94a3b8;
+    --accent: #22d3ee;
+    --accent2: #a78bfa;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --blue: #60a5fa;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,-apple-system,sans-serif; line-height:1.5; }
+  .container { max-width:1400px; margin:0 auto; padding:24px; }
+  h1 { font-size:1.75rem; font-weight:700; margin-bottom:4px; }
+  h2 { font-size:1.25rem; font-weight:600; margin-bottom:16px; color:var(--accent); }
+  h3 { font-size:1rem; font-weight:600; margin-bottom:8px; }
+  .subtitle { color:var(--text-dim); font-size:0.875rem; margin-bottom:24px; }
+
+  /* Tabs */
+  .tabs { display:flex; gap:4px; margin-bottom:24px; border-bottom:1px solid var(--border); padding-bottom:0; }
+  .tab { padding:10px 20px; cursor:pointer; border:none; background:none; color:var(--text-dim); font-size:0.875rem; font-weight:500; border-bottom:2px solid transparent; transition:all 0.2s; }
+  .tab:hover { color:var(--text); }
+  .tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .tab-content { display:none; }
+  .tab-content.active { display:block; }
+
+  /* Grid */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+  .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  @media(max-width:900px) { .grid-2,.grid-3,.grid-4 { grid-template-columns:1fr; } }
+
+  /* Cards */
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; }
+  .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+
+  /* Stat cards */
+  .stat { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 20px; }
+  .stat-label { font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; }
+  .stat-value { font-size:1.75rem; font-weight:700; margin:4px 0; }
+  .stat-sub { font-size:0.75rem; color:var(--text-dim); }
+  .stat-green .stat-value { color:var(--green); }
+  .stat-amber .stat-value { color:var(--amber); }
+  .stat-blue .stat-value { color:var(--blue); }
+  .stat-accent .stat-value { color:var(--accent); }
+
+  /* Tables */
+  table { width:100%; border-collapse:collapse; font-size:0.8125rem; }
+  th { text-align:left; padding:8px 12px; color:var(--text-dim); font-weight:500; border-bottom:1px solid var(--border); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; }
+  td { padding:8px 12px; border-bottom:1px solid var(--surface2); }
+  tr:hover td { background:var(--surface2); }
+
+  /* Badges */
+  .badge { display:inline-block; padding:2px 8px; border-radius:9999px; font-size:0.6875rem; font-weight:600; }
+  .badge-green { background:#065f4620; color:var(--green); border:1px solid #4ade8040; }
+  .badge-amber { background:#78350f20; color:var(--amber); border:1px solid #fbbf2440; }
+  .badge-red { background:#7f1d1d20; color:var(--red); border:1px solid #f8717140; }
+  .badge-blue { background:#1e3a5f20; color:var(--blue); border:1px solid #60a5fa40; }
+
+  /* Chart containers */
+  .chart-container { position:relative; height:300px; }
+  .chart-container-sm { position:relative; height:220px; }
+
+  /* Bar indicator */
+  .bar-bg { height:8px; background:var(--surface2); border-radius:4px; overflow:hidden; margin-top:4px; }
+  .bar-fill { height:100%; border-radius:4px; transition:width 0.5s ease; }
+
+  /* Competitor row highlight */
+  .row-us td { background:var(--surface2); font-weight:600; }
+  .row-us td:first-child { border-left:3px solid var(--accent); }
+
+  /* Toggle */
+  .toggle-group { display:flex; gap:2px; background:var(--surface2); border-radius:8px; padding:2px; }
+  .toggle-btn { padding:6px 14px; border:none; background:none; color:var(--text-dim); font-size:0.75rem; cursor:pointer; border-radius:6px; transition:all 0.2s; }
+  .toggle-btn.active { background:var(--accent); color:var(--bg); font-weight:600; }
+
+  /* Scroll */
+  .scroll-x { overflow-x:auto; }
+
+  /* Tooltip-like info */
+  .info { font-size:0.75rem; color:var(--text-dim); margin-top:8px; font-style:italic; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Between 23° AI Camera Trap</h1>
+  <div class="subtitle">Business Dashboard — Competitive Benchmark, Market Analysis & Development Costs &nbsp;|&nbsp; March 2026</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('overview')">Overview</button>
+    <button class="tab" onclick="switchTab('competitors')">Competitors</button>
+    <button class="tab" onclick="switchTab('market')">Market</button>
+    <button class="tab" onclick="switchTab('costs')">Development Costs</button>
+    <button class="tab" onclick="switchTab('manufacturing')">Manufacturing</button>
+    <button class="tab" onclick="switchTab('financial')">Financial Model</button>
+    <button class="tab" onclick="switchTab('ecosystem')">Ecosystem</button>
+  </div>
+
+  <!-- ========== OVERVIEW ========== -->
+  <div id="tab-overview" class="tab-content active">
+    <div class="grid-4" style="margin-bottom:24px">
+      <div class="stat stat-accent">
+        <div class="stat-label">BOM Cost (100 units)</div>
+        <div class="stat-value">$255</div>
+        <div class="stat-sub">AUD per unit (in-house CNC)</div>
+      </div>
+      <div class="stat stat-green">
+        <div class="stat-label">BOM Cost (1K units)</div>
+        <div class="stat-value">$197</div>
+        <div class="stat-sub">AUD per unit</div>
+      </div>
+      <div class="stat stat-amber">
+        <div class="stat-label">Dev Cost (total)</div>
+        <div class="stat-value">$55K</div>
+        <div class="stat-sub">AUD — in-house CNC + 3D printer</div>
+      </div>
+      <div class="stat stat-blue">
+        <div class="stat-label">Break-Even (incl. labour)</div>
+        <div class="stat-value">~764</div>
+        <div class="stat-sub">units at $399 AUD (cash only: ~382)</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>Key Differentiators</h2>
+        <table>
+          <tr><td style="width:40%"><strong>Edge AI (NPU)</strong></td><td>600 GOPS on-device. No competitor has NPU-class hardware in a trail camera.</td></tr>
+          <tr><td><strong>Addax AI Platform</strong></td><td>Open model architecture — any Addax model via SD card. AWC (135 AU species), African, custom per deployment. Commission custom models from Addax for specific sites.</td></tr>
+          <tr><td><strong>Modular Ecosystem</strong></td><td>Blackmagic-inspired: one core body, everything plugs in. IR modules, modem cards, battery systems, LoRa, solar — buy what you need.</td></tr>
+          <tr><td><strong>Strobed IR</strong></td><td>30ms/frame vs 1500ms continuous. 80% IR energy reduction. Nobody else strobes.</td></tr>
+          <tr><td><strong>No Subscription</strong></td><td>SMS alerts with thumbnail. No app, no cloud, no monthly fee.</td></tr>
+          <tr><td><strong>True 4K STARVIS 2</strong></td><td>Sony IMX678 — genuine 8MP, not interpolated. NIR to ~1000nm.</td></tr>
+          <tr><td><strong>~175ms Trigger</strong></td><td>PIR wake → first frame in ~175ms (STOP2 mode). 10-frame 4K burst covers animal transit.</td></tr>
+          <tr><td><strong>Stackable Battery</strong></td><td>12 AA base (~107 days). Add battery extender for ~214 days. Li-ion Solar backpack for indefinite deployment.</td></tr>
+          <tr><td><strong>GPS Anti-Theft</strong></td><td>Once-daily position report + wake-on-movement when "off". Same pattern as Trap Monitor.</td></tr>
+          <tr><td><strong>Satellite Ready</strong></td><td>Modular modem card. D2C via Starlink Band 7 is a card swap. LoRa mesh via plug-in module.</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h2>Market Position</h2>
+        <div class="chart-container">
+          <canvas id="positionChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- WILDLABS Community Validation -->
+    <div class="card" style="margin-top:20px">
+      <h2>WILDLABS Community Validation</h2>
+      <div style="font-size:0.8125rem;color:var(--text-dim);margin-bottom:12px">
+        <a href="https://wildlabs.net" target="_blank" style="color:var(--accent)">WILDLABS</a> — 6,000+ conservation technologists across 120+ countries. The primary community for wildlife monitoring technology.
+      </div>
+      <div class="grid-2">
+        <div>
+          <h3>Researcher Pain Points We Solve</h3>
+          <table>
+            <thead><tr><th>Pain Point</th><th>Prevalence</th><th>Our Solution</th></tr></thead>
+            <tbody>
+              <tr><td>Manual image review (80%+ empty triggers)</td><td><span class="badge badge-red">#1 complaint</span></td><td>Edge AI filters blanks on-device</td></tr>
+              <tr><td>Battery changes in remote sites</td><td><span class="badge badge-red">Very common</span></td><td>~107 day battery (214 w/Extender, indefinite w/Solar)</td></tr>
+              <tr><td>Physical SD card retrieval trips</td><td><span class="badge badge-red">Very common</span></td><td>LTE CAT-1bis transmission</td></tr>
+              <tr><td>AI tools too complex / need cloud</td><td><span class="badge badge-amber">Common</span></td><td>On-device NPU, no cloud dependency</td></tr>
+              <tr><td>High cost of quality traps</td><td><span class="badge badge-amber">Common</span></td><td>$399 vs $543–620 for comparable</td></tr>
+              <tr><td>Poor night image quality</td><td><span class="badge badge-amber">Common</span></td><td>STARVIS 2 + 940nm strobed IR</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3>AI Model Validation — AddaxAI</h3>
+          <div style="background:var(--surface2);border-radius:8px;padding:16px;margin-bottom:12px">
+            <div style="font-size:0.8125rem">
+              <strong style="color:var(--green)">Australian Wildlife Classifier (AWC)</strong><br>
+              The Addax AWC model referenced in our design is publicly validated — trained on <strong>~5 million images</strong> from Parks Victoria, covering <strong>135 Australian species</strong> with <strong>95.2% accuracy</strong>. Free and open-source via <a href="https://addaxai.com" target="_blank" style="color:var(--accent)">AddaxAI</a>.
+            </div>
+            <div style="font-size:0.75rem;color:var(--text-dim);margin-top:8px">This isn't a custom model we need to build — it's a proven, production-tested classifier ready for INT8 quantisation on our NPU.</div>
+          </div>
+          <h3>Competitor Presence on WILDLABS</h3>
+          <table>
+            <thead><tr><th>Brand</th><th>Community Standing</th></tr></thead>
+            <tbody>
+              <tr><td>Reconyx</td><td><span class="badge badge-green">Trusted</span> — gold standard for conservation, but researchers want AI</td></tr>
+              <tr><td>SpyPoint</td><td><span class="badge badge-amber">Budget</span> — not taken seriously for research-grade work</td></tr>
+              <tr><td>Behold Cam-1</td><td><span class="badge badge-red">Unknown</span> — barely discussed despite edge AI positioning</td></tr>
+              <tr><td>Sentinel</td><td><span class="badge badge-red">Unknown</span> — low awareness despite conservation focus</td></tr>
+              <tr><td>Browning / Tactacam</td><td><span class="badge badge-amber">Consumer</span> — mentioned as hunting crossover, not conservation</td></tr>
+            </tbody>
+          </table>
+          <div class="info">The "AI camera trap for conservation" category is wide open — no one has claimed it in this community yet.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Community & Events -->
+    <div class="card" style="margin-top:20px">
+      <h2>Engagement Opportunities</h2>
+      <div class="grid-3">
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--accent)">WILDLABS Community</h3>
+          <div style="font-size:0.8125rem">Post a "building an affordable AI camera trap" thread during prototyping. Direct access to beta testers, design feedback, and conservation credibility. 6,000+ potential early adopters.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--accent)">Open Source Projects</h3>
+          <div style="font-size:0.8125rem">
+            <strong>Trapper Keeper</strong> (2025 WILDLABS Award) — data management platform, potential integration partner.<br>
+            <strong>RPi camera traps</strong> — DIY builders are our strongest market signal: demand exists, products don't.
+          </div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--accent)">2026 Events</h3>
+          <div style="font-size:0.8125rem">
+            <strong>Insect AI 2026</strong> — Serbia, April<br>
+            <strong>Tech4Wildlife Challenge</strong> — WILDLABS innovation program<br>
+            <strong>ICTC</strong> — International Camera Trap Conference<br>
+            Parks Australia running edge AI thermal cameras on Christmas Island (potential reference site).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== COMPETITORS ========== -->
+  <div id="tab-competitors" class="tab-content">
+    <h2>Head-to-Head Comparison</h2>
+    <div class="scroll-x">
+      <table>
+        <thead>
+          <tr>
+            <th>Spec</th>
+            <th style="color:var(--accent)">Between 23°</th>
+            <th><a href="https://www.reconyx.com/product/hyperfire-4k-ultra-hd-trail-camera" target="_blank" style="color:var(--text);text-decoration:none;border-bottom:1px dashed var(--text-dim)">Reconyx 4K</a></th>
+            <th><a href="https://www.spypoint.com/en/products/flex-g36/cellular-trail-camera" target="_blank" style="color:var(--text);text-decoration:none;border-bottom:1px dashed var(--text-dim)">SpyPoint G-36</a></th>
+            <th><a href="https://browningtrailcameras.com/products/defender-vision-pro-livestream" target="_blank" style="color:var(--text);text-decoration:none;border-bottom:1px dashed var(--text-dim)">Browning Pro Live</a></th>
+            <th><a href="https://www.tactacam.com/reveal-ultra" target="_blank" style="color:var(--text);text-decoration:none;border-bottom:1px dashed var(--text-dim)">Tactacam Ultra</a></th>
+            <th><a href="https://www.behold.cam/" target="_blank" style="color:var(--text);text-decoration:none;border-bottom:1px dashed var(--text-dim)">Behold Cam-1</a></th>
+            <th><a href="https://sentinel.conservationxlabs.com/" target="_blank" style="color:var(--text);text-decoration:none;border-bottom:1px dashed var(--text-dim)">Sentinel</a></th>
+            <th><a href="https://outdoorcameras.com.au/shop/swift-enduro-4g/" target="_blank" style="color:var(--text);text-decoration:none;border-bottom:1px dashed var(--text-dim)">Swift Enduro 4G</a></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-us"><td>Price (AUD)</td><td>~$399</td><td>$620</td><td>$155</td><td>$341</td><td>$310</td><td>$543</td><td>Waitlist</td><td>$499</td></tr>
+          <tr><td>Sensor</td><td>IMX678 8MP 4K STARVIS 2</td><td>8MP 4K</td><td>36MP (interp.)</td><td>46MP (interp.)</td><td>4K photo</td><td>IMX675 2K</td><td>Host camera</td><td>12MP (interp. ~5MP native)</td></tr>
+          <tr class="row-us"><td>Edge AI</td><td><span class="badge badge-green">NPU 600 GOPS</span></td><td><span class="badge badge-red">None</span></td><td><span class="badge badge-red">None</span></td><td><span class="badge badge-amber">Cloud only</span></td><td><span class="badge badge-red">None</span></td><td><span class="badge badge-green">iCatch V59AX</span></td><td><span class="badge badge-green">ARM Cortex-A</span></td><td><span class="badge badge-amber">eVorta cloud ($30/mo)</span></td></tr>
+          <tr><td>AI Species</td><td><span class="badge badge-green">Addax (open)</span></td><td>—</td><td>—</td><td>Hunting filter</td><td>—</td><td>2,000+ (NA/EU)</td><td>Custom</td><td>eVorta: 45+ AU species</td></tr>
+          <tr class="row-us"><td>AI Inference</td><td>&lt;350ms/frame</td><td>—</td><td>—</td><td>Seconds (cloud)</td><td>—</td><td>TBD</td><td>~1-2s</td><td>Cloud (requires 4G)</td></tr>
+          <tr><td>IR Type</td><td>940nm modular</td><td>940nm</td><td>850nm</td><td>940nm</td><td>940/850 switch</td><td>850nm</td><td>N/A</td><td>940nm (58 LEDs)</td></tr>
+          <tr class="row-us"><td>IR Approach</td><td><span class="badge badge-green">Strobed 30ms</span></td><td>Continuous</td><td>Continuous</td><td>Continuous</td><td>Continuous</td><td>Continuous</td><td>N/A</td><td>Continuous</td></tr>
+          <tr><td>IR Range</td><td>15-25m (est.)</td><td><strong>45m</strong></td><td>30m</td><td>33m</td><td>24m</td><td>10m</td><td>N/A</td><td>15-25m</td></tr>
+          <tr class="row-us"><td>Cellular</td><td>LTE CAT-1bis</td><td>Optional $930</td><td>Dual-SIM LTE</td><td>LTE</td><td>LTE</td><td><span class="badge badge-red">WiFi only</span></td><td>Sat+LoRa+Cell</td><td>4G LTE (Telstra only)</td></tr>
+          <tr><td>Battery Life</td><td><strong>~107 days (214 w/Ext, indef Solar)</strong></td><td>~2 years</td><td>~11 months</td><td>Not spec'd</td><td>~3.6 months</td><td>Weeks</td><td>Varies</td><td>"Months" + solar option</td></tr>
+          <tr class="row-us"><td>Subscription</td><td><span class="badge badge-green">$0 (SMS)</span></td><td>N/A</td><td>From $8/mo</td><td>Paid</td><td>From $8/mo</td><td><span class="badge badge-green">$0</span></td><td>Sat fees</td><td>SIM $20/mo + eVorta $30/mo</td></tr>
+          <tr class="row-us"><td>Trigger Speed</td><td>~200 ms</td><td>250 ms</td><td>270 ms–1.8 s</td><td><strong>135 ms</strong></td><td>Not spec'd</td><td>Not spec'd</td><td>N/A</td><td>350 ms</td></tr>
+          <tr><td>Video</td><td>No (4K burst)</td><td>4K@30fps</td><td>1080p</td><td>1080p live</td><td>1080p live</td><td>2K@60fps</td><td>N/A</td><td>1080p + audio</td></tr>
+          <tr class="row-us"><td>Enclosure</td><td>IP67</td><td>IP66</td><td>IP65</td><td>Not rated</td><td>IP66</td><td>Weatherproof</td><td>Add-on</td><td>IP66</td></tr>
+          <tr class="row-us"><td>Anti-Theft</td><td><span class="badge badge-green">GPS + movement</span></td><td>—</td><td>—</td><td>—</td><td><span class="badge badge-green">GPS active</span></td><td>—</td><td>—</td><td><span class="badge badge-red">Padlock only</span></td></tr>
+          <tr><td>Ecosystem</td><td><span class="badge badge-green">Full modular</span></td><td>Accessories</td><td>Solar panel</td><td>—</td><td>Accessories</td><td>—</td><td>Add-on only</td><td>Solar panel + eVorta</td></tr>
+          <tr class="row-us"><td>Target</td><td>Conservation</td><td>Research</td><td>Hunting</td><td>Hunting</td><td>Hunting</td><td>Backyard</td><td>Conservation</td><td>AU land managers</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2" style="margin-top:24px">
+      <div class="card">
+        <h2>Price Comparison (AUD)</h2>
+        <div class="chart-container-sm">
+          <canvas id="priceChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <h2>12-Month TCO (10 cameras, AUD)</h2>
+        <div class="chart-container-sm">
+          <canvas id="tcoChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h2>How We Compare — Per Competitor</h2>
+      <div class="grid-2" style="margin-top:12px">
+
+        <!-- Reconyx -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3><a href="https://www.reconyx.com/product/hyperfire-4k-ultra-hd-trail-camera" target="_blank" style="color:var(--text);border-bottom:1px dashed var(--text-dim)">Reconyx HyperFire 4K</a> <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">— $620 AUD</span></h3>
+          <div style="font-size:0.8125rem;margin-top:8px">
+            <div style="margin-bottom:6px;color:var(--text-dim)">The research gold standard. 20-year reputation, 5-year warranty.</div>
+            <div style="margin-bottom:4px"><span style="color:var(--red)">They win:</span> 45m IR range (our Super Long module hits 30-35m), 4K video @ 30fps + audio, -20°C cold rating (irrelevant in tropics), 5-year warranty, trusted by ecologists worldwide</div>
+            <div><span style="color:var(--green)">We win:</span> Edge AI via Addax (they have none — 100% manual review), strobed IR (80% energy saving), 6 swappable IR modules, LTE built-in (theirs is $600+ add-on), no subscription, GPS anti-theft, stackable battery system, WiFi offload, $220 cheaper</div>
+          </div>
+          <div class="info">Their weakness: No AI means researchers still manually review every image. At 1,000 images/day across 10 cameras, that's 40+ hours/week of sorting.</div>
+        </div>
+
+        <!-- SpyPoint -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3><a href="https://www.spypoint.com/en/products/flex-g36/cellular-trail-camera" target="_blank" style="color:var(--text);border-bottom:1px dashed var(--text-dim)">SpyPoint Flex G-36</a> <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">— $155 AUD</span></h3>
+          <div style="font-size:0.8125rem;margin-top:8px">
+            <div style="margin-bottom:6px;color:var(--text-dim)">Budget king. Dual-SIM LTE, solar option, massive market share.</div>
+            <div style="margin-bottom:4px"><span style="color:var(--red)">They win:</span> $244 cheaper (different market), dual-SIM LTE, 30m IR range (our Super Long module matches), huge dealer/retail network, solar built-in</div>
+            <div><span style="color:var(--green)">We win:</span> Edge AI via Addax (they have none), true 4K sensor (theirs is 36MP interpolated — actually ~4MP native), 940nm no-glow (theirs is 850nm visible glow), stackable battery (~107 days (214 with Extender) vs ~11 months), no subscription ($5+/mo adds up), Li-ion Solar backpack option, WiFi offload, GPS anti-theft, IP67 vs IP65</div>
+          </div>
+          <div class="info">Their weakness: 850nm low-glow spooks nocturnal species. Interpolated megapixel counts are marketing — actual detail resolution is far below ours.</div>
+        </div>
+
+        <!-- Browning -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3><a href="https://browningtrailcameras.com/products/defender-vision-pro-livestream" target="_blank" style="color:var(--text);border-bottom:1px dashed var(--text-dim)">Browning Vision Pro Live</a> <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">— $341 AUD</span></h3>
+          <div style="font-size:0.8125rem;margin-top:8px">
+            <div style="margin-bottom:6px;color:var(--text-dim)">Premium hunting cam with cloud AI and 1080p livestreaming.</div>
+            <div style="margin-bottom:4px"><span style="color:var(--red)">They win:</span> 135ms trigger (vs our ~175ms in STOP2 — gap is small), 1080p livestreaming (power-prohibitive for remote sites), 33m IR range (our Super Long module matches), established brand</div>
+            <div><span style="color:var(--green)">We win:</span> Edge AI via Addax vs cloud-only (theirs needs cell signal + subscription to work), true 4K sensor (theirs is 46MP interpolated), stackable battery (~107 days (214 with Extender)), no subscription ($10+/mo for AI features), strobed IR, 6 swappable IR modules, GPS anti-theft, LoRa mesh option, WiFi offload, IP67 (theirs unrated), AI works offline</div>
+          </div>
+          <div class="info">Their weakness: Cloud AI means no AI capability without cell coverage — useless in remote conservation sites. Edge AI cannibalises their subscription revenue, so they're unlikely to switch.</div>
+        </div>
+
+        <!-- Tactacam -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3><a href="https://www.tactacam.com/reveal-ultra" target="_blank" style="color:var(--text);border-bottom:1px dashed var(--text-dim)">Tactacam Reveal Ultra</a> <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">— $310 AUD</span></h3>
+          <div style="font-size:0.8125rem;margin-top:8px">
+            <div style="margin-bottom:6px;color:var(--text-dim)">Feature-rich hunting cam. Livestream, switchable flash, GPS anti-theft.</div>
+            <div style="margin-bottom:4px"><span style="color:var(--red)">They win:</span> $89 cheaper, 1080p livestreaming (power-prohibitive for us, intentionally excluded)</div>
+            <div><span style="color:var(--green)">We win:</span> Edge AI via Addax (they have none — reviewers literally asking for it), true 4K sensor (vs 16MP), stackable battery (~107 days (214 with Extender) vs ~3.6 months), 6 physical IR modules (vs electronic 2-way toggle), GPS anti-theft (we match them now), no subscription, Li-ion Solar backpack option, LoRa mesh option, IP67 vs IP66, open Addax model architecture</div>
+          </div>
+          <div class="info">Their weakness: No AI. Reviewer quote: "Tactacam needs to jump on that AI train." 3.6-month battery life means frequent field visits — unworkable for remote sites.</div>
+        </div>
+
+        <!-- Behold -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3><a href="https://www.behold.cam/" target="_blank" style="color:var(--text);border-bottom:1px dashed var(--text-dim)">Behold Cam-1</a> <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">— $543 AUD</span></h3>
+          <div style="font-size:0.8125rem;margin-top:8px">
+            <div style="margin-bottom:6px;color:var(--text-dim)">First consumer edge-AI wildlife camera. Kickstarter, shipping June 2026.</div>
+            <div style="margin-bottom:4px"><span style="color:var(--red)">They win:</span> 2,000+ species (NA/EU — zero Australian), 2K @ 60fps video + audio, beautiful Pentagram industrial design</div>
+            <div><span style="color:var(--green)">We win:</span> Open Addax model platform (any region, any species set, custom on request), true 4K sensor (1/1.8" vs 1/2.8"), LTE cellular (they have WiFi only — no remote deployment), 940nm no-glow (theirs is 850nm visible), stackable battery (~107 days (214 with Extender) vs "weeks"), IP67 (theirs "weatherproof"), 30-35m IR range with Super Long module (theirs 10m), GPS anti-theft, LoRa mesh, Li-ion Solar backpack option, designed for professional conservation not backyards</div>
+          </div>
+          <div class="info">Their weakness: WiFi-only = backyard camera. Cannot deploy remotely. 850nm glow + 10m range + weeks of battery = not viable for field conservation. But validates market demand for edge AI in wildlife cameras.</div>
+        </div>
+
+        <!-- Sentinel -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3><a href="https://sentinel.conservationxlabs.com/" target="_blank" style="color:var(--text);border-bottom:1px dashed var(--text-dim)">Conservation X Sentinel</a> <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">— Waitlist</span></h3>
+          <div style="font-size:0.8125rem;margin-top:8px">
+            <div style="margin-bottom:6px;color:var(--text-dim)">Conservation-focused AI add-on. Satellite + LoRa + Cell. Not a standalone camera.</div>
+            <div style="margin-bottom:4px"><span style="color:var(--red)">They win:</span> Satellite connectivity (we're LTE + D2C roadmap), multi-camera gateway architecture</div>
+            <div><span style="color:var(--green)">We win:</span> Integrated camera (they're an add-on), dedicated NPU vs RPi-class ARM (lower power, faster inference), LoRa mesh plug-in matches their mesh capability, open Addax models match their custom AI, stackable battery + Li-ion Solar for remote sites, purpose-built hardware (not a bolt-on), simpler deployment, lower cost per camera point</div>
+          </div>
+          <div class="info">Their weakness: Add-on architecture means extra hardware, extra power, extra failure points. RPi-class ARM draws significantly more power than our NPU approach. Still on waitlist — availability uncertain.</div>
+        </div>
+
+        <!-- Swift Enduro 4G -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3><a href="https://outdoorcameras.com.au/shop/swift-enduro-4g/" target="_blank" style="color:var(--text);border-bottom:1px dashed var(--text-dim)">Swift Enduro 4G</a> <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">— $499 AUD (+$600/yr eVorta+SIM)</span></h3>
+          <div style="font-size:0.8125rem;margin-top:8px">
+            <div style="margin-bottom:6px;color:var(--text-dim)">Australian-designed workhorse. eVorta's recommended camera. Dominant in AU land management.</div>
+            <div style="margin-bottom:4px"><span style="color:var(--red)">They win:</span> Established AU distribution + support network, 2-year warranty, proven track record with farmers/councils, eVorta cloud AI partnership (45+ AU species, 97.9% cat accuracy), solar panel accessory, video + audio, MMS to 4 phones</div>
+            <div><span style="color:var(--green)">We win:</span> Edge AI on-device (no cloud dependency, no per-image cost, works offline), true 8MP 4K sensor (theirs is ~5MP interpolated to 12MP), $0 subscription vs $600/yr (SIM+eVorta), GPS anti-theft (they have none), ~200ms trigger vs 350ms, IP67 vs IP66, modular LED/backpack/modem ecosystem, stackable battery, 940nm strobed IR (80% energy saving), Addax open model platform</div>
+          </div>
+          <div class="info">Their weakness: $1,205/camera Year 1 TCO ($499 camera + $360 eVorta + $240 SIM + $106 solar). Cloud AI means every trigger costs data. 17-second MMS transmission. Aging 2019 hardware design. No GPS — lost cameras stay lost. <strong>eVorta's 1,000+ deployments are potential upgrade customers for us.</strong></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h2>Threat Assessment</h2>
+      <table>
+        <thead><tr><th>Threat</th><th>Probability</th><th>Timeline</th><th>Impact</th><th>Response</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://www.reconyx.com/product/hyperfire-4k-ultra-hd-trail-camera" target="_blank" style="color:var(--text)">Reconyx</a> adds AI</td><td><span class="badge badge-amber">Medium</span></td><td>18-24 mo</td><td><span class="badge badge-red">High</span></td><td>Our NPU + modular ecosystem is 2+ years ahead. They'd need full redesign. We have Addax models shipping before they start.</td></tr>
+          <tr><td><a href="https://sentinel.conservationxlabs.com/" target="_blank" style="color:var(--text)">Sentinel</a> ships integrated camera</td><td><span class="badge badge-amber">Medium</span></td><td>12-18 mo</td><td><span class="badge badge-amber">Medium</span></td><td>Our LoRa plug-in matches their mesh. Integrated design beats RPi add-on on power and reliability.</td></tr>
+          <tr><td><a href="https://www.tactacam.com/reveal-ultra" target="_blank" style="color:var(--text)">Tactacam</a> adds AI</td><td><span class="badge badge-amber">Medium</span></td><td>12-18 mo</td><td><span class="badge badge-amber">Medium</span></td><td>Hunting-focused, not conservation. We match their GPS anti-theft. They can't match our modular ecosystem or Addax platform.</td></tr>
+          <tr><td><a href="https://browningtrailcameras.com/products/defender-vision-pro-livestream" target="_blank" style="color:var(--text)">Browning</a> adds edge AI</td><td><span class="badge badge-green">Low</span></td><td>24+ mo</td><td><span class="badge badge-amber">Medium</span></td><td>Edge AI cannibalises their cloud subscription revenue. Trigger speed gap closed to 40ms with STOP2.</td></tr>
+          <tr><td><a href="https://web.evorta.com/" target="_blank" style="color:var(--text)">eVorta</a> builds hardware</td><td><span class="badge badge-green">Low</span></td><td>24+ mo</td><td><span class="badge badge-green">Low</span></td><td>Cloud-first platform, not hardware. Better as integration partner — their 1,000+ deployments are potential customers.</td></tr>
+          <tr><td>Chinese cameras add real AI</td><td><span class="badge badge-amber">Low-Med</span></td><td>12-24 mo</td><td><span class="badge badge-green">Low</span></td><td>No conservation credibility, no Addax models, no modular ecosystem. Can't compete on trust.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== MARKET ========== -->
+  <div id="tab-market" class="tab-content">
+    <div class="grid-4" style="margin-bottom:24px">
+      <div class="stat stat-accent">
+        <div class="stat-label">Global Market (2025)</div>
+        <div class="stat-value">$1.4B</div>
+        <div class="stat-sub">AUD, growing 6.6% CAGR</div>
+      </div>
+      <div class="stat stat-green">
+        <div class="stat-label">AU Cameras Deployed</div>
+        <div class="stat-value">~10K</div>
+        <div class="stat-sub">at any given time</div>
+      </div>
+      <div class="stat stat-amber">
+        <div class="stat-label">Indigenous Ranger Groups</div>
+        <div class="stat-value">127</div>
+        <div class="stat-sub">funded through 2028, expanding</div>
+      </div>
+      <div class="stat stat-blue">
+        <div class="stat-label">5-Year TAM</div>
+        <div class="stat-value">6,600</div>
+        <div class="stat-sub">units (conservation tier)</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>Global Market by Region (AUD)</h2>
+        <div class="chart-container-sm">
+          <canvas id="regionChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <h2>International Expansion Roadmap</h2>
+        <table>
+          <thead><tr><th>Phase</th><th>Market</th><th>Timeline</th><th>Est. Units</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-green">1</span></td><td>Australia + NZ</td><td>Yr 1-2</td><td>500-2,600</td></tr>
+            <tr><td><span class="badge badge-blue">2</span></td><td>SE Asia + Pacific</td><td>Yr 2-3</td><td>200-500</td></tr>
+            <tr><td><span class="badge badge-amber">3</span></td><td>Africa</td><td>Yr 2-4</td><td>200-1,000</td></tr>
+            <tr><td><span class="badge badge-accent">4</span></td><td>Europe</td><td>Yr 3-5</td><td>500-2,000</td></tr>
+            <tr><td><span class="badge badge-red">5</span></td><td>Latin America</td><td>Yr 4+</td><td>100-500</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h2>AU/NZ Addressable Market (3-Year Projection)</h2>
+      <div class="chart-container">
+        <canvas id="projectionChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h2>Conservation Funding Available</h2>
+      <table>
+        <thead><tr><th>Program</th><th>Budget</th><th>Geography</th><th>Fit</th></tr></thead>
+        <tbody>
+          <tr><td>Global Wildlife Program (GEF/World Bank)</td><td>$546M + $3.1B co-financing</td><td>38 countries</td><td><span class="badge badge-green">Strong</span></td></tr>
+          <tr><td>EU LIFE Programme</td><td>€5.4B (2026-2033)</td><td>EU</td><td><span class="badge badge-amber">Phase 4</span></td></tr>
+          <tr><td>AU Indigenous Rangers Program</td><td>Multi-year to 2028</td><td>Australia</td><td><span class="badge badge-green">Primary</span></td></tr>
+          <tr><td>AU IPA Grants</td><td>$13M (2026-2028)</td><td>Australia</td><td><span class="badge badge-green">Primary</span></td></tr>
+          <tr><td>AU Biodiversity Monitoring Grants</td><td>$750K per project</td><td>Australia</td><td><span class="badge badge-green">Apply now</span></td></tr>
+          <tr><td>NZ Predator Free 2050</td><td>$30M biodiversity</td><td>New Zealand</td><td><span class="badge badge-green">Perfect fit</span></td></tr>
+          <tr><td>NAILSMA Pest Management</td><td>$6M</td><td>Northern AU</td><td><span class="badge badge-green">Primary</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== DEVELOPMENT COSTS ========== -->
+  <div id="tab-costs" class="tab-content">
+    <div class="grid-4" style="margin-bottom:24px">
+      <div class="stat stat-accent">
+        <div class="stat-label">Hardware Dev</div>
+        <div class="stat-value">$26K</div>
+        <div class="stat-sub">Dev kits, prototypes, test equipment</div>
+      </div>
+      <div class="stat stat-amber">
+        <div class="stat-label">Enclosure (In-House)</div>
+        <div class="stat-value">$1K</div>
+        <div class="stat-sub">CNC jig + tooling + 3D filament</div>
+      </div>
+      <div class="stat stat-blue">
+        <div class="stat-label">Certification</div>
+        <div class="stat-value">$18K</div>
+        <div class="stat-sub">EMC, RCM, IP67 testing</div>
+      </div>
+      <div class="stat stat-green">
+        <div class="stat-label">Total Dev</div>
+        <div class="stat-value">$55K</div>
+        <div class="stat-sub">AUD — in-house CNC + 3D printer</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>Development Cost Breakdown</h2>
+        <div class="chart-container">
+          <canvas id="devCostChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Cash Flow Timeline</h2>
+        <div class="chart-container">
+          <canvas id="cashFlowChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h2>Development Line Items</h2>
+      <table>
+        <thead><tr><th>Item</th><th>Category</th><th>Cost (AUD)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>STM32N6570-DK Discovery Kit</td><td>Hardware</td><td>$285</td><td>AI/NPU firmware bring-up</td></tr>
+          <tr><td>IMX678 eval module</td><td>Hardware</td><td>$500</td><td>Camera sensor bring-up</td></tr>
+          <tr><td>Other dev boards & tools</td><td>Hardware</td><td>$825</td><td>U0 Nucleo, C3 devkits, modem eval, GPS eval, probes</td></tr>
+          <tr><td>Schematic + PCB layout</td><td>Hardware</td><td>$7,500</td><td>Contractor — 3 boards, controlled impedance</td></tr>
+          <tr><td>Rev A prototypes (5 sets)</td><td>Hardware</td><td>$8,000</td><td>PCBs + components at low-qty pricing</td></tr>
+          <tr><td>Rev B prototypes (5 sets)</td><td>Hardware</td><td>$8,000</td><td>Expect at least one respin (new silicon)</td></tr>
+          <tr><td>Test equipment</td><td>Hardware</td><td>$1,500</td><td>PSU, current probe, thermal camera rental</td></tr>
+          <tr><td>3D printer filament (prototyping)</td><td>Enclosure</td><td>$150</td><td>ASA/PC — overnight iterations on Bambu Lab</td></tr>
+          <tr><td>CNC fixture + end mills</td><td>Enclosure</td><td>$600</td><td>One-time jig + polycarbonate cutting tools</td></tr>
+          <tr><td>O-ring / seal samples</td><td>Enclosure</td><td>$150</td><td>Range of standard sizes for IP67 testing</td></tr>
+          <tr><td>EMC testing (CISPR 32)</td><td>Certification</td><td>$7,500</td><td>Compliance Engineering / EMC Technologies</td></tr>
+          <tr><td>RCM registration + agent</td><td>Certification</td><td>$1,500</td><td>May save if EG800Q has existing type approval</td></tr>
+          <tr><td>LTE type approval (ACMA)</td><td>Certification</td><td>$3,500</td><td>Check Quectel first — may be $0</td></tr>
+          <tr><td>Electrical safety</td><td>Certification</td><td>$4,500</td><td>Battery-powered, lower risk category</td></tr>
+          <tr><td>IP67 ingress testing</td><td>Certification</td><td>$2,000</td><td>Environmental verification</td></tr>
+          <tr><td>AI model quantisation (compute)</td><td>AI</td><td>$350</td><td>Cloud GPU for INT8 conversion</td></tr>
+          <tr><td>Field validation travel</td><td>AI</td><td>$1,500</td><td>Tiwi Islands ground-truth dataset</td></tr>
+          <tr><td>Contingency (15%)</td><td>Buffer</td><td>$7,500</td><td>Unknown unknowns</td></tr>
+          <tr style="font-weight:700;border-top:2px solid var(--accent)"><td>TOTAL</td><td></td><td style="color:var(--accent)">~$55,000</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== MANUFACTURING ========== -->
+  <div id="tab-manufacturing" class="tab-content">
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="stat stat-accent">
+        <div class="stat-label">BOM (100 units)</div>
+        <div class="stat-value">$255</div>
+        <div class="stat-sub">AUD per unit (in-house CNC)</div>
+      </div>
+      <div class="stat stat-green">
+        <div class="stat-label">BOM (1K units)</div>
+        <div class="stat-value">$197</div>
+        <div class="stat-sub">AUD per unit (23% saving)</div>
+      </div>
+      <div class="stat stat-amber">
+        <div class="stat-label">100-Unit Run Total</div>
+        <div class="stat-value">$25.5K</div>
+        <div class="stat-sub">AUD manufacturing only</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>BOM Breakdown — Per Unit (100 qty)</h2>
+        <div class="chart-container">
+          <canvas id="bomChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <h2>BOM: 100 units vs 1K units</h2>
+        <div class="chart-container">
+          <canvas id="bomCompareChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h2>Top 10 Most Expensive Components</h2>
+      <table>
+        <thead><tr><th>Component</th><th>Cost (AUD, 100 qty)</th><th>% of BOM</th><th style="width:30%">Bar</th></tr></thead>
+        <tbody id="topComponentsTable"></tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h2>Cost Reduction Path</h2>
+      <table>
+        <thead><tr><th>Lever</th><th>Savings/Unit</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td>Volume IC pricing (1K+ on STM32N6, IMX678)</td><td>$25-40</td><td>After pilot proves demand</td></tr>
+          <tr><td>Injection-moulded enclosure (vs in-house CNC)</td><td>$5-10</td><td>After 500+ committed orders</td></tr>
+          <tr><td>Quectel volume pricing</td><td>$7-8</td><td>At 500+ qty</td></tr>
+          <tr><td>JLCPCB economic PCBA tier</td><td>$5-8</td><td>500+ qty</td></tr>
+          <tr><td>Consolidate NOR flash</td><td>$3</td><td>Rev C board</td></tr>
+          <tr><td>eSIM instead of SIM holder</td><td>$1</td><td>When profiles available in AU</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== ECOSYSTEM ========== -->
+  <div id="tab-ecosystem" class="tab-content">
+    <div style="margin-bottom:20px;padding:16px;background:var(--surface);border:1px solid var(--accent);border-radius:12px">
+      <div style="font-size:1rem;font-weight:600;color:var(--accent);margin-bottom:4px">Think Blackmagic, Not GoPro</div>
+      <div style="font-size:0.8125rem;color:var(--text-dim)">One professional core body. Everything else is modular — plug in what you need for your deployment. No compromises, no bloat. Buy the body, add the accessories.</div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:20px">
+      <!-- Core Body -->
+      <div class="card">
+        <h2>Core Camera Body</h2>
+        <div style="font-size:0.8125rem;color:var(--text-dim);margin-bottom:12px">The brain. Always the same. Every feature built into the hardware, enabled via firmware settings when needed.</div>
+        <table>
+          <thead><tr><th>Component</th><th>Spec</th></tr></thead>
+          <tbody>
+            <tr><td>AI Processor</td><td>STM32N6 — Cortex-M55, 600 GOPS NPU, HW ISP/JPEG</td></tr>
+            <tr><td>Image Sensor</td><td>Sony IMX678 STARVIS 2 — 8MP 4K, NIR to ~1000nm (AVDD 3.3V, DVDD 1.1V, DOVDD 1.8V)</td></tr>
+            <tr><td>Power Controller</td><td>STM32U0 — sleep/wake state machine, PIR, GPS anti-theft</td></tr>
+            <tr><td>Comms Processor</td><td>ESP32-C3 — WiFi AP, BLE config, OLED display</td></tr>
+            <tr><td>Detection</td><td>2× Panasonic EKMB PIR — ~175ms trigger (STOP2 mode)</td></tr>
+            <tr><td>Storage</td><td>µSD 128/256 GB + 32MB APS256XXN-OB9 PSRAM (HexaSPI x16 DDR, 1.8V)</td></tr>
+            <tr><td>Enclosure</td><td>IP67 WHITE polycarbonate (UV-stabilised) — CNC machined, tree/post mount, 316 SS hardware</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Firmware Settings -->
+      <div class="card">
+        <h2>Firmware Settings</h2>
+        <div style="font-size:0.8125rem;color:var(--text-dim);margin-bottom:12px">All built into the hardware. Toggled via BLE app or OLED menu. No hardware changes needed.</div>
+        <table>
+          <thead><tr><th>Setting</th><th>Default</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td>STOP2 Fast Trigger</td><td><span class="badge badge-amber">Off</span></td><td>~175ms vs ~200ms. +3.6 mAh/day sleep current</td></tr>
+            <tr><td>GPS Anti-Theft</td><td><span class="badge badge-amber">Off</span></td><td>Daily position SMS + wake-on-movement when "off"</td></tr>
+            <tr><td>Short Video Clips</td><td><span class="badge badge-amber">Off</span></td><td>5-sec MJPEG 1080p on trigger. Behaviour confirmation.</td></tr>
+            <tr><td>AI Model</td><td><span class="badge badge-green">Addax AWC</span></td><td>Swap any Addax model via SD card</td></tr>
+            <tr><td>Operating Mode</td><td><span class="badge badge-green">Production</span></td><td>Validation / Production / Research</td></tr>
+            <tr><td>LoRa Relay</td><td><span class="badge badge-blue">Auto</span></td><td>Auto-enables when LoRa module detected</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modular Accessories -->
+    <div class="card" style="margin-bottom:20px">
+      <h2>Modular Accessories</h2>
+      <div class="grid-3" style="margin-top:12px">
+
+        <!-- IR LED Modules -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--accent)">IR LED Modules</h3>
+          <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:8px">JST GH 4-pin, hot-swappable, auto-detected via ID resistor</div>
+          <table style="font-size:0.75rem">
+            <tr><td>940nm Standard</td><td>15-20m</td><td><span class="badge badge-green">Default</span></td></tr>
+            <tr><td>940nm Long Range</td><td>25-30m</td><td>Waterholes</td></tr>
+            <tr><td><strong>940nm Super Long</strong></td><td><strong>30-35m</strong></td><td><span class="badge badge-blue">New</span></td></tr>
+            <tr><td>850nm Research</td><td>20m</td><td>Better sensitivity</td></tr>
+            <tr><td>White Flash</td><td>15m</td><td>Colour night photos</td></tr>
+            <tr><td>Blank</td><td>—</td><td>Day only / external</td></tr>
+          </table>
+          <div class="info">Super Long Range: 4× OSRAM SFH4726AS (1W) + 15° TIR optics, 2A drive. Matches Browning/SpyPoint range.</div>
+        </div>
+
+        <!-- Snap-On Backpacks -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--accent)">Snap-On Backpacks</h3>
+          <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:8px">8-pin pogo connector (J_BP). Camera sees only battery voltage — doesn't know what's attached.</div>
+          <table style="font-size:0.75rem">
+            <tr><td><strong>Standard</strong></td><td>12 AA NiMH caddy. No charging.</td><td><span class="badge badge-green">Default</span></td><td>~107 days</td></tr>
+            <tr><td><strong>Field Station</strong></td><td>12 AA NiMH + trigger jack + LoRa slot</td><td><span class="badge badge-blue">Pro</span></td><td>~107 days</td></tr>
+            <tr><td><strong>Li-ion Solar</strong></td><td>Sealed Li-ion + BMS + MPPT solar + trigger jack + LoRa slot</td><td><span class="badge badge-amber">Premium</span></td><td>Indefinite</td></tr>
+            <tr><td><strong>Extender</strong></td><td>12 AA NiMH spacer, pass-through</td><td><span class="badge badge-blue">Add-on</span></td><td>+~107 days</td></tr>
+          </table>
+          <div class="info"><strong>Standard:</strong> Cheap, pre-loadable in the office. Snap-swap in 30 seconds in the field. The default for most deployments.</div>
+          <div class="info" style="margin-top:4px"><strong>Field Station:</strong> Routes trigger output to weatherproof 2-pin jack. LoRa module slot for mesh relay. No solar — swap cells in the field like Standard.</div>
+          <div class="info" style="margin-top:4px"><strong>Li-ion Solar:</strong> Sealed weatherproof unit with Li-ion pack, BMS, MPPT solar charger, trigger jack, and LoRa slot. Output regulated to match NiMH voltage range. "Set and forget" indefinite deployment. Eliminates wrong-battery-chemistry risk entirely.</div>
+          <div class="info" style="margin-top:4px"><strong>Extender:</strong> Stacks between camera and Standard or Field Station backpack. Doubles field life. Pass-through for all 8 J_BP pins.</div>
+        </div>
+
+        <!-- Connectivity Modules -->
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--accent)">Connectivity</h3>
+          <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:8px">Modem daughter card (front) + LoRa via Field Station backpack (rear)</div>
+          <table style="font-size:0.75rem">
+            <tr><td>LTE CAT-1bis</td><td><span class="badge badge-green">Default</span></td><td>Quectel EG800Q-EU</td></tr>
+            <tr><td>Starlink D2C</td><td><span class="badge badge-amber">Roadmap</span></td><td>Card swap when available</td></tr>
+            <tr><td><strong>LoRa Mesh</strong></td><td><span class="badge badge-blue">Backpack</span></td><td>Module slot in Field Station backpack</td></tr>
+          </table>
+          <div class="info"><strong>LoRa:</strong> Slots into Field Station backpack, connected via J_BP UART pins. 5-15km rural range. 10-20 cameras relay to one cellular gateway. Critical for dual-camera trigger confirmation and no-LTE sites.</div>
+          <div class="info" style="margin-top:4px"><strong>D2C Satellite:</strong> Same 20-pin modem connector. When Starlink Band 7 modems ship, it's a card swap — no camera changes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Addax AI Platform -->
+    <div class="card" style="margin-bottom:20px">
+      <h2>AI Platform — Addax</h2>
+      <div style="font-size:0.8125rem;color:var(--text-dim);margin-bottom:12px">Open model architecture. The camera runs whatever INT8 .tflite model is on the SD card. Addax is the platform, not just one model.</div>
+      <div class="grid-3">
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--green)">Free Models</h3>
+          <div style="font-size:0.8125rem">Addax publishes open models — AWC (135 Australian species, 95.2% accuracy, trained on 5M images from Parks Victoria). Load via SD card, costs nothing. More models added over time.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--amber)">Custom Models</h3>
+          <div style="font-size:0.8125rem">Pay Addax to train on your deployment data. A mine site needing specific threatened species for compliance. A ranger group targeting feral cats. A PhD student studying quolls. Model delivered as .tflite on SD card.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--accent)">Community Models</h3>
+          <div style="font-size:0.8125rem">Every deployment generates training data. Camera trap images feed back to Addax for retraining. Models get better with every camera in the field. Network effect — more cameras = better AI for everyone.</div>
+        </div>
+      </div>
+      <div class="info">Behold has 2,000+ species but they're all North American/European. Zero Australian species. Our Addax partnership delivers the models that matter for each deployment region.</div>
+    </div>
+
+    <!-- AI Trigger Platform -->
+    <div class="card" style="margin-bottom:20px">
+      <h2>AI Trigger Platform — "The Camera Is the Brain"</h2>
+      <div style="font-size:0.8125rem;color:var(--text-dim);margin-bottom:12px">We provide the intelligence. Third parties build the action. Researchers develop traps, AI models, and deployment strategies. The camera is the central core that makes it all work.</div>
+      <div class="grid-3">
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--green)">Trigger Pipeline</h3>
+          <div style="font-size:0.8125rem">PIR wake → burst capture → AI classify → species confirmed → fire trigger output → alert → sleep. On-board TLP291 opto-coupler (3.75kV isolation) routed via Field Station backpack to weatherproof 2-pin jack.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--amber)">Dual-Camera Confirmation</h3>
+          <div style="font-size:0.8125rem">Two cameras at the same site, connected via LoRa mesh. Camera A detects feral cat → LoRa alert → Camera B confirms → either fires trigger. Reduces false positives for lethal control applications (net traps, bait dispensers).</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:16px">
+          <h3 style="color:var(--accent)">Open Action Ecosystem</h3>
+          <div style="font-size:0.8125rem">External devices connect via dry contact closure on the Field Station backpack jack. Net traps (HAND-style), bait dispensers, audio deterrents, gate actuators, sprinkler systems. Anyone can build an action device — we provide the AI trigger.</div>
+        </div>
+      </div>
+      <div class="info"><strong>Configuration (via BLE):</strong> Target species/class filter, confidence threshold (default 0.70), pulse duration (default 2s), dual-camera mode (requires LoRa).</div>
+    </div>
+
+    <!-- eVorta Partnership Opportunity -->
+    <div class="card" style="margin-bottom:20px">
+      <h2>Partnership Opportunity — eVorta</h2>
+      <div class="grid-2">
+        <div>
+          <div style="font-size:0.8125rem;margin-bottom:8px">
+            <strong style="color:var(--accent)">eVorta</strong> is an Australian cloud AI platform for camera trap classification. <strong>Not a competitor — a potential integration partner.</strong>
+          </div>
+          <table style="font-size:0.75rem">
+            <thead><tr><th>eVorta</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td>Images processed</td><td>60+ million</td></tr>
+              <tr><td>Live locations</td><td>1,000+ across Australia</td></tr>
+              <tr><td>Cat accuracy</td><td>97.9% (beat human classifiers)</td></tr>
+              <tr><td>Cost savings</td><td>81% reduction vs manual review</td></tr>
+              <tr><td>BHA Grant</td><td>$1.6M Federal "Game Changer" — feral cat AI</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3>Why Partner?</h3>
+          <div style="font-size:0.8125rem">
+            <div style="margin-bottom:6px"><strong>They're cloud-first, we're edge-first.</strong> Complementary, not competing. Our camera can feed their platform — edge AI filters on-device, eVorta does deeper cloud classification on uploaded images.</div>
+            <div style="margin-bottom:6px"><strong>They don't make hardware.</strong> They recommend Swift Enduro 4G cameras. We'd be an upgrade path for their 1,000+ existing deployments.</div>
+            <div style="margin-bottom:6px"><strong>They have conservation credibility.</strong> BHA partnership, $1.6M government grant, Nature publication. Association validates Between 23° in the conservation market.</div>
+            <div><strong>Revenue angle:</strong> Bundle eVorta cloud access for customers who want both edge + cloud AI. Or refer custom model work to Addax while eVorta handles cloud-side analytics.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Roadmap -->
+    <div class="card">
+      <h2>Product Roadmap — Camera Bodies</h2>
+      <div style="font-size:0.8125rem;color:var(--text-dim);margin-bottom:12px">Like Blackmagic's Pocket vs URSA — different bodies for different jobs. Same ecosystem of accessories.</div>
+      <div class="grid-2">
+        <div style="background:var(--surface2);border-radius:8px;padding:16px;border:1px solid var(--accent)">
+          <h3 style="color:var(--accent)">Camera Trap <span style="color:var(--green);font-size:0.75rem">— NOW</span></h3>
+          <div style="font-size:0.8125rem">
+            <div style="margin-bottom:6px"><strong>The Pocket 4K.</strong> Stills + burst, edge AI, 2-year battery, go-anywhere.</div>
+            <table style="font-size:0.75rem">
+              <tr><td>MCU</td><td>STM32N6 (Cortex-M55, 600 GOPS NPU)</td></tr>
+              <tr><td>Capture</td><td>10-frame 4K burst + optional 5-sec MJPEG clip</td></tr>
+              <tr><td>Battery</td><td>6S2P 12 AA NiMH: ~107 days (Extender: ~214, Li-ion Solar: indefinite)</td></tr>
+              <tr><td>Use case</td><td>Remote monitoring, species surveys, feral control</td></tr>
+            </table>
+          </div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:16px;border:1px dashed var(--border)">
+          <h3 style="color:var(--text-dim)">Camera Trap Video <span style="color:var(--amber);font-size:0.75rem">— FUTURE (late 2026+)</span></h3>
+          <div style="font-size:0.8125rem">
+            <div style="margin-bottom:6px"><strong>The URSA.</strong> Sustained recording, shorter battery, research deployments.</div>
+            <table style="font-size:0.75rem">
+              <tr><td>MCU</td><td>Alif E8 (Ethos-U85, dual MIPI CSI-2, 1.3µA STOP)</td></tr>
+              <tr><td>Capture</td><td>Continuous video + H.264/H.265 encoding + audio</td></tr>
+              <tr><td>Battery</td><td>Weeks-months (video is power-hungry — Li-ion Solar recommended)</td></tr>
+              <tr><td>Use case</td><td>Behavioural research, nesting, predation events</td></tr>
+            </table>
+            <div class="info">Same modem card, same LED modules, same LoRa plug-in, same battery systems, same WildTrack backend. New main board only.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FINANCIAL MODEL ========== -->
+  <div id="tab-financial" class="tab-content">
+    <div style="margin-bottom:20px">
+      <h2 style="margin-bottom:8px">Adjust Retail Price (AUD)</h2>
+      <div class="toggle-group">
+        <button class="toggle-btn" onclick="setPrice(349)">$349</button>
+        <button class="toggle-btn active" onclick="setPrice(399)">$399</button>
+        <button class="toggle-btn" onclick="setPrice(449)">$449</button>
+        <button class="toggle-btn" onclick="setPrice(499)">$499</button>
+      </div>
+    </div>
+
+    <div class="grid-4" style="margin-bottom:24px">
+      <div class="stat stat-accent">
+        <div class="stat-label">Retail Price</div>
+        <div class="stat-value" id="fin-price">$399</div>
+        <div class="stat-sub">AUD</div>
+      </div>
+      <div class="stat stat-green">
+        <div class="stat-label">Gross Margin (1K)</div>
+        <div class="stat-value" id="fin-margin">51%</div>
+        <div class="stat-sub" id="fin-margin-dollar">$202/unit</div>
+      </div>
+      <div class="stat stat-amber">
+        <div class="stat-label">Break-Even (incl. labour)</div>
+        <div class="stat-value" id="fin-breakeven">~764</div>
+        <div class="stat-sub" id="fin-breakeven-cash">(cash only: ~382)</div>
+      </div>
+      <div class="stat stat-blue">
+        <div class="stat-label">Revenue at 1K Units</div>
+        <div class="stat-value" id="fin-revenue">$399K</div>
+        <div class="stat-sub" id="fin-profit">Gross profit: $202K</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>Break-Even Analysis</h2>
+        <div class="chart-container">
+          <canvas id="breakevenChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <h2>3-Year Revenue Projection</h2>
+        <div class="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h2>Scenario Analysis</h2>
+      <table>
+        <thead><tr><th>Scenario</th><th>Units (3yr)</th><th>Revenue (AUD)</th><th>Gross Profit</th><th>After Cash Costs</th><th>After All Costs (incl. labour)</th></tr></thead>
+        <tbody id="scenarioTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Tab switching ───
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── Chart defaults ───
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = '#334155';
+Chart.defaults.font.family = "'Inter',system-ui,sans-serif";
+Chart.defaults.font.size = 11;
+
+// ─── Position scatter chart ───
+new Chart(document.getElementById('positionChart'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      { label: 'Between 23°', data: [{x:399,y:95}], backgroundColor: '#22d3ee', pointRadius: 12, pointStyle: 'rectRounded' },
+      { label: 'Reconyx 4K', data: [{x:620,y:15}], backgroundColor: '#f87171', pointRadius: 8 },
+      { label: 'SpyPoint G-36', data: [{x:155,y:5}], backgroundColor: '#fbbf24', pointRadius: 8 },
+      { label: 'Browning Pro', data: [{x:341,y:30}], backgroundColor: '#fb923c', pointRadius: 8 },
+      { label: 'Tactacam Ultra', data: [{x:310,y:10}], backgroundColor: '#a78bfa', pointRadius: 8 },
+      { label: 'Behold Cam-1', data: [{x:543,y:70}], backgroundColor: '#4ade80', pointRadius: 8 },
+      { label: 'Sentinel', data: [{x:465,y:75}], backgroundColor: '#60a5fa', pointRadius: 8 },
+      { label: 'Swift Enduro 4G', data: [{x:499,y:20}], backgroundColor: '#fb923c', pointRadius: 8 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      x: { title: { display:true, text:'Price (AUD)', color:'#94a3b8' }, min:0, max:800 },
+      y: { title: { display:true, text:'AI Intelligence Score', color:'#94a3b8' }, min:0, max:100 }
+    },
+    plugins: { legend: { position:'bottom', labels: { boxWidth:8, padding:8, font:{size:10} } } }
+  }
+});
+
+// ─── Price comparison ───
+new Chart(document.getElementById('priceChart'), {
+  type: 'bar',
+  data: {
+    labels: ['SpyPoint', 'Tactacam', 'Browning', 'Between 23°', 'Swift Enduro', 'Behold', 'Reconyx 4K'],
+    datasets: [{
+      data: [155, 310, 341, 399, 499, 543, 620],
+      backgroundColor: ['#fbbf24','#a78bfa','#fb923c','#22d3ee','#fb923c','#4ade80','#f87171'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins: { legend:{display:false} },
+    scales: { x: { title:{display:true,text:'AUD'} } }
+  }
+});
+
+// ─── TCO comparison ───
+new Chart(document.getElementById('tcoChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Between 23°', 'SpyPoint', 'Tactacam', 'Browning', 'Swift+eVorta', 'Reconyx 4K'],
+    datasets: [
+      { label:'Hardware', data:[2325,1550,3100,3410,4990,6200], backgroundColor:'#22d3ee' },
+      { label:'Data plans', data:[0,930,930,1860,2400,1860], backgroundColor:'#a78bfa' },
+      { label:'AI subscription', data:[0,0,0,0,3600,0], backgroundColor:'#f87171' },
+      { label:'Batteries', data:[0,310,465,310,0,0], backgroundColor:'#fbbf24' },
+      { label:'SD cards', data:[232,155,0,155,155,155], backgroundColor:'#4ade80' },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    scales: { x:{stacked:true}, y:{stacked:true, title:{display:true,text:'AUD (12 months, 10 cameras)'}} },
+    plugins: { legend:{position:'bottom', labels:{boxWidth:8,padding:8,font:{size:10}}} }
+  }
+});
+
+// ─── Region pie ───
+new Chart(document.getElementById('regionChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['North America ($574M)', 'Asia-Pacific ($558M)', 'Europe ($225M)', 'Latin America ($39M)', 'Africa'],
+    datasets: [{ data:[41,40,16,3,0.5], backgroundColor:['#60a5fa','#22d3ee','#a78bfa','#fbbf24','#4ade80'] }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins: { legend:{position:'bottom', labels:{boxWidth:8,padding:6,font:{size:10}}} }
+  }
+});
+
+// ─── AU/NZ 3-year projection ───
+new Chart(document.getElementById('projectionChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Indigenous Rangers', 'Research/Uni', 'Conservation NGOs', 'Government', 'Pastoral/Ag'],
+    datasets: [
+      { label:'Year 1', data:[75,35,0,0,0], backgroundColor:'#22d3ee' },
+      { label:'Year 2', data:[300,150,75,75,35], backgroundColor:'#a78bfa' },
+      { label:'Year 3', data:[750,300,350,350,150], backgroundColor:'#4ade80' },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    scales: { x:{stacked:true}, y:{stacked:true, title:{display:true,text:'Units'}} },
+    plugins: { legend:{position:'bottom', labels:{boxWidth:8}} }
+  }
+});
+
+// ─── Dev cost pie ───
+new Chart(document.getElementById('devCostChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Prototypes & Components ($16K)','Schematic/PCB Layout ($7.5K)','EMC/Certification ($19K)','Dev Kits & Tools ($2.6K)','Test Equipment ($1.5K)','AI & Field Validation ($1.8K)','Enclosure (In-House, $0.9K)','Contingency ($7.5K)'],
+    datasets: [{
+      data: [16000,7500,19000,2610,1500,1850,900,7500],
+      backgroundColor: ['#22d3ee','#a78bfa','#fbbf24','#4ade80','#60a5fa','#f87171','#fb923c','#334155']
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins: { legend:{position:'bottom', labels:{boxWidth:8,padding:6,font:{size:9}}} }
+  }
+});
+
+// ─── Cash flow ───
+new Chart(document.getElementById('cashFlowChart'), {
+  type: 'line',
+  data: {
+    labels: ['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12','M13','M14'],
+    datasets: [{
+      label: 'Cumulative spend (AUD)',
+      data: [1000,2000,10200,13700,17200,18200,18900,25900,31900,37900,39700,65200,70200,70200],
+      borderColor: '#f87171', backgroundColor:'#f8717120', fill:true, tension:0.3
+    },{
+      label: 'Cumulative revenue (AUD)',
+      data: [0,0,0,0,0,0,0,0,0,0,0,0,10000,40000],
+      borderColor: '#4ade80', backgroundColor:'#4ade8020', fill:true, tension:0.3
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    scales: { y:{title:{display:true,text:'AUD'}} },
+    plugins: { legend:{position:'bottom', labels:{boxWidth:8}} }
+  }
+});
+
+// ─── BOM breakdown ───
+new Chart(document.getElementById('bomChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Main board ICs ($163)','Main PCB+Assembly ($28)','Modem Card ($32)','IR LED Module ($15)','Enclosure+Mech ($18)'],
+    datasets: [{
+      data: [163,28,32,15,18],
+      backgroundColor: ['#22d3ee','#a78bfa','#60a5fa','#fbbf24','#4ade80']
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins: { legend:{position:'bottom', labels:{boxWidth:8,padding:6,font:{size:10}}} }
+  }
+});
+
+// ─── BOM comparison ───
+new Chart(document.getElementById('bomCompareChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Main ICs','PCB+Assy','Modem Card','LED Module','Enclosure'],
+    datasets: [
+      { label:'100 units', data:[163,28,32,15,18], backgroundColor:'#f87171' },
+      { label:'1K units', data:[130,15,25,12,15], backgroundColor:'#4ade80' },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins: { legend:{position:'bottom', labels:{boxWidth:8}} },
+    scales: { y:{title:{display:true,text:'AUD per unit'}} }
+  }
+});
+
+// ─── Top components table ───
+const topComponents = [
+  { name:'Sony IMX678', cost:35, pct:13.7 },
+  { name:'Quectel EG800Q-EU', cost:25, pct:9.8 },
+  { name:'STM32N657X0H3Q', cost:20.5, pct:8.0 },
+  { name:'u-blox MAX-M10S', cost:19, pct:7.5 },
+  { name:'2× PIR (Panasonic EKMB)', cost:16, pct:6.3 },
+  { name:'M12 Lens + IR-cut', cost:12.5, pct:4.9 },
+  { name:'4-layer PCB (ENIG)', cost:12, pct:4.7 },
+  { name:'Antennas (LTE+GNSS+WiFi)', cost:12, pct:4.7 },
+  { name:'8× ams-OSRAM SFH 4725AS A01 940nm IR LEDs', cost:10, pct:3.9 },
+  { name:'SMT Assembly', cost:10, pct:3.9 },
+];
+const tbody = document.getElementById('topComponentsTable');
+topComponents.forEach(c => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${c.name}</td><td>$${c.cost.toFixed(2)}</td><td>${c.pct}%</td>
+    <td><div class="bar-bg"><div class="bar-fill" style="width:${c.pct/13.7*100}%;background:var(--accent)"></div></div></td>`;
+  tbody.appendChild(tr);
+});
+
+// ─── Financial model ───
+let currentPrice = 399;
+const devCostCash = 55000;
+const labourCost = 55000; // sweat equity at $60/hr, ~920 hrs midpoint
+const devCostTotal = devCostCash + labourCost; // true economic cost
+const bomAt100 = 255;
+const bomAt1K = 197;
+
+function setPrice(p) {
+  currentPrice = p;
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  updateFinancials();
+}
+
+function updateFinancials() {
+  const margin1K = currentPrice - bomAt1K;
+  const marginPct = ((margin1K / currentPrice) * 100).toFixed(0);
+  const breakevenTotal = Math.ceil(devCostTotal / (currentPrice - bomAt100));
+  const breakevenCash = Math.ceil(devCostCash / (currentPrice - bomAt100));
+
+  document.getElementById('fin-price').textContent = '$' + currentPrice;
+  document.getElementById('fin-margin').textContent = marginPct + '%';
+  document.getElementById('fin-margin-dollar').textContent = '$' + margin1K + '/unit';
+  document.getElementById('fin-breakeven').textContent = '~' + breakevenTotal;
+  document.getElementById('fin-breakeven-cash').textContent = '(cash only: ~' + breakevenCash + ')';
+  document.getElementById('fin-revenue').textContent = '$' + currentPrice + 'K';
+  document.getElementById('fin-profit').textContent = 'Gross profit: $' + (margin1K * 1000 / 1000).toFixed(0) + 'K';
+
+  // Update break-even chart
+  updateBreakevenChart();
+  updateRevenueChart();
+  updateScenarioTable();
+}
+
+let breakevenChartInstance, revenueChartInstance;
+
+function updateBreakevenChart() {
+  const labels = [];
+  const costCashData = [];
+  const costTotalData = [];
+  const revenueData = [];
+  for (let i = 0; i <= 1200; i += 50) {
+    labels.push(i);
+    costCashData.push(devCostCash + (i * bomAt100));
+    costTotalData.push(devCostTotal + (i * bomAt100));
+    revenueData.push(i * currentPrice);
+  }
+
+  if (breakevenChartInstance) breakevenChartInstance.destroy();
+  breakevenChartInstance = new Chart(document.getElementById('breakevenChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label:'Total Cost (cash + labour)', data:costTotalData, borderColor:'#f87171', tension:0.1, pointRadius:0 },
+        { label:'Cash Cost Only', data:costCashData, borderColor:'#fbbf24', borderDash:[5,5], tension:0.1, pointRadius:0 },
+        { label:'Revenue', data:revenueData, borderColor:'#4ade80', tension:0.1, pointRadius:0 },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      scales: {
+        x: { title:{display:true,text:'Units Sold'} },
+        y: { title:{display:true,text:'AUD'}, ticks:{callback:v=>'$'+Math.round(v/1000)+'K'} }
+      },
+      plugins: { legend:{position:'bottom',labels:{boxWidth:8}} }
+    }
+  });
+}
+
+function updateRevenueChart() {
+  // Conservative/moderate/optimistic 3-year unit projections
+  const scenarios = {
+    conservative: [110, 635, 1900],
+    moderate: [150, 850, 2600],
+    optimistic: [200, 1200, 3500],
+  };
+
+  if (revenueChartInstance) revenueChartInstance.destroy();
+  revenueChartInstance = new Chart(document.getElementById('revenueChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Year 1', 'Year 2', 'Year 3'],
+      datasets: [
+        { label:'Conservative', data:scenarios.conservative.map(u=>u*currentPrice), backgroundColor:'#f8717180' },
+        { label:'Moderate', data:scenarios.moderate.map(u=>u*currentPrice), backgroundColor:'#fbbf2480' },
+        { label:'Optimistic', data:scenarios.optimistic.map(u=>u*currentPrice), backgroundColor:'#4ade8080' },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      scales: { y:{title:{display:true,text:'Revenue (AUD)'}, ticks:{callback:v=>'$'+Math.round(v/1000)+'K'}} },
+      plugins: { legend:{position:'bottom',labels:{boxWidth:8}} }
+    }
+  });
+}
+
+function updateScenarioTable() {
+  const scenarios = [
+    { name:'Conservative', units:2645, bomAvg:220 },
+    { name:'Moderate', units:3600, bomAvg:210 },
+    { name:'Optimistic', units:4900, bomAvg:200 },
+  ];
+
+  const tbody = document.getElementById('scenarioTable');
+  tbody.innerHTML = '';
+  scenarios.forEach(s => {
+    const rev = s.units * currentPrice;
+    const cogs = s.units * s.bomAvg;
+    const gross = rev - cogs;
+    const netCash = gross - devCostCash;
+    const netTotal = gross - devCostTotal;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${s.name}</td><td>${s.units.toLocaleString()}</td>
+      <td>$${Math.round(rev/1000).toLocaleString()}K</td>
+      <td>$${Math.round(gross/1000).toLocaleString()}K</td>
+      <td style="color:${netCash>0?'var(--green)':'var(--red)'}">$${Math.round(netCash/1000).toLocaleString()}K</td>
+      <td style="color:${netTotal>0?'var(--green)':'var(--red)'}">$${Math.round(netTotal/1000).toLocaleString()}K</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// Init financial tab
+updateFinancials();
+</script>
+</body>
+</html>

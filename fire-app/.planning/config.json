@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "planner_model": "opus",
+  "checker_model": "sonnet",
+  "researcher_model": "sonnet",
+  "research_enabled": true,
+  "plan_checker_enabled": true,
+  "commit_docs": true,
+  "text_mode": false
+}

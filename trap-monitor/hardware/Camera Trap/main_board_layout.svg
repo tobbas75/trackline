@@ -1,0 +1,278 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" font-family="monospace" font-size="12">
+  <defs>
+    <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="500" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">AI Camera Trap — Main Board</text>
+  <text x="500" y="48" text-anchor="middle" font-size="13" fill="#666">90 x 70 mm (target), 4-layer FR4, Top View — Component Zones</text>
+
+  <!-- PCB outline (scaled: 90x70mm -> 810x630px) -->
+  <g transform="translate(95, 70)">
+    <rect x="0" y="0" width="810" height="630" rx="5" ry="5" fill="#1a4a1a" stroke="#0d3d0d" stroke-width="3"/>
+
+    <!-- Ground pour hint -->
+    <rect x="5" y="5" width="800" height="620" rx="3" ry="3" fill="none" stroke="#2a6a2a" stroke-width="0.5" stroke-dasharray="6,4"/>
+
+    <!-- M3 mounting holes -->
+    <circle cx="22" cy="22" r="9" fill="#333" stroke="#555" stroke-width="1"/>
+    <circle cx="22" cy="22" r="4.5" fill="#1a1a1a"/>
+    <circle cx="788" cy="22" r="9" fill="#333" stroke="#555" stroke-width="1"/>
+    <circle cx="788" cy="22" r="4.5" fill="#1a1a1a"/>
+    <circle cx="22" cy="608" r="9" fill="#333" stroke="#555" stroke-width="1"/>
+    <circle cx="22" cy="608" r="4.5" fill="#1a1a1a"/>
+    <circle cx="788" cy="608" r="9" fill="#333" stroke="#555" stroke-width="1"/>
+    <circle cx="788" cy="608" r="4.5" fill="#1a1a1a"/>
+
+    <!-- ====== ZONE: STM32N6 (center) ====== -->
+    <rect x="280" y="170" width="180" height="180" rx="6" fill="#2a2a4a" stroke="#6666ee" stroke-width="2.5"/>
+    <text x="370" y="210" text-anchor="middle" font-size="14" fill="#aaaaff" font-weight="bold">STM32N657</text>
+    <text x="370" y="230" text-anchor="middle" font-size="11" fill="#8888cc">VFBGA-264</text>
+    <text x="370" y="248" text-anchor="middle" font-size="10" fill="#6666aa">14x14mm BGA</text>
+    <text x="370" y="266" text-anchor="middle" font-size="10" fill="#6666aa">0.8mm pitch</text>
+    <text x="370" y="286" text-anchor="middle" font-size="9" fill="#555588">M55 @ 800MHz</text>
+    <text x="370" y="300" text-anchor="middle" font-size="9" fill="#555588">Neural-ART NPU</text>
+    <text x="370" y="318" text-anchor="middle" font-size="9" fill="#555588">ISP + JPEG</text>
+    <text x="370" y="336" text-anchor="middle" font-size="8" fill="#444466">165 I/O pins</text>
+
+    <!-- BGA fanout annotation -->
+    <rect x="290" y="355" width="160" height="18" rx="2" fill="#44446a" stroke="none"/>
+    <text x="370" y="367" text-anchor="middle" font-size="8" fill="#aaf">Via-in-pad / dog-bone on L2-L3</text>
+
+    <!-- ====== ZONE: IMX678 Sensor (top-left) ====== -->
+    <rect x="40" y="40" width="200" height="150" rx="5" fill="#3a2a3a" stroke="#cc66cc" stroke-width="2"/>
+    <text x="140" y="70" text-anchor="middle" font-size="13" fill="#eeccee" font-weight="bold">Sony IMX678</text>
+    <text x="140" y="88" text-anchor="middle" font-size="10" fill="#cc88cc">STARVIS 2, 8MP 4K</text>
+    <text x="140" y="104" text-anchor="middle" font-size="10" fill="#cc88cc">MIPI CSI-2 (2-lane)</text>
+    <text x="140" y="122" text-anchor="middle" font-size="9" fill="#aa66aa">AVDD 3.3V, DVDD 1.1V, DOVDD 1.8V</text>
+    <text x="140" y="138" text-anchor="middle" font-size="9" fill="#aa66aa">I2C1 via BSS138 (3.3↔1.8V)</text>
+    <text x="140" y="155" text-anchor="middle" font-size="8" fill="#884488">Separate analog/digital GND</text>
+    <text x="140" y="170" text-anchor="middle" font-size="8" fill="#884488">Open-drain XCLR + PWDN</text>
+
+    <!-- MIPI traces from sensor to MCU -->
+    <line x1="240" y1="85" x2="280" y2="200" stroke="#cc66cc" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="250" y="130" text-anchor="start" font-size="8" fill="#cc66cc" transform="rotate(55, 250, 130)">MIPI CSI-2</text>
+    <text x="250" y="145" text-anchor="start" font-size="7" fill="#aa44aa" transform="rotate(55, 250, 145)">100Ω diff, ±0.1mm</text>
+
+    <!-- BSS138 I2C level shifters near sensor -->
+    <rect x="55" y="195" width="70" height="35" rx="3" fill="#3a2a2a" stroke="#ff8888" stroke-width="1"/>
+    <text x="90" y="210" text-anchor="middle" font-size="8" fill="#ffcccc">2x BSS138</text>
+    <text x="90" y="222" text-anchor="middle" font-size="7" fill="#cc8888">I2C lvl shift</text>
+    <line x1="125" y1="212" x2="280" y2="250" stroke="#ff8888" stroke-width="0.8" stroke-dasharray="3,2"/>
+
+    <!-- SiT8008 oscillator near sensor -->
+    <rect x="160" y="195" width="65" height="28" rx="2" fill="#2a3a2a" stroke="#88cc88" stroke-width="1"/>
+    <text x="192" y="210" text-anchor="middle" font-size="8" fill="#bbddbb">SiT8008</text>
+    <text x="192" y="220" text-anchor="middle" font-size="7" fill="#88aa88">24MHz MCLK</text>
+
+    <!-- ====== ZONE: PSRAM (right of MCU) ====== -->
+    <rect x="500" y="180" width="140" height="90" rx="4" fill="#2a3a3a" stroke="#44cccc" stroke-width="2"/>
+    <text x="570" y="210" text-anchor="middle" font-size="12" fill="#88eeee" font-weight="bold">APS256XXN</text>
+    <text x="570" y="228" text-anchor="middle" font-size="10" fill="#66cccc">32MB PSRAM</text>
+    <text x="570" y="244" text-anchor="middle" font-size="9" fill="#44aaaa">xSPI (16-bit)</text>
+    <text x="570" y="258" text-anchor="middle" font-size="8" fill="#338888">50Ω SE, ±2mm match</text>
+
+    <!-- xSPI traces -->
+    <line x1="460" y1="250" x2="500" y2="230" stroke="#44cccc" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="475" y="225" text-anchor="middle" font-size="8" fill="#44cccc">xSPI1</text>
+
+    <!-- ====== ZONE: NOR Flash (below PSRAM) ====== -->
+    <rect x="500" y="290" width="140" height="70" rx="4" fill="#2a2a3a" stroke="#8888cc" stroke-width="1.5"/>
+    <text x="570" y="313" text-anchor="middle" font-size="10" fill="#aaaaee" font-weight="bold">NOR Flash x2</text>
+    <text x="570" y="328" text-anchor="middle" font-size="9" fill="#8888cc">W25Q128 (16MB)</text>
+    <text x="570" y="343" text-anchor="middle" font-size="9" fill="#8888cc">W25Q256 (32MB)</text>
+    <text x="570" y="355" text-anchor="middle" font-size="8" fill="#6666aa">xSPI2</text>
+
+    <line x1="460" y1="300" x2="500" y2="310" stroke="#8888cc" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+    <!-- ====== ZONE: SD Card (right edge) ====== -->
+    <rect x="670" y="180" width="120" height="90" rx="4" fill="#3a3a2a" stroke="#cccc44" stroke-width="2"/>
+    <text x="730" y="210" text-anchor="middle" font-size="11" fill="#eeee88" font-weight="bold">uSD Slot</text>
+    <text x="730" y="228" text-anchor="middle" font-size="10" fill="#cccc66">SDMMC2 4-bit</text>
+    <text x="730" y="244" text-anchor="middle" font-size="9" fill="#aaaa44">128/256 GB</text>
+    <text x="730" y="258" text-anchor="middle" font-size="8" fill="#888844">Card detect: PN12</text>
+
+    <line x1="460" y1="270" x2="670" y2="225" stroke="#cccc44" stroke-width="1" stroke-dasharray="4,3"/>
+
+    <!-- ====== ZONE: STM32U0 + PIRs (top-right) ====== -->
+    <rect x="520" y="40" width="140" height="110" rx="5" fill="#2a3a2a" stroke="#44cc44" stroke-width="2"/>
+    <text x="590" y="65" text-anchor="middle" font-size="12" fill="#88ff88" font-weight="bold">STM32U083</text>
+    <text x="590" y="82" text-anchor="middle" font-size="10" fill="#66cc66">Power Controller</text>
+    <text x="590" y="98" text-anchor="middle" font-size="9" fill="#44aa44">M0+ ultra-low-power</text>
+    <text x="590" y="112" text-anchor="middle" font-size="9" fill="#44aa44">Sleep/wake FSM</text>
+    <text x="590" y="128" text-anchor="middle" font-size="9" fill="#44aa44">SPI1 to N6</text>
+    <text x="590" y="142" text-anchor="middle" font-size="8" fill="#338833">LQFP-32</text>
+
+    <!-- PIR sensors -->
+    <rect x="690" y="45" width="90" height="45" rx="3" fill="#3a3a1a" stroke="#aaaa44" stroke-width="1.5"/>
+    <text x="735" y="63" text-anchor="middle" font-size="9" fill="#dddd88" font-weight="bold">PIR #1</text>
+    <text x="735" y="78" text-anchor="middle" font-size="8" fill="#aaaa44">EKMB1303</text>
+
+    <rect x="690" y="100" width="90" height="45" rx="3" fill="#3a3a1a" stroke="#aaaa44" stroke-width="1.5"/>
+    <text x="735" y="118" text-anchor="middle" font-size="9" fill="#dddd88" font-weight="bold">PIR #2</text>
+    <text x="735" y="133" text-anchor="middle" font-size="8" fill="#aaaa44">EKMB1303</text>
+
+    <line x1="660" y1="90" x2="690" y2="68" stroke="#aaaa44" stroke-width="1" stroke-dasharray="3,2"/>
+    <line x1="660" y1="100" x2="690" y2="120" stroke="#aaaa44" stroke-width="1" stroke-dasharray="3,2"/>
+
+    <!-- SPI link U0 to N6 -->
+    <line x1="520" y1="120" x2="460" y2="220" stroke="#44cc44" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="480" y="165" text-anchor="middle" font-size="8" fill="#44cc44">SPI1</text>
+
+    <!-- ====== ZONE: Power Regulators (bottom strip) ====== -->
+    <rect x="40" y="470" width="720" height="80" rx="5" fill="#3a1a1a" stroke="#cc4444" stroke-width="1.5"/>
+    <text x="400" y="490" text-anchor="middle" font-size="11" fill="#ffaaaa" font-weight="bold">POWER REGULATION ZONE</text>
+
+    <!-- Individual regulators -->
+    <rect x="55" y="500" width="100" height="38" rx="3" fill="#4a1a1a" stroke="#ff6666" stroke-width="1"/>
+    <text x="105" y="516" text-anchor="middle" font-size="9" fill="#ffaaaa" font-weight="bold">TPS62088</text>
+    <text x="105" y="530" text-anchor="middle" font-size="8" fill="#cc8888">0.81V/0.89V VDDCORE + 1.1V DVDD</text>
+
+    <rect x="170" y="500" width="100" height="38" rx="3" fill="#4a1a1a" stroke="#ff6666" stroke-width="1"/>
+    <text x="220" y="516" text-anchor="middle" font-size="9" fill="#ffaaaa" font-weight="bold">TPS7A02</text>
+    <text x="220" y="530" text-anchor="middle" font-size="8" fill="#cc8888">1.8V → sensor</text>
+
+    <rect x="285" y="500" width="100" height="38" rx="3" fill="#4a1a1a" stroke="#ff6666" stroke-width="1"/>
+    <text x="335" y="516" text-anchor="middle" font-size="9" fill="#ffaaaa" font-weight="bold">AP63300 3.3V</text>
+    <text x="335" y="530" text-anchor="middle" font-size="8" fill="#cc8888">3.3V → digital</text>
+
+    <rect x="400" y="500" width="100" height="38" rx="3" fill="#4a1a1a" stroke="#ff6666" stroke-width="1"/>
+    <text x="450" y="516" text-anchor="middle" font-size="9" fill="#ffaaaa" font-weight="bold">AP63300</text>
+    <text x="450" y="530" text-anchor="middle" font-size="8" fill="#cc8888">3.8V → modem</text>
+
+    <rect x="515" y="500" width="100" height="38" rx="3" fill="#4a1a1a" stroke="#ff6666" stroke-width="1"/>
+    <text x="565" y="516" text-anchor="middle" font-size="9" fill="#ffaaaa" font-weight="bold">AP63300</text>
+    <text x="565" y="530" text-anchor="middle" font-size="8" fill="#cc8888">5.0V → LEDs</text>
+
+    <!-- Battery divider -->
+    <rect x="635" y="500" width="110" height="38" rx="3" fill="#4a2a1a" stroke="#cc8844" stroke-width="1"/>
+    <text x="690" y="516" text-anchor="middle" font-size="9" fill="#eebb88" font-weight="bold">BATT sense</text>
+    <text x="690" y="530" text-anchor="middle" font-size="8" fill="#aa8866">1M/470k divider</text>
+
+    <!-- ====== ZONE: Modem Connector (bottom-left) ====== -->
+    <rect x="40" y="565" width="180" height="52" rx="4" fill="#555" stroke="#fff" stroke-width="2"/>
+    <text x="130" y="585" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">20-pin Modem Connector</text>
+    <text x="130" y="600" text-anchor="middle" font-size="9" fill="#ccc">DF12 / 2.54mm header</text>
+    <text x="130" y="612" text-anchor="middle" font-size="8" fill="#aaa">→ Daughter card plugs here</text>
+
+    <!-- UART trace to MCU -->
+    <line x1="130" y1="565" x2="320" y2="350" stroke="#4c4" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="200" y="440" text-anchor="middle" font-size="8" fill="#4c4">UART4 (PC10/PC11)</text>
+
+    <!-- ====== ZONE: GPS (bottom-center) ====== -->
+    <rect x="250" y="565" width="130" height="52" rx="4" fill="#2a2a3a" stroke="#44aaff" stroke-width="1.5"/>
+    <text x="315" y="585" text-anchor="middle" font-size="11" fill="#88ccff" font-weight="bold">MAX-M10S</text>
+    <text x="315" y="600" text-anchor="middle" font-size="9" fill="#66aacc">GPS (u-blox)</text>
+    <text x="315" y="612" text-anchor="middle" font-size="8" fill="#4488aa">Power-gated, USART3</text>
+
+    <!-- GPS u.FL -->
+    <circle cx="395" cy="590" r="12" fill="#444" stroke="#ffcc44" stroke-width="1.5"/>
+    <text x="395" y="594" text-anchor="middle" font-size="7" fill="#ffcc44">u.FL</text>
+    <text x="395" y="616" text-anchor="middle" font-size="7" fill="#cc9933">GPS ant</text>
+
+    <!-- ====== ZONE: ESP32-C3 (bottom-right) ====== -->
+    <rect x="430" y="565" width="150" height="52" rx="4" fill="#3a2a1a" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="505" y="585" text-anchor="middle" font-size="11" fill="#eebb88" font-weight="bold">ESP32-C3-MINI</text>
+    <text x="505" y="600" text-anchor="middle" font-size="9" fill="#ccaa66">WiFi + BLE</text>
+    <text x="505" y="612" text-anchor="middle" font-size="8" fill="#aa8844">Power-gated (Phase 2)</text>
+
+    <!-- ====== ZONE: Connectors (right edge) ====== -->
+    <!-- LED module connector -->
+    <rect x="670" y="300" width="115" height="40" rx="3" fill="#444" stroke="#ffaa44" stroke-width="1.5"/>
+    <text x="727" y="318" text-anchor="middle" font-size="9" fill="#ffcc88" font-weight="bold">JST GH 4-pin</text>
+    <text x="727" y="332" text-anchor="middle" font-size="8" fill="#cc9966">LED module</text>
+
+    <!-- Backpack connector -->
+    <rect x="670" y="360" width="115" height="40" rx="3" fill="#444" stroke="#88cc88" stroke-width="1.5"/>
+    <text x="727" y="378" text-anchor="middle" font-size="9" fill="#aaffaa" font-weight="bold">J_BP 8-pin</text>
+    <text x="727" y="392" text-anchor="middle" font-size="8" fill="#88cc88">Backpack pogo</text>
+
+    <!-- USB-C -->
+    <rect x="670" y="420" width="115" height="35" rx="3" fill="#444" stroke="#aaaaaa" stroke-width="1.5"/>
+    <text x="727" y="438" text-anchor="middle" font-size="9" fill="#ddd" font-weight="bold">USB-C</text>
+    <text x="727" y="450" text-anchor="middle" font-size="8" fill="#aaa">Debug / flash</text>
+
+    <!-- ====== ZONE: Misc (left side) ====== -->
+    <!-- Status LEDs -->
+    <rect x="40" y="270" width="80" height="55" rx="3" fill="#2a2a2a" stroke="#88cc88" stroke-width="1"/>
+    <circle cx="60" cy="288" r="5" fill="#44ff44" stroke="#2a2a2a" stroke-width="1"/>
+    <circle cx="80" cy="288" r="5" fill="#ffaa00" stroke="#2a2a2a" stroke-width="1"/>
+    <circle cx="100" cy="288" r="5" fill="#ff4444" stroke="#2a2a2a" stroke-width="1"/>
+    <text x="80" y="310" text-anchor="middle" font-size="8" fill="#aaa">Status LEDs</text>
+    <text x="80" y="320" text-anchor="middle" font-size="7" fill="#888">G / A / R</text>
+
+    <!-- LIS2DW12 accelerometer -->
+    <rect x="40" y="340" width="80" height="40" rx="3" fill="#2a3a3a" stroke="#66aaaa" stroke-width="1"/>
+    <text x="80" y="358" text-anchor="middle" font-size="9" fill="#88cccc" font-weight="bold">LIS2DW12</text>
+    <text x="80" y="372" text-anchor="middle" font-size="8" fill="#66aaaa">Accel (to U0)</text>
+
+    <!-- (removed) -->
+    <rect x="40" y="395" width="80" height="40" rx="3" fill="#2a2a3a" stroke="#8888cc" stroke-width="1"/>
+    <text x="80" y="413" text-anchor="middle" font-size="9" fill="#aaaaee" font-weight="bold">REMOVED</text>
+    <text x="80" y="427" text-anchor="middle" font-size="8" fill="#8888cc">(removed)</text>
+
+    <!-- TLP291 trigger -->
+    <rect x="150" y="395" width="90" height="40" rx="3" fill="#3a2a2a" stroke="#cc8888" stroke-width="1"/>
+    <text x="195" y="413" text-anchor="middle" font-size="9" fill="#ffaaaa" font-weight="bold">TLP291</text>
+    <text x="195" y="427" text-anchor="middle" font-size="8" fill="#cc8888">Trigger opto</text>
+
+    <!-- HSE Crystal -->
+    <rect x="260" y="395" width="75" height="35" rx="3" fill="#2a3a2a" stroke="#88cc88" stroke-width="1"/>
+    <text x="297" y="413" text-anchor="middle" font-size="9" fill="#bbddbb" font-weight="bold">25MHz</text>
+    <text x="297" y="425" text-anchor="middle" font-size="7" fill="#88aa88">HSE crystal</text>
+
+    <!-- SWD Debug headers -->
+    <rect x="350" y="395" width="80" height="35" rx="3" fill="#444" stroke="#aaa" stroke-width="1"/>
+    <text x="390" y="413" text-anchor="middle" font-size="8" fill="#ddd" font-weight="bold">SWD (N6)</text>
+    <text x="390" y="425" text-anchor="middle" font-size="7" fill="#aaa">Tag-Connect</text>
+
+    <rect x="440" y="395" width="65" height="35" rx="3" fill="#444" stroke="#aaa" stroke-width="1"/>
+    <text x="472" y="413" text-anchor="middle" font-size="8" fill="#ddd" font-weight="bold">SWD (U0)</text>
+    <text x="472" y="425" text-anchor="middle" font-size="7" fill="#aaa">4-pin</text>
+
+    <!-- Board dimensions -->
+    <line x1="0" y1="650" x2="810" y2="650" stroke="#888" stroke-width="0.5"/>
+    <line x1="0" y1="645" x2="0" y2="655" stroke="#888" stroke-width="0.5"/>
+    <line x1="810" y1="645" x2="810" y2="655" stroke="#888" stroke-width="0.5"/>
+    <text x="405" y="668" text-anchor="middle" font-size="11" fill="#888">90 mm</text>
+
+    <line x1="830" y1="0" x2="830" y2="630" stroke="#888" stroke-width="0.5"/>
+    <line x1="825" y1="0" x2="835" y2="0" stroke="#888" stroke-width="0.5"/>
+    <line x1="825" y1="630" x2="835" y2="630" stroke="#888" stroke-width="0.5"/>
+    <text x="855" y="320" text-anchor="middle" font-size="11" fill="#888" transform="rotate(90, 855, 320)">70 mm</text>
+
+    <!-- Edge labels -->
+    <text x="405" y="-10" text-anchor="middle" font-size="11" fill="#888">FRONT (sensor + PIR face enclosure window)</text>
+    <text x="405" y="645" text-anchor="middle" font-size="11" fill="#888">REAR (connectors face backpack)</text>
+
+    <!-- Layer stackup note -->
+    <rect x="520" y="395" width="135" height="55" rx="3" fill="#1a2a1a" stroke="#4a6a4a" stroke-width="1"/>
+    <text x="587" y="412" text-anchor="middle" font-size="9" fill="#8c8" font-weight="bold">4-LAYER STACKUP</text>
+    <text x="587" y="425" text-anchor="middle" font-size="8" fill="#6a6">L1: Signal + BGA</text>
+    <text x="587" y="436" text-anchor="middle" font-size="8" fill="#6a6">L2: GND plane</text>
+    <text x="587" y="447" text-anchor="middle" font-size="8" fill="#6a6">L3: Power planes</text>
+    <text x="587" y="458" text-anchor="middle" font-size="7" fill="#585">L4: Signal + connectors</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(95, 775)">
+    <text x="0" y="0" font-size="11" fill="#444" font-weight="bold">ZONE KEY:</text>
+    <rect x="110" y="-10" width="12" height="12" fill="#2a2a4a" stroke="#6666ee" stroke-width="1.5"/>
+    <text x="128" y="0" font-size="9" fill="#666">Main MCU</text>
+    <rect x="200" y="-10" width="12" height="12" fill="#3a2a3a" stroke="#cc66cc" stroke-width="1.5"/>
+    <text x="218" y="0" font-size="9" fill="#666">Image Sensor</text>
+    <rect x="305" y="-10" width="12" height="12" fill="#2a3a3a" stroke="#44cccc" stroke-width="1.5"/>
+    <text x="323" y="0" font-size="9" fill="#666">Memory</text>
+    <rect x="380" y="-10" width="12" height="12" fill="#2a3a2a" stroke="#44cc44" stroke-width="1.5"/>
+    <text x="398" y="0" font-size="9" fill="#666">Power MCU</text>
+    <rect x="475" y="-10" width="12" height="12" fill="#3a1a1a" stroke="#cc4444" stroke-width="1.5"/>
+    <text x="493" y="0" font-size="9" fill="#666">Power</text>
+    <rect x="540" y="-10" width="12" height="12" fill="#555" stroke="#fff" stroke-width="1.5"/>
+    <text x="558" y="0" font-size="9" fill="#666">Connectors</text>
+
+    <text x="0" y="22" font-size="9" fill="#888">Dashed lines show high-speed signal routes requiring controlled impedance or length matching.</text>
+    <text x="0" y="36" font-size="9" fill="#888">Component placement is indicative — final layout by PCB designer. Zone relationships and routing priorities are what matter.</text>
+  </g>
+</svg>

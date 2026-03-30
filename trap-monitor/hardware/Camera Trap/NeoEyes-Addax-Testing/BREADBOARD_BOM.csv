@@ -1,0 +1,25 @@
+Item,Qty,Description,Pitch,Connector Series,Mates With,Recommended Supplier,Supplier Part/SKU,Est AUD,Notes
+1,2,1.25mm 4-pin housing + crimp contacts,1.25mm,JST GH (GHR-04V-S),SWF-12504LT on NE301,RS Components,752-1731 (housing) + 752-1721 (contacts),~$5 ea,"UART debug (J26) + PIR sensor (J10). Buy 8x crimp contacts (SSHL-002T-P0.2). Alt: pre-crimped cables from Core Electronics or AliExpress"
+2,1,1.25mm 2-pin housing + crimp contacts,1.25mm,JST GH (GHR-02V-S),SWF-12502LT on NE301,RS Components,752-1734 (housing) + 752-1721 (contacts),~$4,"Alarm input (J2). Buy 2x crimp contacts"
+3,2,2.0mm 16-pin (2x8) female socket or pre-wired cable,2.0mm,Generic 2.0mm dual-row,203S-SMT-3C/B-2*8P(F) on NE301,Core Electronics,Search 2.0mm dupont female jumper wires,~$5 ea,"J12 expansion IO + J11 comms module. Fallback: 20x individual 2.0mm female jumper wires"
+4,1,2.0mm 12-pin (2x6) female socket or pre-wired cable,2.0mm,Generic 2.0mm dual-row,203-2S-Y-2*6P(F) on NE301,Core Electronics,Search 2.0mm dupont female jumper wires,~$5,"J15 module interface. Fallback: use individual 2.0mm jumper wires"
+5,1,Panasonic EKMB1303112K PIR sensor,,,,,RS Components,161-2236 (check exact variant),~$40,"Digital output 12m range 1uA. Alt: EKMB1301112K. Or HC-SR501 from Core Electronics ~$5 for bench testing"
+6,1,CP2102N USB-UART breakout module,,,,,Core Electronics,Search CP2102 USB UART 3.3V,~$12,"MUST be 3.3V logic. Much cheaper than RS FTDI cable ($44). SparkFun/Adafruit/DFRobot"
+7,1,BME280 I2C breakout board,,,,,Core Electronics,SparkFun SEN-15440 or Adafruit 2652,~$25,"3.3V I2C. Not stocked at RS/Mouser as breakout. Alt: SHT40 breakout ~$12"
+8,1,Full-size breadboard 830 tie-point,,,,,Core Electronics,Search breadboard 830,~$10,Adafruit 239 or equivalent. Also RS 835-2716
+9,1,Male-to-male jumper wire kit (20+ wires),,,,,Core Electronics,Search M-M jumper wires,~$6,2.54mm pitch 150-200mm
+10,1,Male-to-female jumper wire kit (20+ wires),,,,,Core Electronics,Search M-F jumper wires,~$6,2.54mm pitch 150-200mm
+11,10,10k ohm resistor 1/4W through-hole metal film,,,,,Core Electronics or RS,RS 199-7657 (Yageo MFR-25FTE52-10K),~$1,"For pull-up/pull-down. Or buy a resistor kit from Core Electronics ~$8"
+12,10,4.7k ohm resistor 1/4W through-hole metal film,,,,,Core Electronics or RS,,~$1,I2C pull-ups (backup if board pull-ups insufficient)
+13,10,330 ohm resistor 1/4W through-hole metal film,,,,,Core Electronics or RS,,~$1,LED current limiting
+14,10,100nF ceramic capacitor through-hole 50V,,,,,RS Components,538-1310 (KEMET C320C104K5R5TA),~$1,Bypass/decoupling
+15,5,Red LED 3mm through-hole,,,,,Core Electronics or RS,RS 228-5916 (Kingbright L-934ID),~$2,Status indicators
+16,3,Tactile push button 6mm through-hole momentary,,,,,RS Components,686-6847 (Omron B3F-1000),~$2,Manual trigger/reset
+17,1,4xAA battery holder with wire leads,,,,,Core Electronics,Search 4xAA battery holder,~$4,6V supply to NE301. 150mm+ leads. Also RS 185-4632
+18,1,MicroSD card 32GB Class 10 / U1,,,,,Officeworks or Amazon AU,,~$10,FAT32 format. Cheapest from any retailer
+,,,,,,,,,
+,,ORDERING SUMMARY,,,,,,
+,,RS Components (connectors + PIR + passives),,,,,,~$60,"Items 1 2 5 14 16"
+,,Core Electronics (breakouts + prototyping),,,,,,~$80,"Items 3 4 6 7 8 9 10 11 12 13 15 17"
+,,MicroSD (anywhere),,,,,,~$10,Item 18
+,,ESTIMATED TOTAL,,,,,,~$150 AUD,

@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Frontend: Next.js Dev",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Backend: Supabase Local",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/backend",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["supabase", "start"],
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Firmware: Serial Monitor",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/tools/serial-monitor.js",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack: Frontend + Backend",
+      "configurations": ["Frontend: Next.js Dev", "Backend: Supabase Local"]
+    }
+  ]
+}

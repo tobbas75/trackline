@@ -1,0 +1,240 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" font-family="'Inter',system-ui,sans-serif">
+  <defs>
+    <filter id="sh" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="1100" fill="#0f172a"/>
+  <text x="800" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#f1f5f9">Camera Trap -- System Block Diagram</text>
+  <text x="800" y="56" text-anchor="middle" font-size="12" fill="#94a3b8">V1.2 Verified Design -- March 2026</text>
+
+  <!-- ========== POWER RAILS (horizontal bars at bottom) ========== -->
+  <g transform="translate(40, 960)">
+    <text x="0" y="-8" font-size="11" fill="#fbbf24" font-weight="700">POWER CASCADE (Battery 6S2P NiMH 6.0-8.4V)</text>
+    <!-- Battery -->
+    <rect x="0" y="5" width="120" height="28" rx="4" fill="#78350f" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="60" y="24" text-anchor="middle" font-size="9" fill="#fbbf24" font-weight="600">BATTERY 6S2P</text>
+    <text x="60" y="48" text-anchor="middle" font-size="8" fill="#94a3b8">7.2V nom | 4000mAh</text>
+    <!-- SS34 -->
+    <rect x="135" y="8" width="55" height="22" rx="3" fill="#422006" stroke="#fbbf24" stroke-width="1"/>
+    <text x="162" y="23" text-anchor="middle" font-size="7" fill="#fbbf24">SS34 x2</text>
+    <!-- Arrow -->
+    <line x1="195" y1="19" x2="215" y2="19" stroke="#fbbf24" stroke-width="2"/>
+    <!-- First stage bucks -->
+    <rect x="220" y="0" width="150" height="34" rx="4" fill="#422006" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="295" y="15" text-anchor="middle" font-size="9" fill="#fbbf24" font-weight="600">AP63300 U11 -> 3.3V</text>
+    <text x="295" y="28" text-anchor="middle" font-size="7" fill="#d97706">ALWAYS ON | Iq=22uA</text>
+
+    <rect x="390" y="0" width="150" height="34" rx="4" fill="#422006" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="465" y="15" text-anchor="middle" font-size="9" fill="#fbbf24" font-weight="600">AP63300 U13 -> 3.8V</text>
+    <text x="465" y="28" text-anchor="middle" font-size="7" fill="#d97706">Modem VBAT | PB7 gated</text>
+
+    <rect x="560" y="0" width="150" height="34" rx="4" fill="#422006" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="635" y="15" text-anchor="middle" font-size="9" fill="#fbbf24" font-weight="600">AP63300 U15 -> 5.0V</text>
+    <text x="635" y="28" text-anchor="middle" font-size="7" fill="#d97706">LED VLED | PB6 gated</text>
+
+    <!-- Second stage -->
+    <line x1="295" y1="34" x2="295" y2="50" stroke="#fbbf24" stroke-width="1"/>
+    <rect x="220" y="50" width="100" height="28" rx="3" fill="#1c1917" stroke="#fbbf24" stroke-width="1"/>
+    <text x="270" y="68" text-anchor="middle" font-size="8" fill="#fbbf24">TPS62088 U10a</text>
+    <text x="270" y="90" text-anchor="middle" font-size="7" fill="#d97706">0.81V/0.89V VDDCORE</text>
+
+    <rect x="330" y="50" width="100" height="28" rx="3" fill="#1c1917" stroke="#fbbf24" stroke-width="1"/>
+    <text x="380" y="68" text-anchor="middle" font-size="8" fill="#fbbf24">TPS62088 U10b</text>
+    <text x="380" y="90" text-anchor="middle" font-size="7" fill="#d97706">1.1V IMX678 DVDD</text>
+
+    <rect x="440" y="50" width="100" height="28" rx="3" fill="#1c1917" stroke="#fbbf24" stroke-width="1"/>
+    <text x="490" y="68" text-anchor="middle" font-size="8" fill="#fbbf24">TPS7A02 U12</text>
+    <text x="490" y="90" text-anchor="middle" font-size="7" fill="#d97706">1.8V DOVDD+PSRAM</text>
+
+    <rect x="550" y="50" width="100" height="28" rx="3" fill="#1c1917" stroke="#fbbf24" stroke-width="1"/>
+    <text x="600" y="68" text-anchor="middle" font-size="8" fill="#fbbf24">Ferrite + LC</text>
+    <text x="600" y="90" text-anchor="middle" font-size="7" fill="#d97706">3.3V filtered AVDD</text>
+
+    <!-- Sleep budget -->
+    <rect x="750" y="0" width="220" height="80" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1"/>
+    <text x="860" y="18" text-anchor="middle" font-size="10" fill="#fbbf24" font-weight="600">SLEEP BUDGET: ~50 uA</text>
+    <text x="860" y="34" font-size="8" fill="#94a3b8" text-anchor="middle">AP63300 U11 Iq: 22uA (dominant)</text>
+    <text x="860" y="48" font-size="8" fill="#94a3b8" text-anchor="middle">STM32N6 VBAT: 8uA | U0: 2uA</text>
+    <text x="860" y="62" font-size="8" fill="#94a3b8" text-anchor="middle">PIR: 2uA | Regs: 9uA | Div: 3uA</text>
+    <text x="860" y="76" font-size="8" fill="#4ade80" text-anchor="middle">Battery life: ~107 days (6S2P 4000mAh)</text>
+  </g>
+
+  <!-- ========== PROCESSING (blue) ========== -->
+  <!-- STM32N6 -->
+  <rect x="500" y="180" width="280" height="200" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" filter="url(#sh)"/>
+  <text x="640" y="205" text-anchor="middle" font-size="14" fill="#60a5fa" font-weight="700">STM32N657X0H3Q</text>
+  <text x="640" y="222" text-anchor="middle" font-size="10" fill="#93c5fd">Cortex-M55 @ 800MHz | VFBGA-264</text>
+  <text x="640" y="238" text-anchor="middle" font-size="10" fill="#93c5fd">Neural-ART NPU 600 GOPS INT8</text>
+  <text x="640" y="254" text-anchor="middle" font-size="10" fill="#93c5fd">4.2MB SRAM | HW ISP + JPEG + H.264</text>
+  <text x="640" y="270" text-anchor="middle" font-size="10" fill="#93c5fd">MIPI CSI-2 2-lane D-PHY</text>
+  <text x="640" y="290" text-anchor="middle" font-size="9" fill="#7dd3fc">XSPI1 (HexaSPI x16) | XSPI2 (Quad SPI)</text>
+  <text x="640" y="306" text-anchor="middle" font-size="9" fill="#7dd3fc">SDMMC2 | SPI1 | I2C1 | USART3</text>
+  <text x="640" y="326" text-anchor="middle" font-size="8" fill="#60a5fa">VDDCORE: 0.81V/0.89V (PF4) | VDD: 3.3V</text>
+  <text x="640" y="342" text-anchor="middle" font-size="8" fill="#60a5fa">VDDIO_XSPI1: 1.8V | VDDIO4: 3.3V</text>
+
+  <!-- STM32U0 -->
+  <rect x="140" y="400" width="220" height="160" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" filter="url(#sh)"/>
+  <text x="250" y="425" text-anchor="middle" font-size="13" fill="#60a5fa" font-weight="700">STM32U083KCU6</text>
+  <text x="250" y="442" text-anchor="middle" font-size="10" fill="#93c5fd">Cortex-M0+ | UFQFPN-32</text>
+  <text x="250" y="458" text-anchor="middle" font-size="10" fill="#93c5fd">Power controller | ~2uA standby</text>
+  <text x="250" y="478" text-anchor="middle" font-size="9" fill="#7dd3fc">PIR aggregation (PA0, PA1)</text>
+  <text x="250" y="494" text-anchor="middle" font-size="9" fill="#7dd3fc">Battery ADC (PA1 via divider)</text>
+  <text x="250" y="510" text-anchor="middle" font-size="9" fill="#7dd3fc">I2C1: LIS2DW12 accelerometer</text>
+  <text x="250" y="526" text-anchor="middle" font-size="9" fill="#7dd3fc">SPI1 to N6 | Wake (PB0)</text>
+  <text x="250" y="542" text-anchor="middle" font-size="8" fill="#60a5fa">VDD: 3.3V | RTC (LSI or 32kHz xtal)</text>
+
+  <!-- ESP32-C3 -->
+  <rect x="140" y="200" width="200" height="130" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" filter="url(#sh)"/>
+  <text x="240" y="225" text-anchor="middle" font-size="13" fill="#60a5fa" font-weight="700">ESP32-C3-MINI-1U</text>
+  <text x="240" y="242" text-anchor="middle" font-size="10" fill="#93c5fd">RISC-V 160MHz | WiFi + BLE 5</text>
+  <text x="240" y="258" text-anchor="middle" font-size="10" fill="#93c5fd">SPI slave to N6 | Power-gated</text>
+  <text x="240" y="278" text-anchor="middle" font-size="9" fill="#7dd3fc">WiFi AP: config + image offload</text>
+  <text x="240" y="294" text-anchor="middle" font-size="9" fill="#7dd3fc">BLE: QR registration flow</text>
+  <text x="240" y="310" text-anchor="middle" font-size="8" fill="#60a5fa">3.3V via SI2301 P-FET (PG7)</text>
+
+  <!-- Inter-MCU connections -->
+  <line x1="360" y1="480" x2="500" y2="340" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="410" y="400" font-size="8" fill="#60a5fa" transform="rotate(-30, 410, 400)">SPI1 + Wake</text>
+  <line x1="340" y1="270" x2="500" y2="270" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="420" y="262" font-size="8" fill="#60a5fa">SPI2 slave</text>
+
+  <!-- ========== IMAGING (purple) ========== -->
+  <rect x="500" y="80" width="280" height="80" rx="8" fill="#2e1065" stroke="#a78bfa" stroke-width="2" filter="url(#sh)"/>
+  <text x="640" y="105" text-anchor="middle" font-size="13" fill="#a78bfa" font-weight="700">Sony IMX678 STARVIS 2</text>
+  <text x="640" y="122" text-anchor="middle" font-size="10" fill="#c4b5fd">8MP 4K (3840x2160) | MIPI CSI-2 2-lane</text>
+  <text x="640" y="138" text-anchor="middle" font-size="9" fill="#c4b5fd">AVDD=3.3V | DVDD=1.1V | DOVDD=1.8V | I2C 0x1A</text>
+  <text x="640" y="152" text-anchor="middle" font-size="8" fill="#8b5cf6">SiT8008 24MHz MCLK | BSS138 I2C level shift</text>
+  <!-- CSI-2 connection -->
+  <line x1="640" y1="160" x2="640" y2="180" stroke="#a78bfa" stroke-width="2"/>
+  <text x="660" y="174" font-size="8" fill="#a78bfa">CSI-2 2L</text>
+
+  <!-- ========== MEMORY (cyan) ========== -->
+  <rect x="870" y="180" width="240" height="90" rx="8" fill="#083344" stroke="#22d3ee" stroke-width="2" filter="url(#sh)"/>
+  <text x="990" y="205" text-anchor="middle" font-size="13" fill="#22d3ee" font-weight="700">APS256XXN-OB9-BG</text>
+  <text x="990" y="222" text-anchor="middle" font-size="10" fill="#67e8f9">32MB PSRAM | HexaSPI x16 DDR 250MHz</text>
+  <text x="990" y="238" text-anchor="middle" font-size="10" fill="#67e8f9">1.8V (VDDIO_XSPI1 domain)</text>
+  <text x="990" y="255" text-anchor="middle" font-size="8" fill="#22d3ee">Frame buffer: 10x 4K burst (~25MB)</text>
+  <!-- XSPI1 bus -->
+  <line x1="780" y1="225" x2="870" y2="225" stroke="#22d3ee" stroke-width="2.5"/>
+  <text x="825" y="218" text-anchor="middle" font-size="8" fill="#22d3ee">XSPI1 x16</text>
+
+  <!-- NOR Flash -->
+  <rect x="870" y="290" width="240" height="75" rx="8" fill="#083344" stroke="#22d3ee" stroke-width="2" filter="url(#sh)"/>
+  <text x="990" y="312" text-anchor="middle" font-size="11" fill="#22d3ee" font-weight="600">NOR Flash (XSPI2)</text>
+  <text x="990" y="328" text-anchor="middle" font-size="9" fill="#67e8f9">CS1: W25Q128JV 16MB (firmware + AI models)</text>
+  <text x="990" y="344" text-anchor="middle" font-size="9" fill="#67e8f9">CS2: W25Q256JVEIQ 32MB WSON-8 (metadata/log)</text>
+  <text x="990" y="358" text-anchor="middle" font-size="8" fill="#22d3ee">Quad SPI 133MHz | XIP capable</text>
+  <line x1="780" y1="310" x2="870" y2="328" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="825" y="315" text-anchor="middle" font-size="8" fill="#22d3ee">XSPI2</text>
+
+  <!-- SD Card -->
+  <rect x="870" y="385" width="240" height="50" rx="8" fill="#083344" stroke="#22d3ee" stroke-width="2" filter="url(#sh)"/>
+  <text x="990" y="405" text-anchor="middle" font-size="11" fill="#22d3ee" font-weight="600">microSD (Molex 5031821852)</text>
+  <text x="990" y="422" text-anchor="middle" font-size="9" fill="#67e8f9">SDMMC2 4-bit | 128/256GB | Push-push</text>
+  <line x1="780" y1="360" x2="870" y2="410" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="825" y="378" text-anchor="middle" font-size="8" fill="#22d3ee">SDMMC2</text>
+
+  <!-- ========== COMMS (green) ========== -->
+  <!-- Modem -->
+  <rect x="870" y="480" width="240" height="120" rx="8" fill="#052e16" stroke="#4ade80" stroke-width="2" filter="url(#sh)"/>
+  <text x="990" y="505" text-anchor="middle" font-size="13" fill="#4ade80" font-weight="700">Quectel EG800Q-EU</text>
+  <text x="990" y="520" text-anchor="middle" font-size="9" fill="#86efac">LTE CAT-1bis | Band 28 (700MHz rural)</text>
+  <text x="990" y="536" text-anchor="middle" font-size="9" fill="#86efac">SMS + HTTP/MQTT data | RCM certified</text>
+  <text x="990" y="552" text-anchor="middle" font-size="9" fill="#86efac">UART 115200 via 4x BSS138 (3.3V-1.8V)</text>
+  <text x="990" y="568" text-anchor="middle" font-size="8" fill="#4ade80">VBAT: 3.8V (AP63300 U13) | Nano-SIM</text>
+  <text x="990" y="584" text-anchor="middle" font-size="8" fill="#4ade80">20-pin daughter card | Shared with Trap Monitor</text>
+  <line x1="780" y1="350" x2="870" y2="520" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="810" y="440" font-size="8" fill="#4ade80">USART3</text>
+
+  <!-- GPS -->
+  <rect x="870" y="620" width="240" height="90" rx="8" fill="#052e16" stroke="#4ade80" stroke-width="2" filter="url(#sh)"/>
+  <text x="990" y="645" text-anchor="middle" font-size="13" fill="#4ade80" font-weight="700">u-blox MAX-M10S</text>
+  <text x="990" y="662" text-anchor="middle" font-size="9" fill="#86efac">GNSS (GPS+Galileo+BeiDou+QZSS)</text>
+  <text x="990" y="678" text-anchor="middle" font-size="9" fill="#86efac">NMEA via USART | 24s cold / 1s hot start</text>
+  <text x="990" y="694" text-anchor="middle" font-size="8" fill="#4ade80">Power-gated: SI2301 P-FET + BSS138 inverter</text>
+  <text x="990" y="705" text-anchor="middle" font-size="8" fill="#4ade80">V_BCKP: 0.47F supercap for hot start</text>
+
+  <!-- Antennas -->
+  <rect x="1180" y="490" width="130" height="30" rx="4" fill="#052e16" stroke="#4ade80" stroke-width="1"/>
+  <text x="1245" y="510" text-anchor="middle" font-size="9" fill="#4ade80">LTE Antenna (SMA)</text>
+  <line x1="1110" y1="510" x2="1180" y2="505" stroke="#4ade80" stroke-width="1"/>
+
+  <rect x="1180" y="630" width="130" height="30" rx="4" fill="#052e16" stroke="#4ade80" stroke-width="1"/>
+  <text x="1245" y="650" text-anchor="middle" font-size="9" fill="#4ade80">GNSS Patch (SMA)</text>
+  <line x1="1110" y1="660" x2="1180" y2="645" stroke="#4ade80" stroke-width="1"/>
+
+  <rect x="40" y="160" width="80" height="30" rx="4" fill="#052e16" stroke="#4ade80" stroke-width="1"/>
+  <text x="80" y="180" text-anchor="middle" font-size="9" fill="#4ade80">WiFi/BLE (uFL)</text>
+  <line x1="120" y1="175" x2="140" y2="240" stroke="#4ade80" stroke-width="1"/>
+
+  <!-- ========== SENSORS (pink) ========== -->
+  <!-- PIR -->
+  <rect x="40" y="600" width="200" height="75" rx="8" fill="#4a044e" stroke="#f472b6" stroke-width="2" filter="url(#sh)"/>
+  <text x="140" y="622" text-anchor="middle" font-size="12" fill="#f472b6" font-weight="700">2x Panasonic EKMB1303112K</text>
+  <text x="140" y="638" text-anchor="middle" font-size="9" fill="#f9a8d4">PIR 12m | 1uA each | Active HIGH</text>
+  <text x="140" y="654" text-anchor="middle" font-size="9" fill="#f9a8d4">47k pull-down | 30s warm-up blanking</text>
+  <text x="140" y="668" text-anchor="middle" font-size="8" fill="#f472b6">-> U0 PA0, PA1 (EXTI wake)</text>
+  <line x1="240" y1="640" x2="250" y2="530" stroke="#f472b6" stroke-width="1.5" marker-end="url(#callout-dot)"/>
+
+  <!-- Accelerometer -->
+  <rect x="40" y="700" width="200" height="60" rx="8" fill="#4a044e" stroke="#f472b6" stroke-width="2" filter="url(#sh)"/>
+  <text x="140" y="722" text-anchor="middle" font-size="12" fill="#f472b6" font-weight="700">LIS2DW12 Accelerometer</text>
+  <text x="140" y="738" text-anchor="middle" font-size="9" fill="#f9a8d4">Anti-theft | 0.5uA sleep-to-wake | I2C 0x19</text>
+  <text x="140" y="752" text-anchor="middle" font-size="8" fill="#f472b6">-> U0 I2C1 (PA8/PA9) | INT1 -> U0 PA2</text>
+  <line x1="240" y1="730" x2="250" y2="550" stroke="#f472b6" stroke-width="1" marker-end="url(#callout-dot)"/>
+
+  <!-- ========== IR ILLUMINATION (amber) ========== -->
+  <rect x="500" y="440" width="280" height="100" rx="8" fill="#422006" stroke="#fbbf24" stroke-width="2" filter="url(#sh)"/>
+  <text x="640" y="465" text-anchor="middle" font-size="13" fill="#fbbf24" font-weight="700">IR LED MODULE (daughter board)</text>
+  <text x="640" y="482" text-anchor="middle" font-size="10" fill="#fcd34d">8x SFH 4725AS A01 (PARALLEL) | 940nm</text>
+  <text x="640" y="498" text-anchor="middle" font-size="10" fill="#fcd34d">AL8861Y SOT89-5 | 1.5A max | Strobed 30ms</text>
+  <text x="640" y="514" text-anchor="middle" font-size="9" fill="#fcd34d">VLED: 5.0V | STROBE: TIM1 via VSET pin</text>
+  <text x="640" y="530" text-anchor="middle" font-size="8" fill="#fbbf24">JST GH 4-pin (VLED, STROBE, ID, GND)</text>
+  <line x1="640" y1="380" x2="640" y2="440" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="660" y="414" font-size="8" fill="#fbbf24">TIM1 STROBE</text>
+
+  <!-- ========== TRIGGER I/O (grey) ========== -->
+  <rect x="500" y="560" width="280" height="75" rx="8" fill="#1e293b" stroke="#94a3b8" stroke-width="2" filter="url(#sh)"/>
+  <text x="640" y="582" text-anchor="middle" font-size="12" fill="#94a3b8" font-weight="700">TRIGGER I/O</text>
+  <text x="640" y="598" text-anchor="middle" font-size="9" fill="#cbd5e1">OUT: TLP291 opto-coupler (3.75kV isolation)</text>
+  <text x="640" y="614" text-anchor="middle" font-size="9" fill="#cbd5e1">IN: External contact -> U0 PA3 (EXTI) + TVS</text>
+  <text x="640" y="628" text-anchor="middle" font-size="8" fill="#94a3b8">Routed via Field Station backpack J_BP pins 3-4</text>
+
+  <!-- ========== PROTECTION (grey) ========== -->
+  <rect x="1180" y="540" width="130" height="70" rx="6" fill="#1e293b" stroke="#94a3b8" stroke-width="1"/>
+  <text x="1245" y="560" text-anchor="middle" font-size="9" fill="#94a3b8" font-weight="600">ESD PROTECTION</text>
+  <text x="1245" y="576" text-anchor="middle" font-size="8" fill="#cbd5e1">TPD3E001: SIM</text>
+  <text x="1245" y="590" text-anchor="middle" font-size="8" fill="#cbd5e1">USBLC6-2: USB</text>
+  <text x="1245" y="604" text-anchor="middle" font-size="8" fill="#cbd5e1">TVS: Trigger input</text>
+
+  <!-- ========== CONNECTORS (at edges) ========== -->
+  <rect x="1180" y="100" width="130" height="30" rx="4" fill="#1e293b" stroke="#94a3b8" stroke-width="1"/>
+  <text x="1245" y="120" text-anchor="middle" font-size="9" fill="#94a3b8">USB-C (J_USB)</text>
+
+  <rect x="1180" y="150" width="130" height="30" rx="4" fill="#1e293b" stroke="#94a3b8" stroke-width="1"/>
+  <text x="1245" y="170" text-anchor="middle" font-size="9" fill="#94a3b8">J_BP 8-pin pogo</text>
+
+  <!-- ========== LEGEND ========== -->
+  <g transform="translate(1300, 750)">
+    <rect x="0" y="0" width="250" height="180" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="125" y="22" text-anchor="middle" font-size="11" fill="#f1f5f9" font-weight="700">LEGEND</text>
+    <rect x="15" y="35" width="14" height="14" rx="2" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="40" y="47" font-size="9" fill="#94a3b8">Processing (MCU)</text>
+    <rect x="15" y="58" width="14" height="14" rx="2" fill="#2e1065" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="40" y="70" font-size="9" fill="#94a3b8">Imaging</text>
+    <rect x="15" y="81" width="14" height="14" rx="2" fill="#083344" stroke="#22d3ee" stroke-width="1.5"/>
+    <text x="40" y="93" font-size="9" fill="#94a3b8">Memory / Storage</text>
+    <rect x="15" y="104" width="14" height="14" rx="2" fill="#052e16" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="40" y="116" font-size="9" fill="#94a3b8">Communications</text>
+    <rect x="15" y="127" width="14" height="14" rx="2" fill="#422006" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="40" y="139" font-size="9" fill="#94a3b8">Power / IR Illumination</text>
+    <rect x="15" y="150" width="14" height="14" rx="2" fill="#4a044e" stroke="#f472b6" stroke-width="1.5"/>
+    <text x="40" y="162" font-size="9" fill="#94a3b8">Sensors</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="800" y="1088" text-anchor="middle" font-size="10" fill="#475569">V1.2 -- All specs verified against datasheets, DK schematics, and distributor listings</text>
+</svg>

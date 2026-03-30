@@ -1,0 +1,273 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" font-family="monospace" font-size="12">
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">LED Module Daughter Board — Standard 940nm</text>
+  <text x="400" y="50" text-anchor="middle" font-size="13" fill="#666">30 x 40 mm, 2-layer FR4, Top View</text>
+
+  <!-- ============ TOP VIEW ============ -->
+  <text x="400" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#444">TOP VIEW (component side)</text>
+
+  <!-- PCB outline - scaled 10x (30x40mm -> 300x400px) -->
+  <g transform="translate(250, 100)">
+    <!-- Board outline -->
+    <rect x="0" y="0" width="300" height="400" rx="3" ry="3" fill="#1a5c1a" stroke="#0d3d0d" stroke-width="2"/>
+
+    <!-- Copper ground pour hint -->
+    <rect x="5" y="5" width="290" height="390" rx="2" ry="2" fill="none" stroke="#2a7a2a" stroke-width="0.5" stroke-dasharray="4,4"/>
+
+    <!-- M2 mounting holes -->
+    <circle cx="20" cy="20" r="8" fill="#333" stroke="#555" stroke-width="1"/>
+    <circle cx="20" cy="20" r="4" fill="#1a1a1a"/>
+    <text x="20" y="42" text-anchor="middle" font-size="8" fill="#aaffaa">M2</text>
+
+    <circle cx="280" cy="20" r="8" fill="#333" stroke="#555" stroke-width="1"/>
+    <circle cx="280" cy="20" r="4" fill="#1a1a1a"/>
+    <text x="280" y="42" text-anchor="middle" font-size="8" fill="#aaffaa">M2</text>
+
+    <!-- FRONT EDGE label -->
+    <text x="150" y="-8" text-anchor="middle" font-size="11" fill="#c44" font-weight="bold">FRONT EDGE (faces IR window)</text>
+    <line x1="30" y1="-2" x2="100" y2="-2" stroke="#c44" stroke-width="1" marker-end="url(#arrowR)"/>
+    <line x1="270" y1="-2" x2="200" y2="-2" stroke="#c44" stroke-width="1" marker-end="url(#arrowR)"/>
+
+    <!-- === 8x LEDs in 2 rows of 4 === -->
+    <!-- Row 1 (front) -->
+    <rect x="22" y="55" width="52" height="52" rx="2" fill="#2a2a3a" stroke="#8888ff" stroke-width="1"/>
+    <text x="48" y="85" text-anchor="middle" font-size="9" fill="#ccccff">SFH</text>
+    <text x="48" y="95" text-anchor="middle" font-size="9" fill="#ccccff">4725AS</text>
+    <text x="48" y="115" text-anchor="middle" font-size="8" fill="#888">D1</text>
+
+    <rect x="82" y="55" width="52" height="52" rx="2" fill="#2a2a3a" stroke="#8888ff" stroke-width="1"/>
+    <text x="108" y="85" text-anchor="middle" font-size="9" fill="#ccccff">SFH</text>
+    <text x="108" y="95" text-anchor="middle" font-size="9" fill="#ccccff">4725AS</text>
+    <text x="108" y="115" text-anchor="middle" font-size="8" fill="#888">D2</text>
+
+    <rect x="162" y="55" width="52" height="52" rx="2" fill="#2a2a3a" stroke="#8888ff" stroke-width="1"/>
+    <text x="188" y="85" text-anchor="middle" font-size="9" fill="#ccccff">SFH</text>
+    <text x="188" y="95" text-anchor="middle" font-size="9" fill="#ccccff">4725AS</text>
+    <text x="188" y="115" text-anchor="middle" font-size="8" fill="#888">D3</text>
+
+    <rect x="222" y="55" width="52" height="52" rx="2" fill="#2a2a3a" stroke="#8888ff" stroke-width="1"/>
+    <text x="248" y="85" text-anchor="middle" font-size="9" fill="#ccccff">SFH</text>
+    <text x="248" y="95" text-anchor="middle" font-size="9" fill="#ccccff">4725AS</text>
+    <text x="248" y="115" text-anchor="middle" font-size="8" fill="#888">D4</text>
+
+    <!-- Row 2 (behind row 1) -->
+    <rect x="22" y="115" width="52" height="52" rx="2" fill="#2a2a3a" stroke="#8888ff" stroke-width="1"/>
+    <text x="48" y="145" text-anchor="middle" font-size="9" fill="#ccccff">SFH</text>
+    <text x="48" y="155" text-anchor="middle" font-size="9" fill="#ccccff">4725AS</text>
+    <text x="48" y="175" text-anchor="middle" font-size="8" fill="#888">D5</text>
+
+    <rect x="82" y="115" width="52" height="52" rx="2" fill="#2a2a3a" stroke="#8888ff" stroke-width="1"/>
+    <text x="108" y="145" text-anchor="middle" font-size="9" fill="#ccccff">SFH</text>
+    <text x="108" y="155" text-anchor="middle" font-size="9" fill="#ccccff">4725AS</text>
+    <text x="108" y="175" text-anchor="middle" font-size="8" fill="#888">D6</text>
+
+    <rect x="162" y="115" width="52" height="52" rx="2" fill="#2a2a3a" stroke="#8888ff" stroke-width="1"/>
+    <text x="188" y="145" text-anchor="middle" font-size="9" fill="#ccccff">SFH</text>
+    <text x="188" y="155" text-anchor="middle" font-size="9" fill="#ccccff">4725AS</text>
+    <text x="188" y="175" text-anchor="middle" font-size="8" fill="#888">D7</text>
+
+    <rect x="222" y="115" width="52" height="52" rx="2" fill="#2a2a3a" stroke="#8888ff" stroke-width="1"/>
+    <text x="248" y="145" text-anchor="middle" font-size="9" fill="#ccccff">SFH</text>
+    <text x="248" y="155" text-anchor="middle" font-size="9" fill="#ccccff">4725AS</text>
+    <text x="248" y="175" text-anchor="middle" font-size="8" fill="#888">D8</text>
+
+    <!-- LED array label -->
+    <rect x="15" y="48" width="270" height="126" rx="4" fill="none" stroke="#ffaa44" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="150" y="195" text-anchor="middle" font-size="10" fill="#ffaa44">8x 940nm LEDs (2 rows x 4)</text>
+
+    <!-- === AL8861 LED Driver === -->
+    <rect x="60" y="225" width="80" height="50" rx="3" fill="#3a2a2a" stroke="#ff8888" stroke-width="1.5"/>
+    <text x="100" y="248" text-anchor="middle" font-size="11" fill="#ffcccc" font-weight="bold">AL8861</text>
+    <text x="100" y="262" text-anchor="middle" font-size="9" fill="#cc8888">LED Driver</text>
+    <text x="100" y="285" text-anchor="middle" font-size="8" fill="#888">U1</text>
+
+    <!-- Pin labels for AL8861 -->
+    <text x="52" y="238" text-anchor="end" font-size="8" fill="#aaa">VIN</text>
+    <line x1="54" y1="235" x2="60" y2="235" stroke="#aaa" stroke-width="0.5"/>
+    <text x="52" y="253" text-anchor="end" font-size="8" fill="#aaa">EN</text>
+    <line x1="54" y1="250" x2="60" y2="250" stroke="#aaa" stroke-width="0.5"/>
+    <text x="52" y="268" text-anchor="end" font-size="8" fill="#aaa">GND</text>
+    <line x1="54" y1="265" x2="60" y2="265" stroke="#aaa" stroke-width="0.5"/>
+    <text x="148" y="248" text-anchor="start" font-size="8" fill="#aaa">SW</text>
+    <line x1="140" y1="245" x2="146" y2="245" stroke="#aaa" stroke-width="0.5"/>
+    <text x="148" y="263" text-anchor="start" font-size="8" fill="#aaa">FB</text>
+    <line x1="140" y1="260" x2="146" y2="260" stroke="#aaa" stroke-width="0.5"/>
+
+    <!-- Sense resistor -->
+    <rect x="170" y="235" width="50" height="24" rx="2" fill="#2a2a2a" stroke="#aaaaaa" stroke-width="1"/>
+    <text x="195" y="251" text-anchor="middle" font-size="10" fill="#dddddd">0.18R</text>
+    <text x="195" y="270" text-anchor="middle" font-size="8" fill="#888">R_SENSE</text>
+
+    <!-- Inductor -->
+    <rect x="170" y="205" width="50" height="24" rx="2" fill="#2a3a2a" stroke="#88cc88" stroke-width="1"/>
+    <text x="195" y="221" text-anchor="middle" font-size="10" fill="#bbddbb">22uH</text>
+    <text x="195" y="240" text-anchor="middle" font-size="8" fill="#888">L1</text>
+
+    <!-- Decoupling caps -->
+    <rect x="240" y="225" width="35" height="18" rx="2" fill="#2a2a3a" stroke="#8888cc" stroke-width="1"/>
+    <text x="257" y="238" text-anchor="middle" font-size="8" fill="#aaaadd">10uF</text>
+    <text x="257" y="252" text-anchor="middle" font-size="7" fill="#888">C1</text>
+
+    <rect x="240" y="250" width="35" height="18" rx="2" fill="#2a2a3a" stroke="#8888cc" stroke-width="1"/>
+    <text x="257" y="263" text-anchor="middle" font-size="8" fill="#aaaadd">100nF</text>
+    <text x="257" y="277" text-anchor="middle" font-size="7" fill="#888">C2</text>
+
+    <!-- Schottky diode -->
+    <rect x="60" y="205" width="50" height="18" rx="2" fill="#3a2a3a" stroke="#cc88cc" stroke-width="1"/>
+    <text x="85" y="218" text-anchor="middle" font-size="8" fill="#ddaadd">SS14</text>
+    <text x="85" y="230" text-anchor="middle" font-size="7" fill="#888">D9 (catch)</text>
+
+    <!-- === ID Resistor === -->
+    <rect x="40" y="310" width="60" height="24" rx="2" fill="#3a3a1a" stroke="#cccc44" stroke-width="1.5"/>
+    <text x="70" y="326" text-anchor="middle" font-size="10" fill="#eeee88" font-weight="bold">10k</text>
+    <text x="70" y="345" text-anchor="middle" font-size="9" fill="#cccc44">R_ID</text>
+    <text x="70" y="357" text-anchor="middle" font-size="8" fill="#999">(to GND)</text>
+
+    <!-- === JST GH Connector === -->
+    <rect x="140" y="340" width="120" height="45" rx="4" fill="#444" stroke="#fff" stroke-width="2"/>
+    <text x="200" y="360" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">JST GH 4-pin</text>
+    <text x="200" y="375" text-anchor="middle" font-size="9" fill="#ccc">SM04B-GHS-TB</text>
+
+    <!-- Pin labels -->
+    <rect x="152" y="386" width="22" height="12" rx="1" fill="#c44" stroke="none"/>
+    <text x="163" y="395" text-anchor="middle" font-size="7" fill="#fff">VLED</text>
+
+    <rect x="176" y="386" width="22" height="12" rx="1" fill="#4c4" stroke="none"/>
+    <text x="187" y="395" text-anchor="middle" font-size="7" fill="#fff">STR</text>
+
+    <rect x="200" y="386" width="22" height="12" rx="1" fill="#cc4" stroke="none"/>
+    <text x="211" y="395" text-anchor="middle" font-size="7" fill="#333">ID</text>
+
+    <rect x="224" y="386" width="22" height="12" rx="1" fill="#666" stroke="none"/>
+    <text x="235" y="395" text-anchor="middle" font-size="7" fill="#fff">GND</text>
+
+    <!-- REAR EDGE label -->
+    <text x="150" y="418" text-anchor="middle" font-size="11" fill="#888">REAR EDGE (cable to main board)</text>
+
+    <!-- Trace hints -->
+    <!-- STROBE to EN -->
+    <line x1="187" y1="340" x2="100" y2="275" stroke="#4c4" stroke-width="1" stroke-dasharray="3,2"/>
+    <!-- VLED to VIN -->
+    <line x1="163" y1="340" x2="60" y2="250" stroke="#c44" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <!-- ID to R_ID -->
+    <line x1="211" y1="340" x2="100" y2="322" stroke="#cc4" stroke-width="1" stroke-dasharray="3,2"/>
+
+    <!-- Board dimensions -->
+    <!-- Width -->
+    <line x1="0" y1="430" x2="300" y2="430" stroke="#888" stroke-width="0.5"/>
+    <line x1="0" y1="425" x2="0" y2="435" stroke="#888" stroke-width="0.5"/>
+    <line x1="300" y1="425" x2="300" y2="435" stroke="#888" stroke-width="0.5"/>
+    <text x="150" y="445" text-anchor="middle" font-size="10" fill="#888">30 mm</text>
+
+    <!-- Height -->
+    <line x1="320" y1="0" x2="320" y2="400" stroke="#888" stroke-width="0.5"/>
+    <line x1="315" y1="0" x2="325" y2="0" stroke="#888" stroke-width="0.5"/>
+    <line x1="315" y1="400" x2="325" y2="400" stroke="#888" stroke-width="0.5"/>
+    <text x="340" y="205" text-anchor="middle" font-size="10" fill="#888" transform="rotate(90, 340, 205)">40 mm</text>
+  </g>
+
+  <!-- ============ SCHEMATIC BLOCK DIAGRAM ============ -->
+  <text x="400" y="590" text-anchor="middle" font-size="14" font-weight="bold" fill="#444">CIRCUIT BLOCK DIAGRAM</text>
+
+  <g transform="translate(100, 610)">
+    <!-- VLED input -->
+    <rect x="0" y="40" width="70" height="30" rx="3" fill="#c44" stroke="#a33" stroke-width="1.5"/>
+    <text x="35" y="60" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">VLED 5V</text>
+
+    <!-- Arrow -->
+    <line x1="70" y1="55" x2="100" y2="55" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+    <!-- AL8861 -->
+    <rect x="100" y="20" width="120" height="70" rx="5" fill="#3a2a2a" stroke="#ff8888" stroke-width="2"/>
+    <text x="160" y="45" text-anchor="middle" font-size="12" fill="#ffcccc" font-weight="bold">AL8861</text>
+    <text x="160" y="60" text-anchor="middle" font-size="10" fill="#cc8888">Buck LED Driver</text>
+    <text x="160" y="75" text-anchor="middle" font-size="9" fill="#aa6666">EN = STROBE pin</text>
+
+    <!-- Arrow to LEDs -->
+    <line x1="220" y1="55" x2="260" y2="55" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+    <!-- LED string -->
+    <rect x="260" y="10" width="160" height="90" rx="5" fill="#2a2a3a" stroke="#8888ff" stroke-width="2"/>
+    <text x="340" y="35" text-anchor="middle" font-size="12" fill="#ccccff" font-weight="bold">8x SFH4725AS</text>
+    <text x="340" y="52" text-anchor="middle" font-size="10" fill="#9999cc">940nm IR LEDs</text>
+    <text x="340" y="67" text-anchor="middle" font-size="10" fill="#9999cc">2S4P config</text>
+    <text x="340" y="82" text-anchor="middle" font-size="9" fill="#777">175mA each, 1.4A total</text>
+
+    <!-- Arrow to sense -->
+    <line x1="420" y1="55" x2="460" y2="55" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+    <!-- Sense resistor -->
+    <rect x="460" y="35" width="80" height="40" rx="3" fill="#2a2a2a" stroke="#aaa" stroke-width="1.5"/>
+    <text x="500" y="55" text-anchor="middle" font-size="11" fill="#ddd" font-weight="bold">0.18R</text>
+    <text x="500" y="68" text-anchor="middle" font-size="8" fill="#999">sets 1.4A</text>
+
+    <!-- Arrow to GND -->
+    <line x1="540" y1="55" x2="570" y2="55" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="590" y="60" text-anchor="middle" font-size="11" fill="#888" font-weight="bold">GND</text>
+
+    <!-- STROBE input -->
+    <rect x="0" y="120" width="80" height="30" rx="3" fill="#4c4" stroke="#3a3" stroke-width="1.5"/>
+    <text x="40" y="140" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">STROBE</text>
+    <line x1="80" y1="135" x2="160" y2="90" stroke="#4c4" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="130" y="105" text-anchor="middle" font-size="9" fill="#4c4">EN pin</text>
+
+    <!-- ID circuit -->
+    <rect x="0" y="170" width="60" height="30" rx="3" fill="#cc4" stroke="#aa3" stroke-width="1.5"/>
+    <text x="30" y="190" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">ID</text>
+    <line x1="60" y1="185" x2="100" y2="185" stroke="#cc4" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="100" y="170" width="60" height="30" rx="3" fill="#3a3a1a" stroke="#cccc44" stroke-width="1.5"/>
+    <text x="130" y="190" text-anchor="middle" font-size="11" fill="#eeee88" font-weight="bold">10k</text>
+    <line x1="160" y1="185" x2="200" y2="185" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="215" y="190" text-anchor="middle" font-size="11" fill="#888">GND</text>
+    <text x="130" y="215" text-anchor="middle" font-size="9" fill="#999">Divider with 10k pull-up on main board</text>
+    <text x="130" y="228" text-anchor="middle" font-size="9" fill="#999">ADC reads ~1.65V = "Standard 940nm"</text>
+  </g>
+
+  <!-- ============ VARIANT COMPARISON ============ -->
+  <text x="400" y="870" text-anchor="middle" font-size="14" font-weight="bold" fill="#444">MODULE VARIANTS (same PCB footprint, different LED + optics)</text>
+
+  <!-- Variant boxes -->
+  <g transform="translate(30, 885)">
+    <!-- Standard -->
+    <rect x="0" y="0" width="170" height="80" rx="5" fill="#1a2a1a" stroke="#4c4" stroke-width="1.5"/>
+    <text x="85" y="18" text-anchor="middle" font-size="11" fill="#8f8" font-weight="bold">Standard 940nm</text>
+    <text x="85" y="33" text-anchor="middle" font-size="9" fill="#afa">8x LEDs, 60 deg</text>
+    <text x="85" y="46" text-anchor="middle" font-size="9" fill="#afa">10-15m range</text>
+    <text x="85" y="59" text-anchor="middle" font-size="9" fill="#cfc">R_ID = 10k</text>
+    <text x="85" y="72" text-anchor="middle" font-size="9" fill="#888">Default</text>
+
+    <!-- Long Range -->
+    <rect x="185" y="0" width="170" height="80" rx="5" fill="#1a2a2a" stroke="#4cc" stroke-width="1.5"/>
+    <text x="270" y="18" text-anchor="middle" font-size="11" fill="#8ff" font-weight="bold">Long Range 940nm</text>
+    <text x="270" y="33" text-anchor="middle" font-size="9" fill="#aff">4x LEDs + 30 deg optics</text>
+    <text x="270" y="46" text-anchor="middle" font-size="9" fill="#aff">15-25m range</text>
+    <text x="270" y="59" text-anchor="middle" font-size="9" fill="#cff">R_ID = 5.6k</text>
+    <text x="270" y="72" text-anchor="middle" font-size="9" fill="#888">Waterholes</text>
+
+    <!-- White Flash -->
+    <rect x="370" y="0" width="170" height="80" rx="5" fill="#2a2a1a" stroke="#cc4" stroke-width="1.5"/>
+    <text x="455" y="18" text-anchor="middle" font-size="11" fill="#ff8" font-weight="bold">White Flash</text>
+    <text x="455" y="33" text-anchor="middle" font-size="9" fill="#ffa">4x Cree XP-G3, 45 deg</text>
+    <text x="455" y="46" text-anchor="middle" font-size="9" fill="#ffa">8-12m range</text>
+    <text x="455" y="59" text-anchor="middle" font-size="9" fill="#ffc">R_ID = 47k</text>
+    <text x="455" y="72" text-anchor="middle" font-size="9" fill="#888">Full colour</text>
+
+    <!-- Blank -->
+    <rect x="555" y="0" width="170" height="80" rx="5" fill="#2a2a2a" stroke="#888" stroke-width="1.5"/>
+    <text x="640" y="18" text-anchor="middle" font-size="11" fill="#ccc" font-weight="bold">Blank Plug</text>
+    <text x="640" y="33" text-anchor="middle" font-size="9" fill="#aaa">No LEDs, no driver</text>
+    <text x="640" y="46" text-anchor="middle" font-size="9" fill="#aaa">Connector + R_ID only</text>
+    <text x="640" y="59" text-anchor="middle" font-size="9" fill="#ccc">R_ID = 1.2k</text>
+    <text x="640" y="72" text-anchor="middle" font-size="9" fill="#888">Daytime only</text>
+  </g>
+
+  <!-- Arrow marker definitions -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#888"/>
+    </marker>
+    <marker id="arrowR" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#c44"/>
+    </marker>
+  </defs>
+</svg>

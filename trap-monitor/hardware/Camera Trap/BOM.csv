@@ -1,0 +1,117 @@
+Designator,Component,Package,Value,Source,Qty,Unit Cost (USD),Notes
+,,,,,,
+,── PROCESSING ──,,,,,
+U1,STM32N657X0H3Q,VFBGA-264 (14x14mm 0.8mm pitch),Main MCU (M55 800MHz + Neural-ART NPU),DigiKey/Mouser,1,$10.73,"600 GOPS INT8, 4.2MB SRAM, HW ISP/JPEG, native MIPI CSI-2, 165 I/O"
+U2,STM32U083KCU6,UFQFPN-32 (5x5mm 0.5mm pitch),Power controller (M0+ ultra-low-power),DigiKey/Mouser,1,$2.50,"Sleep/wake state machine, PIR aggregation, watchdog"
+,,,,,,
+,── IMAGE SENSOR ──,,,,,
+U3,Sony IMX678,LGA,8MP STARVIS 2 image sensor,FRAMOS/Macnica (Sony authorized),1,$20.00,"1/1.8"", 2x2 binning, MIPI CSI-2, NIR to ~1000nm. AVDD=3.3V, DVDD=1.1V, DOVDD=1.8V. Source via FRAMOS (FSM-IMX678 module for proto)."
+Y2,SiT8008BI-12-18E-24.000000G,SOT-23-5 (2.5x2.0mm),24 MHz MEMS oscillator (sensor MCLK),DigiKey/Mouser,1,$0.75,"±50ppm, 1.8V, 3.2mA typ, <5ms startup. Wired direct to IMX678 INCK. Power-gated with sensor 1.8V rail. NOTE: Verify exact SiTime ordering code for 1.8V 2.5x2.0mm SOT-23-5 variant."
+Q_I2C_SDA,BSS138,SOT-23,I2C1 SDA level shift (sensor),LCSC C49139,1,$0.05,"1.8V ↔ 3.3V. POPULATE — VDDIO4 confirmed 3.3V (shared with modem UART). Gate to 1.8V DOVDD rail. Place within 10mm of IMX678."
+Q_I2C_SCL,BSS138,SOT-23,I2C1 SCL level shift (sensor),LCSC C49139,1,$0.05,"1.8V ↔ 3.3V. POPULATE — same as Q_I2C_SDA."
+R_SDA_33,"4.7kΩ",0402,I2C1 SDA pull-up (MCU side),LCSC,1,$0.01,"Pull-up to 3.3V on drain side of Q_I2C_SDA. Place near BSS138."
+R_SCL_33,"4.7kΩ",0402,I2C1 SCL pull-up (MCU side),LCSC,1,$0.01,"Pull-up to 3.3V on drain side of Q_I2C_SCL. Place near BSS138."
+R_PWDN_18,"10kΩ",0402,Sensor PWDN pull-up to 1.8V,LCSC,1,$0.01,"Pull-up to SENSOR_DOVDD. Open-drain PD2 drives LOW to activate sensor."
+LENS1,M12 Lens + IR-cut filter,M12 mount,Dual-band IR/visible lens assembly,Alibaba/specialist,1,$8.00,"~100° HFOV, matched to PIR detection cone"
+,,,,,,
+,── MEMORY ──,,,,,
+U4,APS256XXN-OB9-BG,BGA-24 (6x8mm 1.0mm pitch),32MB OPI/HPI PSRAM (1.8V),Mouser/APMemory distributor,1,$4.50,"HexaDeca-SPI (x16 DDR) frame buffer via XSPI1. Same part as STM32N6570-DK board. 1.8V supply — shares sensor DOVDD rail or dedicated regulator."
+U5,W25Q128JVSIQ,SOIC-8,16MB NOR Flash,LCSC C97521,1,$2.00,Firmware + AI models (xSPI2)
+U6,W25Q256JVEIQ,WSON-8-EP (6x8mm),32MB NOR Flash,LCSC C97522,1,$3.50,"Metadata / config / event log (xSPI2 CS2). NOTE: SOIC-8 variant does NOT exist for 256Mbit — WSON-8 only. Exposed thermal pad to GND. 4-byte addressing (cmd 0xB7)."
+,,,,,,
+,── SD CARD ──,,,,,
+J1,Molex 5031821852,SMD,µSD push-push slot,LCSC/DigiKey,1,$0.80,SDIO 4-bit interface
+,,,,,,
+,── PIR SENSORS ──,,,,,
+U7,Panasonic EKMB1303112K,TH,PIR sensor #1,DigiKey/Mouser,1,$5.00,"1µA standby, long-distance type (12m, ~±45° cone), ACTIVE HIGH output (pull-DOWN 47kΩ to GND, NOT pull-up). Operating: -20 to +60°C. 30s blanking after power-up."
+U8,Panasonic EKMB1303112K,TH,PIR sensor #2,DigiKey/Mouser,1,$5.00,"Second PIR for wider detection cone. Same output polarity and pull-down as U7."
+,,,,,,
+,── IR LED MODULE (daughter board — separate assembly) ──,,,,,
+J2,JST SM04B-GHS-TB,TH,LED module connector (main board side),LCSC,1,$0.30,"4-pin: VLED, STROBE, ID, GND"
+LED1-8,Osram SFH 4725AS A01,SMD OSLON Black (on LED board),940nm IR LED,DigiKey/Mouser,8,$0.80,"175mA each, 80° full beam (40° half-angle), covert 950nm peak/940nm nominal (no visible glow). SFH 4725AS A01 replaces discontinued SFH4725S. OSLON Black 3.75x3.75mm. Max 1.5A continuous. 760 mW/sr at 1A."
+U_LED,AL8861Y-13,SOT89-5 (on LED board),Buck LED driver (1.5A max),LCSC/DigiKey,1,$0.50,"VSET pin strobe ~100µs response. 1.5A max in SOT89-5 (was TSOT-25 1.0A — insufficient for 1.4A). LEDs in PARALLEL from 5V VLED, NOT series. Add 1Ω ballast per LED for current sharing."
+R_LED,Resistor (on LED board),0402,0.18Ω sense resistor,LCSC,1,$0.05,Sets 1.4A total LED current
+R_ID,Resistor (on LED board),0402,10kΩ (940nm std) — varies per module,LCSC,1,$0.01,"Module ID — E24 values: 1.2kΩ blank, 2.7kΩ super-long, 5.6kΩ long, 10kΩ std, 22kΩ 850nm, 47kΩ white"
+PCB_LED,2-layer FR4 (LED board),30x40mm,LED daughter board,JLCPCB,1,$1.50,HASL finish
+J_LED,JST GHR-04V-S,Housing,Cable assembly to main board,LCSC,1,$0.50,100mm 4-pin JST GH
+,,,,,,
+,── MODEM DAUGHTER CARD (separate assembly — shared with Trap Monitor) ──,,,,,
+J3,20-pin header (Phase 1),2.54mm,Modem card connector (main board),various,1,$0.50,Phase 1: pin header. Phase 2: Hirose DF12 B2B.
+U_MDM,Quectel EG800Q-EU,LCC,LTE CAT-1bis modem,Quectel distributor,1,$12.00,"QCX216, Band 28 + Band 7 (D2C), NO integrated GNSS"
+Q_LVL1-4,BSS138,SOT-23 (on modem card),Level shifter × 4,LCSC C49139,4,$0.05,"3.3V ↔ 1.8V: TXD, RXD, PWRKEY, RESET_N"
+J_SIM,Nano-SIM holder,SMD (on modem card),Push-push 6+2 pin,LCSC C266612,1,$0.50,Populated for prototype. MFF2 eSIM footprint DNP.
+D_SIM,TPD3E001DRLR,SOT-5X3 DRL (on modem card),SIM ESD 3-channel,LCSC C470828,1,$0.30,"Covers SIM DATA + CLK + RST. VCC pin (pin 4) MUST connect to SIM supply rail with 0.1µF bypass cap — not self-biasing."
+J_ANT,u.FL connector,SMD (on modem card),Cellular antenna,LCSC C88374,1,$0.20,50Ω to SMA bulkhead pigtail
+C_MDM1,Electrolytic,6.3x5.4mm (on modem card),100µF 10V bulk,LCSC C10177,1,$0.15,VBAT TX burst reservoir
+C_MDM2,Capacitor,0805 (on modem card),10µF ceramic,LCSC C15850,1,$0.05,VBAT ceramic bypass
+C_MDM3,Capacitor,0402 (on modem card),100nF,LCSC C1525,1,$0.01,VBAT HF bypass
+R_PK,Resistor,0402 (on modem card),10kΩ PWRKEY pull-down,LCSC C25744,1,$0.01,Prevents spurious toggle during boot (1.8V side)
+D_OVP,BZT52C4V3-7-F + PTC,SOD-123 + 0805 (on modem card),Zener 4.3V + PTC fuse VBAT OVP,LCSC C151003 (Zener),1,$0.15,"Zener clamps at ~4.3V. PTC fuse in series (e.g. 500mA) blows before Zener is destroyed if AP63300 fails high. SMBJ4.5A DOES NOT EXIST — no TVS at ≤4.3V standoff in any manufacturer lineup."
+PCB_MDM,2-layer FR4 (modem card),30x25mm,Modem daughter board,JLCPCB,1,$1.50,
+,,,,,,
+,── GPS ──,,,,,
+U9,u-blox MAX-M10S,LCC,GNSS module (standalone),Mouser/DigiKey,1,$12.00,"NMEA 9600 baud, same module as Trap Monitor"
+J_GPS,u.FL connector,SMD,GNSS antenna,LCSC C88374,1,$0.20,50Ω to SMA bulkhead or patch antenna pigtail
+Q3,SI2301CDS,SOT-23,P-channel MOSFET GPS power gate,LCSC C10487,1,$0.10,"GPIO controlled via BSS138 inverter — HIGH = powered, LOW = off"
+Q_C3,SI2301CDS,SOT-23,P-channel MOSFET ESP32-C3 power gate,LCSC C10487,1,$0.10,"PG7 via BSS138 inverter. Same circuit as Q3. Powers ESP32-C3 from 3.3V rail."
+Q4,BSS138,SOT-23,N-channel MOSFET gate inverter,LCSC C49139,1,$0.05,Inverts GPIO logic for P-FET gate drive
+,,,,,,
+,── POWER MANAGEMENT ──,,,,,
+U10a,TPS62088YFPT,DSBGA-6 (1.2x0.8mm),0.81V/0.89V buck (STM32N6 VDDCORE),DigiKey/Mouser,1,$1.50,"Ultra-low Iq. Max Vin=5.5V — fed from 3.3V rail. Output 0.81V (nominal 600MHz) or 0.89V (overdrive 800MHz) via GPIO PF4 feedback resistor switching. Copy DK board circuit. DSBGA wafer-level BGA — NOT WSON-6."
+U10b,TPS62088YFPT,DSBGA-6 (1.2x0.8mm),1.1V buck (IMX678 DVDD),DigiKey/Mouser,1,$1.50,"Fixed 1.1V output for IMX678 digital core. Max Vin=5.5V — fed from 3.3V rail. Separate from VDDCORE — STM32N6 needs 0.81V/0.89V which would damage IMX678."
+U11,AP63300WU-7,TSOT-23-6,3.3V 3A buck (main digital rail),LCSC C2158012,1,$1.50,"Replaces TPS62A01 (max Vin=5.5V, cannot survive 6S2P battery). AP63300 Vin=3.8-32V handles 6.0-8.4V directly. Powers NOR flash, GPS, PIR, SD, RTC, STM32U0, IMX678 AVDD (via ferrite+LC filter). Iq=22µA (always on)."
+U12,TPS7A0218DBVR,SOT-23-5,1.8V LDO (sensor DOVDD + PSRAM),DigiKey/Mouser,1,$0.80,"Ultra-low Iq, low noise. Powers IMX678 DOVDD (1.8V I/O) + APS256XXN PSRAM (1.8V). NOT for IMX678 AVDD (needs 3.3V). Input from 3.3V rail."
+U13,AP63300WU-7,TSOT-23-6,3.8V 3A buck (modem rail),LCSC C2158012,1,$1.50,"3A peak for TX burst, shared with Trap Monitor spec"
+U14,REMOVED,,Fuel gauge REMOVED — MAX17048 ModelGauge algorithm is lithium-ion only; produces meaningless SOC on NiMH. Single-cell VDD range (2.5-4.5V) cannot accommodate 6S pack. ADC voltage measurement via BATT_SENSE divider (PA1) with temperature compensation is adequate (industry standard for trail cameras).,,0,$0.00,
+D_SCHK1,SS34,SMA,Schottky diode — 6S2P string 1 protection,LCSC,1,$0.10,"Phase 1: prevents reverse current between mismatched parallel NiMH strings. 0.3V drop (5.7-8.1V effective range). Production: may remove if cell-matching + firmware cutoff sufficient."
+D_SCHK2,SS34,SMA,Schottky diode — 6S2P string 2 protection,LCSC,1,$0.10,"Same as D_SCHK1 for second parallel string."
+,,,,,,
+,── LED MODULE POWER ──,,,,,
+U15,AP63300WU-7,TSOT-23-6,5V 3A buck for LED VLED rail,LCSC C2158012,1,$1.50,"Same part as modem buck (U13), different feedback resistors for 5V output. 2A max load, power-gated by PB6."
+,,,,,,
+,── COMMS PROCESSOR (WiFi + BLE + UI) ──,,,,,
+U17,ESP32-C3-MINI-1U,Module (16.6x13.2mm),WiFi 4 + BLE 5.0 comms processor,LCSC/Mouser,1,$2.50,"400KB SRAM, 4MB flash, SPI slave to N6, owns display + buttons"
+J_C3_ANT,u.FL connector,SMD (on main board),WiFi/BLE antenna,LCSC C88374,1,$0.20,"Pigtail to internal flex or external SMA, 2.4 GHz"
+ANT3,2.4 GHz antenna,TBD,WiFi/BLE antenna,"DigiKey/Mouser",1,$1.50,"Internal flex behind polycarbonate OR external SMA stub. TBD by enclosure."
+OLED1,SSD1306 0.96 inch 128x64,4-pin I2C header,Settings display (DNP Rev A),LCSC/AliExpress,1,$2.00,"DNP. Connected to C3 I2C, not N6. Shows status/config/battery."
+SW2,Tactile 6x6mm,TH,Navigation UP (DNP Rev A),LCSC,1,$0.05,"DNP. Connected to C3 GPIO, not N6."
+SW3,Tactile 6x6mm,TH,Navigation DOWN (DNP Rev A),LCSC,1,$0.05,"DNP. Connected to C3 GPIO, not N6."
+SW4,Tactile 6x6mm,TH,Navigation SELECT (DNP Rev A),LCSC,1,$0.05,"DNP. Connected to C3 GPIO, not N6."
+SW5,Magnetic reed switch,SMD/TH,BLE/WiFi activation (magnet-triggered),LCSC/DigiKey,1,$0.50,"Wakes C3 + signals N6. No enclosure penetration."
+,,,,,,
+,── ANTI-THEFT (on main board — connected to STM32U0) ──,,,,,
+U16,LIS2DW12TR,LGA-12 (2x2mm),3-axis accelerometer (anti-theft wake-on-motion),DigiKey/Mouser,1,$1.20,"1.5µA low-power wake-up mode. I2C addr 0x19 (SDO floating/high — avoids ~180µA leakage if SDO tied to GND). Connected to U0 I2C1 (PA8/PA9), INT1 → U0 PA2. Populated Phase 1, firmware-disabled (PHASE1_ANTITHEFT_ENABLED=0)."
+,,,,,,
+,── ANTENNAS ──,,,,,
+ANT1,Molex 209142-0180 (TBC),Flex PCB,LTE flex antenna,DigiKey/Mouser,1,$3.00,"Adhesive mount, 698-4000 MHz covers B28 + B7. NOTE: Original PN 2132510100 not found at distributors — verify with Molex or use 209142-0180."
+ANT2,Molex 2066400001 (TBC),Patch,GNSS patch antenna,DigiKey/Mouser,1,$3.00,"Adhesive mount, active patch with LNA. NOTE: Original PN 2066830001 not found — verify with Molex or use 2066400001."
+,,,,,,
+,── PASSIVES (main board) ──,,,,,
+R_various,Resistors,0402,Various (pull-ups / dividers / series),LCSC,~30,$0.01,See schematic BOM for exact values
+C_various,Capacitors,0402/0805,Various (bypass / filter / bulk),LCSC,~25,$0.02,See schematic BOM for exact values
+,,,,,,
+,── CONNECTORS (main board) ──,,,,,
+J_BATT,JST PH 2-pin,TH,Battery connector,LCSC,1,$0.20,To battery caddy
+U_TRIG,TLP291(GR-TP SE),SOP-4,Opto-coupler (trigger output isolation),LCSC C115330,1,$0.20,">3.75kV isolation. PG6 drives LED side, collector/emitter to J_BP pins 3-4."
+R_TRIG_SENSE,Resistor,0402,100kΩ (trigger input sense),LCSC,1,$0.01,Series resistance from J_BP pin 3 to U0 PA3 (TRIG_SENSE)
+D_TRIG_TVS,TVS diode,SOD-323,3.3V bidirectional TVS (trigger input protection),LCSC,1,$0.10,Clamp on TRIG_SENSE line — protects against voltage spikes from field cable runs
+J_USB,USB-C 16P,SMD,USB 2.0 programming / debug,LCSC C165948,1,$0.50,"5.1kΩ CC pull-downs, sealed port in enclosure"
+U_USB,USBLC6-2SC6,SOT-23-6,USB ESD protection,LCSC C7519,1,$0.30,
+,,,,,,
+,── MISC ──,,,,,
+D1,LED 3mm,TH,Green status,LCSC,1,$0.05,
+D2,LED 3mm,TH,Amber status,LCSC,1,$0.05,
+D3,LED 3mm,TH,Red status,LCSC,1,$0.05,
+SW1,Tactile 6x6mm,TH,Reset,LCSC,1,$0.05,Optional
+Y1,32.768kHz crystal,SMD,RTC crystal (optional — STM32U0 has internal LSI at ±5%),LCSC,1,$0.20,"LSI drift = ~72 min/day. Populate for accurate timekeeping; DNP if ±5% acceptable for Phase 1."
+C_BCKP,Supercapacitor 0.47F 5.5V,Radial,GPS V_BCKP hot-start backup,DigiKey/Mouser,1,$1.50,"Replaces 100nF cap on V_BCKP. 0.47F at 28µA backup current = ~7 hours hot-start. Charges from 3.3V via 100Ω series resistor."
+,,,,,,
+,── PCB ──,,,,,
+PCB_MAIN,4-layer FR4,TBD,Main board,JLCPCB,1,$6.00,"ENIG finish, controlled impedance (MIPI, xSPI, RF)"
+,,,,,,
+,── ENCLOSURE ──,,,,,
+ENC1,IP67 polycarbonate,TBD,Main enclosure,Custom / Hammond,1,$8.00,"MUST BE WHITE or light grey — black = 70°C internal in tropical sun (kills PIR sensors rated 50°C max). UV-stabilised with UV2 coextrusion. Include 5-10g silica gel desiccant sachet (replace at each battery swap). Silicone gasket (Shore 40A-50A). All external fasteners 316 SS (salt spray rated)."
+BATT_CADDY,AA battery caddy,TBD,12 AA holder (in backpack),various,1,$3.00,Part of Standard / Field Station / Extender backpack. Not on main board.
+,,,,,,
+,── NOTE: Solar charging ──,,,,,
+,REMOVED from main board BOM,,Solar charging is self-contained in the Li-ion Solar backpack (sealed Li-ion + BMS + BQ25895 MPPT). See backpack BOM (TBD).,,,,

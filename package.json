@@ -1,0 +1,19 @@
+{
+  "name": "trackline-workspace",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "typecheck": "pnpm -r run typecheck",
+    "lint": "pnpm -r run lint",
+    "build:portal": "pnpm --filter portal build",
+    "build:wildtrack": "pnpm --filter camera-trap-dashboard build",
+    "build:fire": "pnpm --filter fire-app build",
+    "build:trap": "pnpm --filter trap-monitor-dashboard build",
+    "dev:portal": "pnpm --filter portal dev",
+    "dev:wildtrack": "pnpm --filter camera-trap-dashboard dev",
+    "dev:fire": "pnpm --filter fire-app dev",
+    "dev:trap": "pnpm --filter trap-monitor-dashboard dev",
+    "db:types": "pnpm --filter portal run db:types && pnpm --filter camera-trap-dashboard run db:types && pnpm --filter fire-app run db:types && pnpm --filter trap-monitor-dashboard run db:types"
+  }
+}

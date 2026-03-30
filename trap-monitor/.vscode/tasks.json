@@ -1,0 +1,79 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Firmware: Build (PlatformIO)",
+      "type": "shell",
+      "command": "cd firmware && pio run",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "Firmware: Upload to ESP32",
+      "type": "shell",
+      "command": "cd firmware && pio run --target upload",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "Firmware: Serial Monitor",
+      "type": "shell",
+      "command": "cd firmware && pio device monitor --baud 115200",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "Frontend: Install Dependencies",
+      "type": "shell",
+      "command": "cd frontend && npm install",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "Frontend: Dev Server",
+      "type": "shell",
+      "command": "cd frontend && npm run dev",
+      "group": "build",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "Frontend: Build Production",
+      "type": "shell",
+      "command": "cd frontend && npm run build",
+      "group": { "kind": "build" },
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "Backend: Start Supabase Local",
+      "type": "shell",
+      "command": "cd backend && npx supabase start",
+      "group": "build",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "Backend: Apply Migrations",
+      "type": "shell",
+      "command": "cd backend && npx supabase db push",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "Backend: Deploy Edge Functions",
+      "type": "shell",
+      "command": "cd backend && npx supabase functions deploy",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "Simulate: Send Test SMS",
+      "type": "shell",
+      "command": "node tools/simulate-sms.js",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    }
+  ]
+}

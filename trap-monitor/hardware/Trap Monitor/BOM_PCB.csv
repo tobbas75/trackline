@@ -1,0 +1,91 @@
+Designator,Component,Package,Value,LCSC Part,Qty,Notes
+U1,ESP32-S3-WROOM-1-N8R2,Module,ESP32-S3 8MB Flash,C2913202,1,MCU module — verify LCSC stock
+U2,Quectel EG800Q-EU,LCC,LTE CAT-1bis modem (QCX216),—,1,Source from Quectel distributor — not on LCSC. NO integrated GNSS.
+U3,DS3231SN,SOIC-16,RTC I2C,C9866,1,Temperature-compensated RTC
+U4,HT7333-A,SOT-89,3.3V LDO 250mA (Iq 2.5µA),C21583,1,ESP32 + peripherals power — ultra-low quiescent for deep sleep. FIXED: C14289 was HT7533-1 (5V output) not HT7333-A (3.3V).
+U5,AP63300WU-7,TSOT-23-6,3.8V 3A Sync Buck (Iq 22µA Vin 3.8–32V),C2158012,1,EG800Q-EU VBAT supply — replaces RT9080 LDO (thermal failure at 2S input). 90% efficient vs 59% LDO.
+U6,USBLC6-2SC6,SOT-23-6,USB ESD protection,C7519,1,USB-C data line protection
+Q3,BSS138,SOT-23,N-channel MOSFET level shifter,C49139,1,3.3V ↔ 1.8V: MODEM_TX (GPIO 17 → EG800Q RXD). Replaces TXB0104 per March 2026 update.
+Q4,BSS138,SOT-23,N-channel MOSFET level shifter,C49139,1,3.3V ↔ 1.8V: MODEM_RX (EG800Q TXD → GPIO 18)
+Q5,BSS138,SOT-23,N-channel MOSFET level shifter,C49139,1,3.3V ↔ 1.8V: MODEM_PWRKEY (GPIO 5 → EG800Q PWRKEY)
+Q6,BSS138,SOT-23,N-channel MOSFET level shifter,C49139,1,3.3V ↔ 1.8V: MODEM_RST (GPIO 7 → EG800Q RESET_N)
+R27,Resistor,0402,10k,C25744,1,Q3 drain pull-up to 3.3V (MODEM_TX ESP32 side)
+R28,Resistor,0402,10k,C25744,1,Q4 drain pull-up to 3.3V (MODEM_RX ESP32 side)
+R29,Resistor,0402,10k,C25744,1,Q5 drain pull-up to 3.3V (MODEM_PWRKEY ESP32 side)
+R30,Resistor,0402,10k,C25744,1,Q6 drain pull-up to 3.3V (MODEM_RST ESP32 side)
+R31,Resistor,0402,10k,C25744,1,Q3 source pull-up to 1.8V VDD_EXT (MODEM_TX modem side)
+R32,Resistor,0402,10k,C25744,1,Q4 source pull-up to 1.8V VDD_EXT (MODEM_RX modem side)
+R33,Resistor,0402,10k,C25744,1,Q6 source pull-up to 1.8V VDD_EXT (MODEM_RST modem side)
+U8,MAX-M10S,LCC,u-blox M10 GNSS module,—,1,Standalone GPS — NMEA 9600 baud. Source from u-blox/Mouser/DigiKey.
+Q1,SI2301CDS,SOT-23,P-channel MOSFET -20V -2.3A,C10487,1,GPS power gate — GPIO 6 controls M10 VCC
+Q2,BSS138,SOT-23,N-channel MOSFET (gate inverter),C49139,1,Inverts GPIO 6 HIGH→LOW for P-FET gate drive
+,,,,,,
+R1,Resistor,0402,1M,C26083,1,Battery divider top (ratio 3.128 — 7.2V max → 2.30V at ADC). C1 filter cap critical for ADC accuracy. FIXED: C25585 was 1kΩ 0603 not 1MΩ 0402.
+R2,Resistor,0402,470k,C25790,1,Battery divider bottom (ratio 3.128 — bleed 4.9µA). Calibrate ADC_CAL_FACTOR per-board. FIXED: C25117 was 470Ω not 470kΩ.
+R3,Resistor,0402,4.7k,C25900,1,RTC I2C SDA pull-up
+R4,Resistor,0402,4.7k,C25900,1,RTC I2C SCL pull-up
+R5,Resistor,0402,100k,C25741,1,Trap trigger pull-up (100k reduces sleep drain to 33µA vs 330µA with 10k)
+R6,Resistor,0402,220,C25092,1,LED Green series
+R7,Resistor,0402,220,C25092,1,LED Amber series
+R8,Resistor,0402,220,C25092,1,LED Red series
+R9,Resistor,0402,10k,C25744,1,ESP32 EN pull-up
+R10,Resistor,0402,22,C25083,1,SIM DATA series
+R11,Resistor,0402,22,C25083,1,SIM CLK series
+R12,Resistor,0402,22,C25083,1,SIM RST series
+R13,Resistor,0402,0.1 (100mR),C25077,1,Solar current shunt
+R14-R15,Resistor,0402,4.7k,C25900,2,EXP I2C pull-ups (DNP)
+R16,Resistor,0402,4.7k,C25900,1,EXP 1Wire pull-up (DNP)
+R17,Resistor,0402,10k,C25744,1,EXP Digital 1 pull-up (DNP)
+R18,Resistor,0402,10k,C25744,1,SIM detect pull-up
+R19,Resistor,0402,10k,C25744,1,GPS power gate pull-up (P-FET gate to 3V3)
+R20,Resistor,0402,10k,C25744,1,GPS power gate N-FET pull-down
+R21,Resistor,0402,100,C25076,1,M10 V_BCKP series resistor (optional hot start)
+R22,Resistor,0402,5.1k,C25905,1,USB-C CC1 pull-down (USB 2.0 device detection)
+R23,Resistor,0402,5.1k,C25905,1,USB-C CC2 pull-down (USB 2.0 device detection)
+R24,Resistor,0402,10k,C25744,1,Q5 source pull-up to 1.8V VDD_EXT (MODEM_PWRKEY modem side). FIXED: was pull-DOWN which held PWRKEY permanently LOW — modem auto-starts and AT+QPOWD cannot turn it off (Quectel HW Design Guide §3.7.1). Must be pull-UP so PWRKEY idles HIGH.
+R25,Resistor,0402,160k,C25803,1,U5 buck FB top — sets Vout = 0.6V × (1 + 160k/30k) = 3.80V
+R26,Resistor,0402,30k,C22984,1,U5 buck FB bottom — sets Vout = 3.80V for EG800Q-EU VBAT
+,,,,,,
+L1,CKCS5040-4.7uH/M,5040 (5.0×5.0×4.0mm),4.7uH 3A (Isat 3.5A) 32mΩ shielded,C354606,1,U5 buck power inductor — CENKER shielded 5040. Place close to AP63300 SW pin.
+C1,Capacitor,0402,100nF,C1525,1,Battery ADC filter
+C2,Capacitor,0805,10uF,C15850,1,ESP32 bulk bypass
+C3-C6,Capacitor,0402,100nF,C1525,4,ESP32 VDD bypass (per pin)
+C7,Electrolytic,6.3×5.4mm radial,100uF 10V,C10177,1,EG800Q-EU VBAT bulk (TX burst)
+C8,Capacitor,0805,10uF,C15850,1,EG800Q-EU VBAT ceramic
+C9,Capacitor,0402,100nF,C1525,1,EG800Q-EU VBAT HF bypass
+C10,Capacitor,0402,100nF,C1525,1,DS3231 VCC bypass
+C11,Capacitor,0805,10uF,C15850,1,U4 LDO input
+C12,Capacitor,0805,10uF,C15850,1,U4 LDO output
+C13,Capacitor,0805,10uF,C15850,1,U5 buck input cap (VIN bypass)
+C14,Capacitor,0805,22uF,C159770,1,U5 buck output cap (close to SW/VOUT). 22µF min for buck loop stability.
+C22,Capacitor,0402,100nF,C1525,1,U5 buck bootstrap cap (BST to SW pin)
+C15,Capacitor,0402,100nF,C1525,1,SIM VDD bypass
+C16,Capacitor,0402,22pF,C1555,1,SIM VDD filter
+C17,Capacitor,0402,100nF,C1525,1,ESP32 EN debounce
+C18,Capacitor,0402,100nF,C1525,1,Reed switch debounce
+C19,Capacitor,0402,100nF,C1525,1,u-blox M10 VCC bypass
+C20,Capacitor,0805,10uF,C15850,1,u-blox M10 VCC bulk
+C21,Capacitor,0402,100nF,C1525,1,M10 V_BCKP filter (optional hot start)
+,,,,,,
+D1,LED,3mm TH,Green,C72043,1,Status LED
+D2,LED,3mm TH,Amber/Yellow,C72041,1,Status LED
+D3,LED,3mm TH,Red,C72037,1,Status LED
+D4,TVS Diode Array,SOT-143,TPD3E001DRLR,C128632,1,SIM ESD protection — 3-channel (DATA + CLK + RST)
+,,,,,,
+BT1,CR2032 Holder,TH,CR2032,C70377,1,RTC backup battery
+,,,,,,
+J1,JST-PH 2P,TH,Battery,C131337,1,2.0mm pitch right-angle
+J2,JST-PH 4P,TH,EXP I2C,C131339,1,2.0mm pitch right-angle (DNP)
+J3,JST-PH 3P,TH,EXP Analog/1Wire,C131338,1,2.0mm pitch right-angle (DNP)
+J4,JST-PH 3P,TH,EXP Digital,C131338,1,2.0mm pitch right-angle (DNP)
+J5,JST-PH 4P,TH,EXP UART,C131339,1,2.0mm pitch right-angle (DNP)
+J6,JST-PH 2P,TH,Solar panel,C131337,1,2.0mm pitch right-angle
+J7,JST-PH 2P,TH,Reed switch,C131337,1,2.0mm pitch right-angle
+J8,Nano-SIM Holder,SMD,Push-push,C266612,1,6+2 pin SIM card socket
+J9,u.FL Connector,SMD,EG800Q-EU cellular antenna,C88374,1,IPEX/u.FL for coax — routes to EG800Q-EU RF_ANT
+J10,u.FL Connector,SMD,u-blox M10 GNSS antenna,C88374,1,IPEX/u.FL for coax — routes to M10 RF_IN
+J11,USB-C 16P,SMD,USB 2.0,C165948,1,USB-C receptacle for programming
+,,,,,,
+U9,CN3767,SOP-8,MPPT Buck Solar Charge Controller,—,1,12V solar input — LiFePO4 2S (7.2V) charge profile via FBVR resistor. DNP for Pack D. Source from LCSC/Mouser.
+,,,,,,
+SW1,Tactile Switch,6×6mm TH,RESET,C2834744,1,Optional — connects to ESP32 EN via 100nF

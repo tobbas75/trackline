@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "ms-vscode.cpptools",
+    "platformio.platformio-ide",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "prisma.prisma",
+    "supabase.supabase",
+    "ms-vscode.vscode-serial-monitor",
+    "formulahendry.code-runner",
+    "eamodio.gitlens",
+    "yzhang.markdown-all-in-one"
+  ]
+}

@@ -1,0 +1,91 @@
+cvXKyEmPydtpIELY2uA9pIS265AsU3iwSPEmQiqV0349DHViBb2bkMYVQ7IeCpmvT+2fMOE8SQAy/XJ+myjNPQ==
+
+SUBJECT: Custom PCB Design — IoT Trap Monitor (ESP32-S3 + Quectel EG800Q-EU + u-blox M10 GPS)
+
+---
+
+Hi Design Team,
+
+We need a custom PCB designed for a remote animal trap monitoring system. The board uses an ESP32-S3 module, Quectel EG800Q-EU LTE CAT-1bis modem for cellular connectivity, and a separate u-blox MAX-M10S GPS module for positioning. It sends SMS alerts when a trap triggers, with solar charging and deep sleep for outdoor deployment in Australia.
+
+TWO-PHASE APPROACH:
+
+We are taking a two-phase approach to keep initial costs low and allow field testing before committing to a production design.
+
+PHASE 1 (current scope): Dev/test boards for field testing and customer demonstration. We are happy to use off-the-shelf dev modules (ESP32-S3 DevKit, EG800Q breakout, u-blox M10 breakout) on a carrier/integration PCB if this significantly reduces cost and lead time. The boards do not need to be miniaturised or production-quality — they need to work reliably for testing. We intend to use these on the new Starlink D2C satellite network in Australia (Band 7, 2600 MHz) alongside standard Telstra terrestrial coverage (Band 28, 700 MHz). The D2C network is very new here — there is currently only one known example of anyone in Australia using this system, and we are working with Telstra to get access to the service. Rev A is locked to EG800Q-EU for firmware compatibility; any later modem-family change is a separate variation with firmware/validation scope. This is why we need cheap test units first — to prove the concept and demonstrate it to Telstra before committing to a final integrated design.
+
+PHASE 2 (future): Fully integrated custom PCB with proper RF layout, antenna matching, size optimisation, and DFM review. We will engage for this after Phase 1 field testing validates the concept. Estimated Phase 2 quantity: 50–100 units.
+
+CRITICAL — FIRMWARE COMPATIBILITY:
+The firmware is already complete and compiled against specific GPIO pin assignments. The SAME firmware binary must run on both Phase 1 and Phase 2 boards without modification. This means all GPIO pin assignments, UART configurations, power rail voltages, and logic levels must be identical. The pin map in config.h is the authoritative source. Any deviations require discussion.
+
+This fixed-binary requirement applies to the EG800Q-EU baseline architecture. If the modem family changes, treat that as a separate, explicitly quoted firmware/validation variation.
+
+Rev A acceptance is SMS-first; packet-data/HTTP validation and non-EG800Q modem support should be quoted as optional scope items.
+
+BOARD SUMMARY:
+- MCU: ESP32-S3-WROOM-1-N8 (3.3V, native USB-C)
+- Modem: Quectel EG800Q-EU (LTE CAT-1bis, Band 28 + Band 7, 1.8V logic, NO integrated GNSS)
+- GPS: u-blox MAX-M10S (separate module, NMEA 9600 baud on Serial2, 3.3V logic)
+- RTC: DS3231SN with CR2032 backup
+- Power: 2S LiFePO4 battery (6.4V nom, 7.2V full) + 12V solar panel + MPPT buck charger (CN3767)
+- Power: HT7333-A 3.3V LDO (Iq 2.5µA) for MCU + GPS, AP63300WU-7 3.8V 3A sync buck (Iq 22µA) for modem (VBAT max 4.3V — critical). Buck replaces LDO due to thermal failure at 2S input.
+- GPS power gate: P-channel MOSFET (SI2301) controlled by GPIO 6 — cuts M10 power during deep sleep
+- Level translator: 3.3V ↔ 1.8V on modem UART TX/RX + PWRKEY + RESET_N (4 channels)
+- 3× status LEDs, reed switch input, USB-C programming port
+- 6× expansion headers (unpopulated/DNP) for optional digital and analogue sensors — footprints must be placed even in Phase 1
+- Nano-SIM holder, 2× u.FL antenna connectors (cellular on EG800Q-EU, GNSS on M10)
+- Target size (Phase 2): ~60mm × 80mm, fits Hammond 1591XXBFL IP65 enclosure
+- Phase 1: No size constraint — use dev modules on carrier if cheaper
+- 4× M3 mounting holes
+
+CRITICAL DESIGN NOTES:
+1. EG800Q-EU VBAT must be 3.3-4.3V — battery is 6.4V nom / 7.2V full, so AP63300WU-7 (3.8V, 3A sync buck, Vin 3.8–32V) steps down to modem VBAT. 4.7µH inductor + 22µF output cap + 100nF bootstrap. FB resistors 160kΩ/30kΩ set 3.80V.
+2. EG800Q-EU peak TX current ~1A — buck handles 3A continuous. 100uF + 10uF bypass caps at VBAT pin provide additional burst reservoir.
+3. Level translation needed between ESP32 (3.3V) and EG800Q-EU (1.8V) on 4 lines. Add 10k pull-down on PWRKEY (1.8V side) to prevent spurious modem toggle during boot
+4. EG800Q-EU has a RESET_N pin (active LOW) driven from ESP32 GPIO 7 via level shifter
+5. u-blox M10 GPS is a SEPARATE module — NOT integrated in the modem
+6. M10 GPS is power-gated via GPIO 6 → BSS138 N-FET inverter → SI2301 P-FET → M10 VCC. Firmware HIGH = powered. Alternative: active-HIGH LDO enable (simpler)
+7. 50 ohm controlled impedance on both antenna traces (cellular to EG800Q-EU, GNSS to M10)
+8. Place EG800Q-EU and M10 on opposite sides of board for antenna separation
+9. Deep sleep budget ~84µA: ESP32 10µA + RTC 3.5µA + modem 8µA + HT7333 2.5µA + AP63300 22µA + divider 4.9µA + reed pull-up 33µA. Note: buck has EN pin — can be GPIO-gated for ~63µA if needed.
+10. ADC battery divider is 1MΩ/470kΩ (ratio 3.128) — safe for 7.2V max, bleed 4.9µA. Guard traces on GPIO 1 and 2.
+11. USB-C needs 5.1k pull-down resistors on CC1 and CC2 to GND for USB 2.0 device detection
+12. SIM ESD protection: use 3-channel TVS array (TPD3E001) — covers all 3 SIM data lines
+13. Solar: CN3767 MPPT buck charger from 12V panel to 2S LiFePO4 (7.2V charge target). DNP for Pack D (primary cells).
+14. Reed switch: 100kΩ pull-up (not 10k) — reduces sleep drain from 330µA to 33µA. Ext0 wake on HIGH (switch open = trap fired).
+
+PHASE 1 SIMPLIFICATIONS ALLOWED:
+- Use dev modules on carrier PCB (provided GPIO pin map is preserved exactly)
+- 2-layer PCB acceptable (4-layer deferred to Phase 2)
+- Through-hole components acceptable
+- Larger board size — no constraint
+- Expansion headers: place footprints/pads as DNP (keep option for future sensors)
+- Production hardening deferred (conformal coating, NTC, TVS on solar/reed)
+
+MUST NOT BE SIMPLIFIED (firmware compatibility):
+- All GPIO pin assignments per config.h
+- Power rails: 3.3V and 3.8V as specified
+- Level translation on modem UART (4 channels)
+- Reed switch circuit, GPS power gate, battery ADC divider
+- USB-C, SIM holder, both u.FL antenna connectors
+- Expansion header footprints (DNP)
+
+ATTACHED FILES:
+- PCB_DESIGN_BRIEF.md — Full design brief with pin table, power architecture, all requirements
+- DESIGN_SPEC.md — Detailed schematic netlist, circuit descriptions, layout constraints
+- BOM_PCB.csv — Component list with LCSC part numbers (most parts available on LCSC)
+- config.h — Firmware pin definitions (authoritative source for all GPIO assignments)
+
+DELIVERABLES NEEDED (Phase 1):
+- Schematic (PDF + editable source)
+- PCB layout (editable source, Gerber files)
+- BOM + pick-and-place file for PCBA assembly
+- 3D render
+- Confirmation that GPIO pin map matches config.h
+
+QUANTITY: 3–5 prototype/test boards (Phase 1).
+
+The firmware is already written and compiles against these exact pin assignments, so GPIO numbers cannot change without discussion. Please review the attached spec and let me know if you have any questions before starting.
+
+Thank you!
