@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getUserApps, isAdmin } from "@/lib/check-access";
-import { Card, CardHeader, CardBody, Badge, cn } from "@/components/ui";
+import { Card, CardHeader, CardBody, Badge, cn } from "@trackline/ui";
 import { Camera, Flame, Radio, ArrowUpRight, LogOut, Shield } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
